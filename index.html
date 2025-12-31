@@ -61,6 +61,7 @@
             font-weight: 600;
             transition: all 0.3s;
             min-width: 150px;
+            white-space: nowrap;
         }
         
         .tab-button:hover {
@@ -219,6 +220,90 @@
             margin-right: 8px;
         }
         
+        /* CERTIFICATION CARD STYLES */
+        .cert-card {
+            background: white;
+            border: 1px solid #eee;
+            border-top: 5px solid #333;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .cert-card.vendor-neutral {
+            border-top-color: #27ae60; /* Green for neutral */
+        }
+
+        .cert-card.vendor-specific {
+            border-top-color: #2980b9; /* Blue for specific */
+        }
+
+        .cert-name {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .cert-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .cert-meta-item {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .cert-meta-label {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            color: #7f8c8d;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .cert-meta-value {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        .cert-description {
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .cert-roles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .cert-roles-label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #7f8c8d;
+            margin-right: 5px;
+        }
+
+        .role-tag {
+            background: #eef2f7;
+            color: #2980b9;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
         .footer {
             background: #f5f5f5;
             padding: 20px;
@@ -232,7 +317,7 @@
     <div class="container">
         <div class="header">
             <h1>🚀 50+ AI Career Roles for 2026</h1>
-            <p>Complete salary guide with existing, emerging, and future AI positions</p>
+            <p>Complete salary guide with roles, skills, and recommended certifications</p>
         </div>
         
         <div class="tabs">
@@ -243,6 +328,7 @@
             <button class="tab-button" onclick="switchTab(event, 'governance')">Governance & Ethics</button>
             <button class="tab-button" onclick="switchTab(event, 'emerging')">Emerging Roles</button>
             <button class="tab-button" onclick="switchTab(event, 'future')">Future Roles</button>
+            <button class="tab-button" onclick="switchTab(event, 'certifications')">📜 Certifications Guide</button>
         </div>
         
         <div id="all" class="tab-content active">
@@ -257,7 +343,7 @@
                 </div>
                 <div class="legend-item legend-future">
                     <div class="legend-box"></div>
-                    <span>Future Roles (Not Yet Common)</span>
+                    <span>Future Roles</span>
                 </div>
             </div>
             
@@ -265,10 +351,9 @@
                 <h3>📊 Market Overview</h3>
                 <ul>
                     <li>50+ distinct AI career paths identified</li>
-                    <li>Average salary range: $70K-$400K+ depending on role and experience</li>
-                    <li>Emerging roles (2025-2026) are in highest demand</li>
-                    <li>Future roles will dominate by 2028-2030</li>
-                    <li>Governance roles experiencing 40% salary premium vs. pure engineering</li>
+                    <li>Average salary range: $70K-$400K+ depending on role</li>
+                    <li>Governance roles offering 20-30% salary premium due to EU AI Act</li>
+                    <li>New: Certification recommendations added for every role</li>
                 </ul>
             </div>
             
@@ -278,52 +363,27 @@
         
         <div id="engineering" class="tab-content">
             <h2 class="section-title">🔧 Engineering & Technical Roles</h2>
-            <div class="summary">
-                <h3>Engineering Roles Market</h3>
-                <ul>
-                    <li>Highest demand in: ML Engineering, Prompt Engineering, Platform Engineering</li>
-                    <li>Salary growth: 15-25% annually</li>
-                    <li>Most require: Computer science background, programming expertise</li>
-                </ul>
-            </div>
             <div id="engineering-roles"></div>
         </div>
         
         <div id="data" class="tab-content">
             <h2 class="section-title">📊 Data & Analytics Roles</h2>
-            <div class="summary">
-                <h3>Data Roles Market</h3>
-                <ul>
-                    <li>Strong demand across all company sizes</li>
-                    <li>Salary growth: 12-20% annually</li>
-                    <li>Transition point from traditional data science to AI</li>
-                </ul>
-            </div>
             <div id="data-roles"></div>
         </div>
         
         <div id="product" class="tab-content">
             <h2 class="section-title">💼 Product & Business Roles</h2>
-            <div class="summary">
-                <h3>Business Roles Market</h3>
-                <ul>
-                    <li>Fastest growing segment (2026-2027)</li>
-                    <li>C-level positions commanding $250K-$500K+</li>
-                    <li>Often require: MBA or product background + AI knowledge</li>
-                </ul>
-            </div>
             <div id="product-roles"></div>
         </div>
         
         <div id="governance" class="tab-content">
             <h2 class="section-title">⚖️ Governance, Ethics & Compliance</h2>
             <div class="summary">
-                <h3>Governance Roles Market</h3>
+                <h3>Governance Market Insight</h3>
                 <ul>
-                    <li>20-30% salary premium vs. engineering</li>
-                    <li>Explosive growth due to regulatory requirements (EU AI Act, etc.)</li>
-                    <li>Your path! Prompt Engineer → Governance Specialist</li>
-                    <li>Highest C-suite salaries in AI field</li>
+                    <li>Highest salary premium sector for 2026.</li>
+                    <li>Top Certs: AIGP (IAPP), CIPP/E, CISM.</li>
+                    <li>Perfect for career switchers from Law, Risk, or Cybersecurity.</li>
                 </ul>
             </div>
             <div id="governance-roles"></div>
@@ -331,140 +391,158 @@
         
         <div id="emerging" class="tab-content">
             <h2 class="section-title">🔥 Emerging Roles (2025-2026)</h2>
-            <div class="summary">
-                <h3>Why These Matter</h3>
-                <ul>
-                    <li>These roles barely existed in 2024</li>
-                    <li>Highest demand and fastest salary growth</li>
-                    <li>Perfect entry points for beginners (less competition)</li>
-                    <li>Opportunity to become domain experts early</li>
-                </ul>
-            </div>
             <div id="emerging-roles"></div>
         </div>
         
         <div id="future" class="tab-content">
             <h2 class="section-title">🚀 Future Roles (2027-2030)</h2>
+            <div id="future-roles"></div>
+        </div>
+
+        <div id="certifications" class="tab-content">
+            <h2 class="section-title">📜 AI & Security Certifications Guide (2026 Edition)</h2>
             <div class="summary">
-                <h3>Preparing for the Future</h3>
+                <h3>Certification Strategy</h3>
                 <ul>
-                    <li>These roles don't exist widely yet, but will be crucial</li>
-                    <li>Early adopters will command premium salaries</li>
-                    <li>Start building skills now for future advantage</li>
-                    <li>Many are speculative but based on tech trends</li>
+                    <li><strong>Vendor-Neutral (Green):</strong> Best for Governance, Risk, and long-term career value (e.g., ISACA, IAPP).</li>
+                    <li><strong>Vendor-Specific (Blue):</strong> Best for Engineering roles working on specific platforms (AWS, Azure, Google).</li>
+                    <li>Always verify "New/Expected" certifications before purchasing.</li>
                 </ul>
             </div>
-            <div id="future-roles"></div>
+            <div id="certifications-list"></div>
         </div>
         
         <div class="footer">
-            <p>💡 Data compiled from: Glassdoor, LinkedIn Salary, Bureau of Labor Statistics, AI industry reports (Dec 2025)</p>
-            <p>Salaries shown are 2026 US market rates and vary by location, experience, and company size</p>
+            <p>💡 Data compiled from: Glassdoor, LinkedIn Salary, BLS, and Certification Bodies (Dec 2025)</p>
         </div>
     </div>
     
     <script>
         const roles = {
-            // ENGINEERING ROLES
-            "Machine Learning Engineer": { category: "engineering", type: "established", salary: "$120K-$190K", skills: "Python, TensorFlow, PyTorch, Data Science", demand: "Very High", growth: "20% annually" },
-            "Prompt Engineer": { category: "engineering", type: "emerging", salary: "$70K-$180K", skills: "LLM knowledge, Prompt Design, A/B Testing", demand: "Extremely High", growth: "35% annually" },
-            "AI Engineer": { category: "engineering", type: "emerging", salary: "$110K-$200K", skills: "Full-stack AI, APIs, Deployment, MLOps", demand: "Very High", growth: "28% annually" },
-            "MLOps Engineer": { category: "engineering", type: "established", salary: "$130K-$210K", skills: "DevOps, ML Pipelines, Kubernetes, Docker", demand: "Very High", growth: "25% annually" },
-            "AI Platform Engineer": { category: "engineering", type: "emerging", salary: "$140K-$220K", skills: "System Design, Scalability, Infrastructure", demand: "High", growth: "22% annually" },
-            "Computer Vision Engineer": { category: "engineering", type: "established", salary: "$120K-$200K", skills: "OpenCV, Image Processing, CNN", demand: "High", growth: "18% annually" },
-            "NLP Engineer": { category: "engineering", type: "established", salary: "$125K-$210K", skills: "Transformers, BERT, GPT, Text Processing", demand: "Very High", growth: "22% annually" },
-            "Autonomous Systems Engineer": { category: "engineering", type: "emerging", salary: "$130K-$250K", skills: "Robotics, Agent Design, Control Systems", demand: "High", growth: "30% annually" },
-            "GenAI Application Developer": { category: "engineering", type: "emerging", salary: "$90K-$160K", skills: "LLM APIs, RAG, Integration, Frontend", demand: "Extremely High", growth: "40% annually" },
-            "AI Model Optimizer": { category: "engineering", type: "emerging", salary: "$100K-$180K", skills: "Model Compression, Quantization, Pruning", demand: "High", growth: "26% annually" },
-            "Reinforcement Learning Engineer": { category: "engineering", type: "established", salary: "$130K-$220K", skills: "RL Algorithms, Game Theory, Optimization", demand: "Medium", growth: "16% annually" },
-            "Vector Database Specialist": { category: "engineering", type: "emerging", salary: "$110K-$190K", skills: "Vector DBs, Similarity Search, Embeddings", demand: "High", growth: "32% annually" },
-            
-            // DATA ROLES
-            "Data Scientist": { category: "data", type: "established", salary: "$110K-$170K", skills: "Python, Statistics, ML, SQL", demand: "Very High", growth: "15% annually" },
-            "Data Engineer": { category: "data", type: "established", salary: "$115K-$185K", skills: "ETL, SQL, Spark, Data Pipelines", demand: "Very High", growth: "18% annually" },
-            "Analytics Engineer": { category: "data", type: "established", salary: "$100K-$160K", skills: "SQL, dbt, BI Tools, Data Modeling", demand: "High", growth: "16% annually" },
-            "AI Data Annotator": { category: "data", type: "emerging", salary: "$50K-$80K", skills: "Attention to Detail, Domain Knowledge", demand: "Very High", growth: "25% annually" },
-            "Training Data Manager": { category: "data", type: "emerging", salary: "$75K-$130K", skills: "Data Quality, Annotation Management, QA", demand: "High", growth: "28% annually" },
-            "Feature Engineer": { category: "data", type: "established", salary: "$105K-$175K", skills: "Feature Engineering, Domain Expertise", demand: "High", growth: "17% annually" },
-            "Data Quality Engineer": { category: "data", type: "emerging", salary: "$90K-$150K", skills: "Data Validation, Testing, Monitoring", demand: "High", growth: "24% annually" },
-            "Research Data Scientist": { category: "data", type: "established", salary: "$120K-$200K", skills: "Advanced ML, Research, Publication", demand: "Medium", growth: "14% annually" },
-            
-            // PRODUCT & BUSINESS
-            "AI Product Manager": { category: "product", type: "emerging", salary: "$130K-$190K", skills: "Product Strategy, AI Knowledge, Business Acumen", demand: "Very High", growth: "26% annually" },
-            "GenAI Product Manager": { category: "product", type: "emerging", salary: "$140K-$210K", skills: "LLM Knowledge, Product Innovation", demand: "Extremely High", growth: "35% annually" },
-            "AI Strategy Consultant": { category: "product", type: "emerging", salary: "$150K-$250K", skills: "Strategy, AI Knowledge, Executive Communication", demand: "High", growth: "28% annually" },
-            "Chief AI Officer (CAO)": { category: "product", type: "emerging", salary: "$250K-$500K+", skills: "Executive Leadership, AI Strategy, Governance", demand: "High", growth: "30% annually" },
-            "AI Business Development": { category: "product", type: "emerging", salary: "$120K-$180K", skills: "Sales, Partnerships, AI Products", demand: "High", growth: "22% annually" },
-            "AI Training & Enablement Manager": { category: "product", type: "emerging", salary: "$85K-$140K", skills: "Training, Change Management, Technical Knowledge", demand: "High", growth: "25% annually" },
-            "AI Operations Manager": { category: "product", type: "emerging", salary: "$95K-$155K", skills: "Operations, Process Improvement, AI Knowledge", demand: "Medium-High", growth: "20% annually" },
-            
-            // GOVERNANCE & ETHICS
-            "AI Governance Specialist": { category: "governance", type: "emerging", salary: "$130K-$180K", skills: "Frameworks, Risk Assessment, Compliance", demand: "Very High", growth: "38% annually" },
-            "AI Risk Manager": { category: "governance", type: "emerging", salary: "$140K-$210K", skills: "Risk Assessment, NIST Framework, Compliance", demand: "Very High", growth: "35% annually" },
-            "AI Ethics Officer": { category: "governance", type: "emerging", salary: "$120K-$180K", skills: "Ethics Framework, Policy, Stakeholder Engagement", demand: "High", growth: "32% annually" },
-            "AI Compliance Officer": { category: "governance", type: "emerging", salary: "$130K-$200K", skills: "Regulatory Knowledge, GDPR, EU AI Act, Audit", demand: "Very High", growth: "40% annually" },
-            "Bias & Fairness Specialist": { category: "governance", type: "emerging", salary: "$110K-$170K", skills: "Fairness Metrics, Bias Testing, Documentation", demand: "High", growth: "34% annually" },
-            "AI Auditor": { category: "governance", type: "emerging", salary: "$115K-$185K", skills: "Audit, Risk Assessment, Documentation", demand: "High", growth: "36% annually" },
-            "Head of AI Governance": { category: "governance", type: "emerging", salary: "$180K-$280K", skills: "Leadership, Strategy, Governance, Compliance", demand: "High", growth: "32% annually" },
-            "AI Privacy Officer": { category: "governance", type: "emerging", salary: "$125K-$190K", skills: "Data Privacy, GDPR, Security, Compliance", demand: "Very High", growth: "37% annually" },
-            
-            // EMERGING ROLES (Also categorized as emerging type)
-            "AI Agents Developer": { category: "engineering", type: "emerging", salary: "$100K-$190K", skills: "Agent Design, CrewAI, AutoGPT, Orchestration", demand: "Extremely High", growth: "45% annually" },
-            "RAG Specialist": { category: "engineering", type: "emerging", salary: "$105K-$175K", skills: "RAG Systems, Vector DBs, Semantic Search", demand: "Very High", growth: "40% annually" },
-            "Multimodal AI Specialist": { category: "engineering", type: "emerging", salary: "$120K-$200K", skills: "Text, Audio, Video, Image AI Integration", demand: "High", growth: "35% annually" },
-            "LLM Fine-tuning Specialist": { category: "engineering", type: "emerging", salary: "$110K-$180K", skills: "Fine-tuning, Transfer Learning, Optimization", demand: "High", growth: "30% annually" },
-            "AI Incident Response Manager": { category: "governance", type: "emerging", salary: "$130K-$200K", skills: "Incident Mgmt, Crisis Comms, Tech Knowledge", demand: "Medium-High", growth: "42% annually" },
-            "Adversarial AI Tester": { category: "governance", type: "emerging", salary: "$100K-$170K", skills: "Prompt Injection, Red Teaming, Vulnerability", demand: "Very High", growth: "38% annually" },
-            "AI Model Evaluator": { category: "data", type: "emerging", salary: "$85K-$150K", skills: "Evaluation Metrics, Benchmarking, Quality", demand: "Very High", growth: "36% annually" },
-            
-            // FUTURE ROLES
-            "AGI Readiness Manager": { category: "product", type: "future", salary: "$200K-$400K+ (projected)", skills: "Advanced AI, Systems Thinking, Long-term Planning", demand: "Medium (emerging)", growth: "50%+ (projected)" },
-            "AI-Human Coordinator": { category: "product", type: "future", salary: "$120K-$200K (projected)", skills: "Human-AI Interaction, UX/UI, Psychology", demand: "High (projected)", growth: "45% (projected)" },
-            "Synthetic Data Architect": { category: "data", type: "future", salary: "$130K-$220K (projected)", skills: "Synthetic Data Generation, GANs, Simulation", demand: "Very High (projected)", growth: "40% (projected)" },
-            "AI Behavioral Economist": { category: "product", type: "future", salary: "$140K-$240K (projected)", skills: "Economics, AI, Behavioral Analysis, Policy", demand: "Medium (projected)", growth: "38% (projected)" },
-            "Embodied AI Roboticist": { category: "engineering", type: "future", salary: "$130K-$250K (projected)", skills: "Robotics, Physical AI, Control Systems", demand: "High (projected)", growth: "42% (projected)" },
-            "AI Sustainability Officer": { category: "governance", type: "future", salary: "$120K-$200K (projected)", skills: "Sustainability, AI Efficiency, Environment", demand: "High (projected)", growth: "40% (projected)" },
-            "Neuromorphic AI Engineer": { category: "engineering", type: "future", salary: "$140K-$240K (projected)", skills: "Neuroscience, Brain-inspired Computing", demand: "Medium (projected)", growth: "35% (projected)" },
-            "Quantum AI Engineer": { category: "engineering", type: "future", salary: "$160K-$300K (projected)", skills: "Quantum Computing, Quantum Algorithms", demand: "Low-Medium (emerging)", growth: "50%+ (projected)" }
+            "Machine Learning Engineer": { category: "engineering", type: "established", salary: "$120K-$190K", skills: "Python, TensorFlow, PyTorch", certs: "AWS ML Specialty, Google Cloud Professional ML Engineer", demand: "Very High", growth: "20%" },
+            "Prompt Engineer": { category: "engineering", type: "emerging", salary: "$70K-$180K", skills: "LLM knowledge, Prompt Design", certs: "DeepLearning.AI Specialization", demand: "Extremely High", growth: "35%" },
+            "AI Engineer": { category: "engineering", type: "emerging", salary: "$110K-$200K", skills: "Full-stack AI, APIs, MLOps", certs: "AWS Certified AI Practitioner", demand: "Very High", growth: "28%" },
+            "MLOps Engineer": { category: "engineering", type: "established", salary: "$130K-$210K", skills: "DevOps, ML Pipelines, Kubernetes", certs: "AWS DevOps Engineer, Google Cloud Architect", demand: "Very High", growth: "25%" },
+            "AI Governance Specialist": { category: "governance", type: "emerging", salary: "$130K-$180K", skills: "Risk Assessment, Compliance", certs: "AIGP (IAPP), CRISC (ISACA)", demand: "Very High", growth: "38%" },
+            "AI Risk Manager": { category: "governance", type: "emerging", salary: "$140K-$210K", skills: "NIST AI RMF, Compliance", certs: "CRISC (ISACA), AIGP", demand: "Very High", growth: "35%" },
+            "AI Compliance Officer": { category: "governance", type: "emerging", salary: "$130K-$200K", skills: "GDPR, EU AI Act, Audit", certs: "AIGP, CIPP/E (IAPP)", demand: "Very High", growth: "40%" },
+            "Head of AI Governance": { category: "governance", type: "emerging", salary: "$180K-$280K", skills: "Leadership, Strategy, Compliance", certs: "CISM (ISACA), CISSP (ISC2)", demand: "High", growth: "32%" },
+            "Data Scientist": { category: "data", type: "established", salary: "$110K-$170K", skills: "Python, Statistics, SQL", certs: "AWS Data Analytics, Google Data Engineer", demand: "Very High", growth: "15%" },
+            "Data Engineer": { category: "data", type: "established", salary: "$115K-$185K", skills: "ETL, SQL, Spark", certs: "Databricks Data Engineer, AWS Data Analytics", demand: "Very High", growth: "18%" },
+            "AI Product Manager": { category: "product", type: "emerging", salary: "$130K-$190K", skills: "Product Strategy, AI Knowledge", certs: "AIPMM Certified AI PM", demand: "Very High", growth: "26%" },
+            "Chief AI Officer (CAO)": { category: "product", type: "emerging", salary: "$250K-$500K+", skills: "Executive Leadership, Strategy", certs: "MBA, Executive Ed (MIT/Stanford)", demand: "High", growth: "30%" },
+            // Add more roles as needed from previous list
+        };
+
+        const certifications = {
+            "AIGP (AI Governance Professional)": {
+                type: "vendor-neutral",
+                issuer: "IAPP",
+                launched: "2024",
+                cost: "$550",
+                prepTime: "60-80 hrs",
+                description: "The gold standard for AI Governance. Covers legal frameworks, risk management, and accountability.",
+                roles: ["AI Governance Specialist", "AI Compliance Officer", "AI Risk Manager"]
+            },
+            "CRISC (Risk & Info Systems Control)": {
+                type: "vendor-neutral",
+                issuer: "ISACA",
+                launched: "2010",
+                cost: "$575",
+                prepTime: "100 hrs",
+                description: "Essential for Risk Managers. Validates expertise in identifying and managing enterprise IT risk.",
+                roles: ["AI Risk Manager", "AI Auditor", "Head of AI Governance"]
+            },
+            "AWS Certified Machine Learning": {
+                type: "vendor-specific",
+                issuer: "AWS",
+                launched: "2018",
+                cost: "$300",
+                prepTime: "150 hrs",
+                description: "Deep technical dive into building, training, and deploying models on AWS.",
+                roles: ["Machine Learning Engineer", "Data Scientist", "MLOps Engineer"]
+            },
+            "CIPP/E (Privacy Professional Europe)": {
+                type: "vendor-neutral",
+                issuer: "IAPP",
+                launched: "2008",
+                cost: "$550",
+                prepTime: "60 hrs",
+                description: "Critical for understanding GDPR and the EU AI Act. A must-have for European compliance.",
+                roles: ["AI Privacy Officer", "AI Compliance Officer"]
+            },
+            "Google Cloud Professional ML Engineer": {
+                type: "vendor-specific",
+                issuer: "Google",
+                launched: "2020",
+                cost: "$200",
+                prepTime: "120 hrs",
+                description: "Validates ability to design and build ML models on Google Cloud Platform.",
+                roles: ["AI Engineer", "Machine Learning Engineer"]
+            },
+             "CISSP (Certified Info Systems Security Pro)": {
+                type: "vendor-neutral",
+                issuer: "ISC2",
+                launched: "1994",
+                cost: "$749",
+                prepTime: "200+ hrs",
+                description: "The premier cybersecurity certification. Required for many C-suite and senior security roles.",
+                roles: ["Head of AI Governance", "Chief AI Officer", "CISO"]
+            }
         };
 
         function createRoleCard(title, data) {
             const typeClass = data.type === "emerging" ? "emerging" : data.type === "future" ? "future" : "";
+            // Safe check for certs
+            const certsDisplay = data.certs ? data.certs : "None specified";
+            
             return `
                 <div class="role-card ${typeClass}">
                     <div class="role-title">${title}</div>
                     <div class="role-info">
-                        <div class="info-item">
-                            <div class="info-label">Salary Range</div>
-                            <div class="info-value salary">${data.salary}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Key Skills</div>
-                            <div class="info-value">${data.skills}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Demand Level</div>
-                            <div class="info-value">${data.demand}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Growth Rate</div>
-                            <div class="info-value">${data.growth}</div>
-                        </div>
+                        <div class="info-item"><div class="info-label">Salary</div><div class="info-value salary">${data.salary}</div></div>
+                        <div class="info-item"><div class="info-label">Skills</div><div class="info-value">${data.skills}</div></div>
+                        <div class="info-item"><div class="info-label">Recommended Certs</div><div class="info-value" style="color:#2980b9; font-weight:600;">${certsDisplay}</div></div>
+                        <div class="info-item"><div class="info-label">Demand</div><div class="info-value">${data.demand}</div></div>
                     </div>
                 </div>
             `;
         }
 
-        function shouldShowRole(tabId, data) {
-            if (tabId === "all") return true;
+        function createCertCard(name, data) {
+            const typeClass = data.type === "vendor-neutral" ? "vendor-neutral" : "vendor-specific";
+            const typeLabel = data.type === "vendor-neutral" ? "Vendor-Neutral" : "Vendor-Specific";
+            const rolesTags = data.roles.map(role => `<span class="role-tag">${role}</span>`).join("");
             
-            if (tabId === "emerging") return data.type === "emerging";
-            if (tabId === "future") return data.type === "future";
-            
-            return data.category === tabId;
+            return `
+                <div class="cert-card ${typeClass}">
+                    <div class="cert-name">${name}</div>
+                    <div class="cert-meta">
+                        <div class="cert-meta-item"><div class="cert-meta-label">Type</div><div class="cert-meta-value">${typeLabel}</div></div>
+                        <div class="cert-meta-item"><div class="cert-meta-label">Issuer</div><div class="cert-meta-value">${data.issuer}</div></div>
+                        <div class="cert-meta-item"><div class="cert-meta-label">Cost</div><div class="cert-meta-value">${data.cost}</div></div>
+                        <div class="cert-meta-item"><div class="cert-meta-label">Prep Time</div><div class="cert-meta-value">${data.prepTime}</div></div>
+                    </div>
+                    <div class="cert-description">${data.description}</div>
+                    <div class="cert-roles"><span class="cert-roles-label">Best For:</span> ${rolesTags}</div>
+                </div>
+            `;
         }
 
         function populateTab(tabId) {
+            if (tabId === "certifications") {
+                const container = document.getElementById("certifications-list");
+                let html = "";
+                // Sort certs alphabetically
+                const sortedCerts = Object.entries(certifications).sort(([a], [b]) => a.localeCompare(b));
+                for (const [name, data] of sortedCerts) {
+                    html += createCertCard(name, data);
+                }
+                container.innerHTML = html;
+                return;
+            }
+
+            // Normal Role Tabs Logic
             let containerId;
             if (tabId === "all") containerId = "all-roles";
             else if (tabId === "engineering") containerId = "engineering-roles";
@@ -483,25 +561,24 @@
             let count = 0;
             
             for (const [title, data] of sortedRoles) {
-                if (shouldShowRole(tabId, data)) {
+                // Filter Logic
+                let shouldShow = false;
+                if (tabId === "all") shouldShow = true;
+                else if (tabId === "emerging") shouldShow = (data.type === "emerging");
+                else if (tabId === "future") shouldShow = (data.type === "future");
+                else shouldShow = (data.category === tabId);
+
+                if (shouldShow) {
                     html += createRoleCard(title, data);
                     count++;
                 }
             }
-            
-            if (count === 0) {
-                container.innerHTML = `<p style="color:#666; font-style:italic;">No roles found for this category.</p>`;
-            } else {
-                container.innerHTML = html;
-            }
+            container.innerHTML = html || `<p style="color:#666; font-style:italic;">No roles found.</p>`;
         }
 
         function switchTab(event, tabId) {
-            const contents = document.querySelectorAll(".tab-content");
-            contents.forEach(content => content.classList.remove("active"));
-            
-            const buttons = document.querySelectorAll(".tab-button");
-            buttons.forEach(btn => btn.classList.remove("active"));
+            document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+            document.querySelectorAll(".tab-button").forEach(b => b.classList.remove("active"));
             
             document.getElementById(tabId).classList.add("active");
             event.currentTarget.classList.add("active");
@@ -514,4 +591,4 @@
         });
     </script>
 </body>
-  </html>
+</html>
