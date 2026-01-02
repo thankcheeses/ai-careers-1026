@@ -49,8 +49,6 @@
       min-height: 100vh;
     }
 
-    a{ color: inherit; }
-
     .container{
       max-width: 1400px;
       margin: 0 auto;
@@ -71,6 +69,9 @@
         radial-gradient(circle at 15% 20%, rgba(255,255,255,.10), transparent 45%),
         radial-gradient(circle at 85% 30%, rgba(255,255,255,.08), transparent 50%),
         linear-gradient(135deg, #0b1224 0%, #111d35 55%, #0b1224 100%);
+      /* 2026 "AI Nexus" glass */
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .header h1{
@@ -88,7 +89,7 @@
     .header p{
       color: rgba(226,232,240,.9);
       font-size: 1.02rem;
-      max-width: 860px;
+      max-width: 920px;
       margin: 0 auto 16px;
       line-height: 1.55;
     }
@@ -169,10 +170,7 @@
       transition: transform .06s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
     }
 
-    .select{
-      padding: 10px 12px;
-      min-width: 170px;
-    }
+    .select{ min-width: 170px; }
 
     .button{
       display:inline-flex;
@@ -182,7 +180,7 @@
     }
     .button:active{ transform: translateY(1px); }
     .button:hover{ background: #f8fafc; }
-    .button:focus, .select:focus, .input:focus-within, .tab:focus{
+    .button:focus, .select:focus, .input:focus-within, .tab:focus, .linkchip:focus{
       outline:none;
       box-shadow: var(--focus);
       border-color: rgba(59,130,246,.55);
@@ -194,6 +192,7 @@
       border-color: transparent;
     }
     .button.primary:hover{ filter: brightness(1.03); }
+
     .button.danger{
       background: #fff;
       border-color: rgba(239,68,68,.35);
@@ -281,7 +280,7 @@
       font-size: .95rem;
       line-height: 1.4;
       margin-top: 6px;
-      max-width: 880px;
+      max-width: 920px;
     }
 
     .count{
@@ -317,9 +316,16 @@
     }
     .card:hover{
       transform: translateY(-2px);
-      box-shadow: 0 18px 28px -18px rgba(2,6,23,.35);
       border-color: rgba(148,163,184,.7);
     }
+
+    /* 2026 subtle category glow on hover */
+    .card[data-cat="engineering"]:hover{ box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4); }
+    .card[data-cat="data"]:hover{ box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.35); }
+    .card[data-cat="product"]:hover{ box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.35); }
+    .card[data-cat="governance"]:hover{ box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.4); }
+    .card[data-cat="emerging"]:hover{ box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.35); }
+    .card[data-cat="future"]:hover{ box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.35); }
 
     .card::before{
       content:"";
@@ -403,6 +409,17 @@
     .badge.demand{ background: var(--warnbg); color: var(--warn); border-color: rgba(146,64,14,.15); }
     .badge.growth{ background: var(--infobg); color: var(--info); border-color: rgba(30,64,175,.15); }
 
+    /* pulse for demand score=6 */
+    @keyframes pulse-gold {
+      0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+    }
+    .badge.demand[data-score="6"]{
+      animation: pulse-gold 2s infinite;
+      border-color: var(--prod);
+    }
+
     .block{
       background: var(--badgebg);
       border: 1px solid rgba(226,232,240,.95);
@@ -436,7 +453,10 @@
       font-size: .86rem;
       font-weight: 700;
       color: #334155;
+      cursor: pointer;
+      user-select:none;
     }
+    .tag:hover{ background:#f8fafc; }
 
     .mutedline{
       color: #475569;
@@ -444,13 +464,39 @@
       line-height: 1.55;
     }
 
-    /* Summary / callout */
+    /* Inline "jump to certs" chips */
+    .linkchips{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 6px;
+    }
+    .linkchip{
+      border: 1px solid rgba(226,232,240,.95);
+      background:#fff;
+      color:#0f172a;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: .86rem;
+      font-weight: 900;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap: 6px;
+    }
+    .linkchip:hover{ background:#f8fafc; }
+    .linkchip .mini{
+      font-weight: 900;
+      color:#64748b;
+      font-size: .82rem;
+    }
+
+    /* Callouts */
     .callout{
       background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 45%, #eff6ff 100%);
       border: 1px solid rgba(99,102,241,.18);
       border-left: 5px solid var(--future);
       border-radius: 16px;
-      padding: 14px 14px 14px 14px;
+      padding: 14px;
       margin-bottom: 14px;
     }
     .callout h3{
@@ -480,11 +526,49 @@
       font-weight: 900;
     }
 
-    /* Certifications */
-    .certlist{
+    /* Lane cluster mini cards */
+    .lanes{
       display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 12px;
+      margin: 0 0 14px;
     }
+    .lane{
+      background:#fff;
+      border-radius: 16px;
+      border: 1px solid rgba(226,232,240,.95);
+      box-shadow: 0 6px 14px -10px rgba(2,6,23,.25);
+      padding: 14px;
+      overflow:hidden;
+      position:relative;
+    }
+    .lane::before{
+      content:"";
+      position:absolute;
+      inset:0 0 auto 0;
+      height: 4px;
+      background: #cbd5e1;
+    }
+    .lane[data-cat="engineering"]::before{ background: var(--eng); }
+    .lane[data-cat="governance"]::before{ background: var(--gov); }
+    .lane[data-cat="product"]::before{ background: var(--prod); }
+
+    .lane h4{
+      font-family: Outfit, system-ui, sans-serif;
+      font-weight: 900;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+    .lane p{
+      color:#475569;
+      font-size: .92rem;
+      line-height:1.55;
+      margin-bottom: 10px;
+    }
+    .lane .tags{ margin-top: 6px; }
+
+    /* Certifications */
+    .certlist{ display:grid; gap: 12px; }
     .cert{
       background:#fff;
       border-radius: 16px;
@@ -583,10 +667,7 @@
       font-weight: 800;
       font-size: .9rem;
       border: 1px solid rgba(226,232,240,.95);
-      transition: background .2s ease, transform .06s ease;
     }
-    .subbtn:hover{ background: #f8fafc; }
-    .subbtn:active{ transform: translateY(1px); }
 
     /* Roadmap */
     .roadmapwrap{
@@ -648,6 +729,64 @@
       line-height:1.5;
     }
 
+    .phase{
+      border-radius: 16px;
+      border: 1px solid rgba(226,232,240,.95);
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      box-shadow: 0 6px 14px -12px rgba(2,6,23,.2);
+      padding: 14px;
+      margin-bottom: 12px;
+      overflow:hidden;
+      position:relative;
+    }
+    .phase::before{
+      content:"";
+      position:absolute;
+      inset:0 0 auto 0;
+      height:4px;
+      background: #cbd5e1;
+    }
+    .phase[data-phase="1"]::before{ background: #22c55e; }
+    .phase[data-phase="2"]::before{ background: #3b82f6; }
+    .phase[data-phase="3"]::before{ background: #7c3aed; }
+
+    .phasetop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .phasetop h4{
+      font-family: Outfit, system-ui, sans-serif;
+      font-weight: 900;
+      font-size: 1.06rem;
+      letter-spacing:-.2px;
+    }
+    .phasetop .range{
+      font-weight: 900;
+      color:#64748b;
+      font-size: .86rem;
+      white-space: nowrap;
+    }
+
+    .skillsplit{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .skillbox{
+      border: 1px solid rgba(226,232,240,.95);
+      border-radius: 14px;
+      background:#fff;
+      padding: 12px;
+    }
+    .skillbox .label{ margin-bottom: 6px; }
+    @media (max-width: 980px){
+      .skillsplit{ grid-template-columns: 1fr; }
+    }
+
     .empty{
       padding: 22px;
       text-align:center;
@@ -703,10 +842,7 @@
       font-weight: 900;
       font-size: 1.05rem;
     }
-    .modalbody{
-      padding: 16px;
-      background:#f8fafc;
-    }
+    .modalbody{ padding: 16px; background:#f8fafc; }
     .modalgrid{
       display:grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -721,9 +857,6 @@
       font-weight: 900;
     }
     .closebtn:hover{ background:#f8fafc; }
-    .sr-only{
-      position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
-    }
 
     @media (max-width: 980px){
       .roadmapwrap{ grid-template-columns: 1fr; }
@@ -746,8 +879,7 @@
     <header class="header">
       <h1>AI Career Roadmap Tool 2026</h1>
       <p>
-        A structured, interactive roadmap tool: browse roles, filter by category and type, compare options,
-        save your picks, and generate a practical learning plan.
+        Browse roles, filter by lane, compare choices, save targets, and generate a phased plan with baseline vs role-specific skills plus certification prerequisites.
       </p>
       <div class="pillrow" aria-label="Quick stats">
         <span class="pill"><strong id="statRoles">0</strong> roles</span>
@@ -831,6 +963,50 @@
           </div>
           <div class="count"><span id="count-engineering">0</span> results</div>
         </div>
+
+        <!-- Domain-specific lane guidance -->
+        <div class="lanes" aria-label="Lane guidance">
+          <div class="lane" data-cat="engineering">
+            <h4>AI Engineer vs. ML Engineer</h4>
+            <p>
+              <strong>AI Engineer</strong> is product-facing and integration-heavy (APIs, RAG, agents, UX constraints).
+              <strong>ML Engineer</strong> is model/pipeline-heavy (training, evaluation, scalable deployment, performance).
+            </p>
+            <div class="tags">
+              <span class="tag" data-q="RAG">RAG</span>
+              <span class="tag" data-q="MLOps">MLOps</span>
+              <span class="tag" data-q="Evaluation">Evaluation</span>
+              <span class="tag" data-q="APIs">APIs</span>
+            </div>
+          </div>
+          <div class="lane" data-cat="governance">
+            <h4>Governance lane</h4>
+            <p>
+              Governance is where <strong>risk + controls + evidence</strong> meet product reality:
+              model/system cards, monitoring, incident workflows, privacy and compliance.
+            </p>
+            <div class="tags">
+              <span class="tag" data-q="NIST AI RMF">NIST AI RMF</span>
+              <span class="tag" data-q="Controls">Controls</span>
+              <span class="tag" data-q="Audit">Audit</span>
+              <span class="tag" data-q="Privacy">Privacy</span>
+            </div>
+          </div>
+          <div class="lane" data-cat="product">
+            <h4>Product lane</h4>
+            <p>
+              Product roles convert capability into outcomes:
+              user needs, constraints, metrics, and rollout plans—especially for agentic systems and high-risk use cases.
+            </p>
+            <div class="tags">
+              <span class="tag" data-q="PRD">PRD</span>
+              <span class="tag" data-q="Metrics">Metrics</span>
+              <span class="tag" data-q="Safety">Safety</span>
+              <span class="tag" data-q="Roadmap">Roadmap</span>
+            </div>
+          </div>
+        </div>
+
         <div id="grid-engineering" class="grid" aria-live="polite"></div>
       </section>
 
@@ -876,11 +1052,11 @@
           <div class="count"><span id="count-emerging">0</span> results</div>
         </div>
         <div class="callout">
-          <h3>Why emerging roles can be the smartest entry point</h3>
+          <h3>Why emerging roles can be strong entry points</h3>
           <ul>
-            <li>Less competition than legacy titles with similar pay trajectories.</li>
-            <li>Fast learning loops: tooling + standards are still forming.</li>
-            <li>Strong leverage if you can document process and measurable outcomes.</li>
+            <li>Less title crowding than legacy roles with similar trajectories.</li>
+            <li>Standards and tooling are still forming—fast learning loops.</li>
+            <li>Process documentation + measurable outcomes create leverage.</li>
           </ul>
         </div>
         <div id="grid-emerging" class="grid" aria-live="polite"></div>
@@ -890,16 +1066,16 @@
         <div class="sectionhead">
           <div>
             <div class="sectiontitle">Future Roles</div>
-            <div class="sectionsub">Speculative titles that map to real skills you can start building now.</div>
+            <div class="sectionsub">Speculative titles that map to real skills you can build now.</div>
           </div>
           <div class="count"><span id="count-future">0</span> results</div>
         </div>
         <div class="callout" style="border-left-color: var(--future);">
-          <h3>Use this tab as a “skills radar”</h3>
+          <h3>Use this tab as a skills radar</h3>
           <ul>
-            <li>Don’t chase titles—build foundations the titles will require.</li>
-            <li>Track adjacent skills: governance, safety, systems, data, and deployment.</li>
-            <li>Document projects (writeups + repos) to make speculation credible.</li>
+            <li>Don’t chase titles—build foundations the titles require.</li>
+            <li>Track adjacent skills: governance, safety, systems, data, deployment.</li>
+            <li>Document projects to make speculation credible.</li>
           </ul>
         </div>
         <div id="grid-future" class="grid" aria-live="polite"></div>
@@ -909,7 +1085,7 @@
         <div class="sectionhead">
           <div>
             <div class="sectiontitle">Certifications & Learning Paths</div>
-            <div class="sectionsub">A curated set of certifications and course paths with links and suggested fit.</div>
+            <div class="sectionsub">Curated certifications with prerequisites for chronological planning.</div>
           </div>
           <div class="count"><span id="count-certifications">0</span> results</div>
         </div>
@@ -918,8 +1094,8 @@
           <h3>Strategy: build a stack, not a pile</h3>
           <ul>
             <li><strong>Foundation:</strong> baseline security + cloud literacy.</li>
-            <li><strong>Specialization:</strong> pick a lane (governance, ML engineering, data, product).</li>
-            <li><strong>Proof:</strong> publish a project / writeup that demonstrates the lane.</li>
+            <li><strong>Specialization:</strong> choose a lane (governance, ML engineering, data, product).</li>
+            <li><strong>Proof:</strong> publish a project or writeup that demonstrates the lane.</li>
           </ul>
         </div>
 
@@ -930,7 +1106,7 @@
         <div class="sectionhead">
           <div>
             <div class="sectiontitle">My Roadmap</div>
-            <div class="sectionsub">Saved roles become your personalized roadmap: skills, certs, and action steps.</div>
+            <div class="sectionsub">Saved roles become a phased plan: baseline vs specific skills + ordered cert prerequisites.</div>
           </div>
           <div class="count"><span id="count-roadmap">0</span> saved</div>
         </div>
@@ -938,13 +1114,13 @@
         <div class="roadmapwrap">
           <div class="panel">
             <h3>Saved Roles</h3>
-            <p>Save roles from any tab. This tool will generate a consolidated learning plan below.</p>
+            <p>Save roles from any tab. Click skills/certs to filter across the app.</p>
             <div id="savedRoles"></div>
           </div>
 
           <div class="panel">
-            <h3>Generated Plan</h3>
-            <p>Auto-generated from your saved roles (skills + certs). Edit your data tables to make this uniquely yours.</p>
+            <h3>Generated Plan (Phased)</h3>
+            <p>Phase 1 foundation (shared). Phase 2 core technicals (lane-specific). Phase 3 proof (projects + governance artifacts).</p>
             <div id="generatedPlan"></div>
           </div>
         </div>
@@ -952,7 +1128,7 @@
     </main>
 
     <footer class="footer">
-      <div><strong>Note:</strong> Salary/demand/growth fields are placeholders you can refine with your own sources. Use this as a roadmap tool, not a guarantee engine.</div>
+      <div><strong>Note:</strong> Salary/demand/growth are placeholders. Treat this as a roadmap builder, not a guarantee engine.</div>
     </footer>
   </div>
 
@@ -973,108 +1149,200 @@
     /**********************
      * 1) DATA (EDIT HERE)
      **********************/
-    // Salary, demand, growth are "display strings" and "scores" (for sorting). You can refine later.
     const ROLE_DATA = [
       // Engineering
-      { name:"Machine Learning Engineer", category:"engineering", type:"established", salary:"$120K–$190K", salaryScore: 190, demand:"Very High", demandScore: 5, growth:"20% YoY", growthScore: 20,
-        skills:["Python","TensorFlow","PyTorch","Data Science","Model Deployment"], certs:["AWS ML Specialty","Google Cloud ML Engineer"] },
+      { name:"Machine Learning Engineer", category:"engineering", type:"established",
+        salary:"$120K–$190K", salaryScore: 190,
+        demand:"Very High", demandScore: 5, growth:"20% YoY", growthScore: 20,
+        skills:["Python","TensorFlow","PyTorch","Data Science","Model Deployment","Evaluation"],
+        certs:["AWS Certified Machine Learning – Specialty","Google Cloud Professional ML Engineer"] },
 
-      { name:"MLOps Engineer", category:"engineering", type:"established", salary:"$130K–$210K", salaryScore: 210, demand:"Very High", demandScore: 5, growth:"25% YoY", growthScore: 25,
-        skills:["Kubernetes","CI/CD","Docker","Monitoring","Model Registry"], certs:["AWS DevOps Pro","Google Cloud Architect"] },
+      { name:"MLOps Engineer", category:"engineering", type:"established",
+        salary:"$130K–$210K", salaryScore: 210,
+        demand:"Very High", demandScore: 5, growth:"25% YoY", growthScore: 25,
+        skills:["Kubernetes","CI/CD","Docker","Monitoring","Model Registry","Python"],
+        certs:["AWS DevOps Engineer – Professional","Google Cloud Architect"] },
 
-      { name:"RAG Specialist", category:"engineering", type:"emerging", salary:"$105K–$175K", salaryScore: 175, demand:"Very High", demandScore: 5, growth:"40% YoY", growthScore: 40,
-        skills:["Vector DBs","Embeddings","Retrieval","Evaluation","Prompting"], certs:["DeepLearning.AI RAG Course"] },
+      { name:"RAG Specialist", category:"engineering", type:"emerging",
+        salary:"$105K–$175K", salaryScore: 175,
+        demand:"Very High", demandScore: 5, growth:"40% YoY", growthScore: 40,
+        skills:["Vector DBs","Embeddings","Retrieval","Evaluation","Prompting","Python"],
+        certs:["DeepLearning.AI (Coursera) Specializations"] },
 
-      { name:"AI Agents Developer", category:"engineering", type:"emerging", salary:"$100K–$190K", salaryScore: 190, demand:"Extremely High", demandScore: 6, growth:"45% YoY", growthScore: 45,
-        skills:["Agent Orchestration","Tool Use","RAG","Systems Design","Safety Controls"], certs:["DeepLearning.AI Agents Course"] },
+      { name:"AI Agents Developer", category:"engineering", type:"emerging",
+        salary:"$100K–$190K", salaryScore: 190,
+        demand:"Extremely High", demandScore: 6, growth:"45% YoY", growthScore: 45,
+        skills:["Agent Orchestration","Tool Use","RAG","Systems Design","Safety Controls","APIs"],
+        certs:["DeepLearning.AI (Coursera) Specializations"] },
 
-      { name:"AI Engineer", category:"engineering", type:"emerging", salary:"$110K–$200K", salaryScore: 200, demand:"Very High", demandScore: 5, growth:"28% YoY", growthScore: 28,
-        skills:["APIs","Deployment","MLOps","RAG","Full-stack AI"], certs:["AWS AI Practitioner","Google Cloud ML"] },
+      { name:"AI Engineer", category:"engineering", type:"emerging",
+        salary:"$110K–$200K", salaryScore: 200,
+        demand:"Very High", demandScore: 5, growth:"28% YoY", growthScore: 28,
+        skills:["APIs","Deployment","MLOps","RAG","Full-stack AI","Evaluation"],
+        certs:["AWS Certified AI Practitioner","DeepLearning.AI (Coursera) Specializations"] },
 
-      { name:"Computer Vision Engineer", category:"engineering", type:"established", salary:"$120K–$200K", salaryScore: 200, demand:"High", demandScore: 4, growth:"18% YoY", growthScore: 18,
-        skills:["OpenCV","CNNs","Image Processing","Data Pipelines"], certs:["AWS ML Specialty","TensorFlow Cert"] },
+      { name:"Computer Vision Engineer", category:"engineering", type:"established",
+        salary:"$120K–$200K", salaryScore: 200,
+        demand:"High", demandScore: 4, growth:"18% YoY", growthScore: 18,
+        skills:["OpenCV","CNNs","Image Processing","Data Pipelines","Python"],
+        certs:["AWS Certified Machine Learning – Specialty"] },
 
-      { name:"NLP Engineer", category:"engineering", type:"established", salary:"$125K–$210K", salaryScore: 210, demand:"Very High", demandScore: 5, growth:"22% YoY", growthScore: 22,
-        skills:["Transformers","Tokenization","Evaluation","Serving"], certs:["Hugging Face NLP Specialization"] },
+      { name:"NLP Engineer", category:"engineering", type:"established",
+        salary:"$125K–$210K", salaryScore: 210,
+        demand:"Very High", demandScore: 5, growth:"22% YoY", growthScore: 22,
+        skills:["Transformers","Tokenization","Evaluation","Serving","Python"],
+        certs:["DeepLearning.AI (Coursera) Specializations"] },
 
-      { name:"LLM Fine-tuning Specialist", category:"engineering", type:"emerging", salary:"$110K–$180K", salaryScore: 180, demand:"High", demandScore: 4, growth:"30% YoY", growthScore: 30,
-        skills:["Fine-tuning","LoRA/QLoRA","Data Curation","Evaluation"], certs:["Hugging Face Specialization"] },
+      { name:"LLM Fine-tuning Specialist", category:"engineering", type:"emerging",
+        salary:"$110K–$180K", salaryScore: 180,
+        demand:"High", demandScore: 4, growth:"30% YoY", growthScore: 30,
+        skills:["Fine-tuning","LoRA/QLoRA","Data Curation","Evaluation","Python"],
+        certs:["DeepLearning.AI (Coursera) Specializations"] },
 
-      { name:"Vector Database Specialist", category:"engineering", type:"emerging", salary:"$110K–$190K", salaryScore: 190, demand:"High", demandScore: 4, growth:"32% YoY", growthScore: 32,
-        skills:["Pinecone/Weaviate/Milvus","Indexing","Embeddings","Latency"], certs:["Vendor training (Pinecone/Weaviate)"] },
+      { name:"Vector Database Specialist", category:"engineering", type:"emerging",
+        salary:"$110K–$190K", salaryScore: 190,
+        demand:"High", demandScore: 4, growth:"32% YoY", growthScore: 32,
+        skills:["Indexing","Embeddings","Latency","Systems Design","Vector DBs"],
+        certs:["DeepLearning.AI (Coursera) Specializations"] },
 
       // Data
-      { name:"Data Scientist", category:"data", type:"established", salary:"$110K–$170K", salaryScore: 170, demand:"Very High", demandScore: 5, growth:"15% YoY", growthScore: 15,
-        skills:["Python","Statistics","SQL","ML","Experimentation"], certs:["Google Data Analytics","AWS ML"] },
+      { name:"Data Scientist", category:"data", type:"established",
+        salary:"$110K–$170K", salaryScore: 170,
+        demand:"Very High", demandScore: 5, growth:"15% YoY", growthScore: 15,
+        skills:["Python","Statistics","SQL","ML","Experimentation","Evaluation"],
+        certs:["DeepLearning.AI (Coursera) Specializations","AWS Certified AI Practitioner"] },
 
-      { name:"Data Engineer", category:"data", type:"established", salary:"$115K–$185K", salaryScore: 185, demand:"Very High", demandScore: 5, growth:"18% YoY", growthScore: 18,
-        skills:["ETL","SQL","Spark","Airflow","Warehousing"], certs:["AWS Data Analytics Specialty"] },
+      { name:"Data Engineer", category:"data", type:"established",
+        salary:"$115K–$185K", salaryScore: 185,
+        demand:"Very High", demandScore: 5, growth:"18% YoY", growthScore: 18,
+        skills:["ETL","SQL","Spark","Airflow","Warehousing","Data Modeling"],
+        certs:["AWS Data Analytics – Specialty"] },
 
-      { name:"Analytics Engineer", category:"data", type:"established", salary:"$100K–$160K", salaryScore: 160, demand:"High", demandScore: 4, growth:"16% YoY", growthScore: 16,
-        skills:["SQL","dbt","Data Modeling","BI","Governed Metrics"], certs:["dbt Fundamentals"] },
+      { name:"Analytics Engineer", category:"data", type:"established",
+        salary:"$100K–$160K", salaryScore: 160,
+        demand:"High", demandScore: 4, growth:"16% YoY", growthScore: 16,
+        skills:["SQL","dbt","Data Modeling","BI","Governed Metrics"],
+        certs:["dbt Fundamentals"] },
 
-      { name:"Training Data Manager", category:"data", type:"emerging", salary:"$75K–$130K", salaryScore: 130, demand:"High", demandScore: 4, growth:"28% YoY", growthScore: 28,
-        skills:["Data Quality","Annotation Ops","QA","Vendor Mgmt"], certs:["Project Management Fundamentals"] },
+      { name:"Training Data Manager", category:"data", type:"emerging",
+        salary:"$75K–$130K", salaryScore: 130,
+        demand:"High", demandScore: 4, growth:"28% YoY", growthScore: 28,
+        skills:["Data Quality","Annotation Ops","QA","Vendor Mgmt","Documentation"],
+        certs:["Project Management Fundamentals"] },
 
-      { name:"AI Model Evaluator", category:"data", type:"emerging", salary:"$85K–$150K", salaryScore: 150, demand:"Very High", demandScore: 5, growth:"36% YoY", growthScore: 36,
-        skills:["Benchmarks","Eval Metrics","Rubrics","Red Teaming (light)"], certs:["DeepLearning.AI Evaluation Courses"] },
+      { name:"AI Model Evaluator", category:"data", type:"emerging",
+        salary:"$85K–$150K", salaryScore: 150,
+        demand:"Very High", demandScore: 5, growth:"36% YoY", growthScore: 36,
+        skills:["Benchmarks","Eval Metrics","Rubrics","Safety Testing","Documentation"],
+        certs:["DeepLearning.AI (Coursera) Specializations"] },
 
-      { name:"Data Quality Engineer", category:"data", type:"emerging", salary:"$90K–$150K", salaryScore: 150, demand:"High", demandScore: 4, growth:"24% YoY", growthScore: 24,
-        skills:["Validation","Testing","Observability","SLAs"], certs:["AWS Data Analytics Specialty"] },
+      { name:"Data Quality Engineer", category:"data", type:"emerging",
+        salary:"$90K–$150K", salaryScore: 150,
+        demand:"High", demandScore: 4, growth:"24% YoY", growthScore: 24,
+        skills:["Validation","Testing","Observability","SLAs","SQL"],
+        certs:["AWS Data Analytics – Specialty"] },
 
       // Product
-      { name:"AI Product Manager", category:"product", type:"emerging", salary:"$130K–$190K", salaryScore: 190, demand:"Very High", demandScore: 5, growth:"26% YoY", growthScore: 26,
-        skills:["Product Strategy","Metrics","User Research","AI Literacy"], certs:["DeepLearning.AI Fundamentals"] },
+      { name:"AI Product Manager", category:"product", type:"emerging",
+        salary:"$130K–$190K", salaryScore: 190,
+        demand:"Very High", demandScore: 5, growth:"26% YoY", growthScore: 26,
+        skills:["Product Strategy","Metrics","User Research","AI Literacy","Risk Framing"],
+        certs:["DeepLearning.AI (Coursera) Specializations","AIGP (AI Governance Professional)"] },
 
-      { name:"GenAI Product Manager", category:"product", type:"emerging", salary:"$140K–$210K", salaryScore: 210, demand:"Extremely High", demandScore: 6, growth:"35% YoY", growthScore: 35,
-        skills:["LLM Ecosystem","RAG","Safety","Roadmapping"], certs:["Hands-on LLM product work"] },
+      { name:"GenAI Product Manager", category:"product", type:"emerging",
+        salary:"$140K–$210K", salaryScore: 210,
+        demand:"Extremely High", demandScore: 6, growth:"35% YoY", growthScore: 35,
+        skills:["LLM Ecosystem","RAG","Safety","Roadmapping","Evaluation"],
+        certs:["DeepLearning.AI (Coursera) Specializations","AIGP (AI Governance Professional)"] },
 
-      { name:"AI Strategy Consultant", category:"product", type:"emerging", salary:"$150K–$250K", salaryScore: 250, demand:"High", demandScore: 4, growth:"28% YoY", growthScore: 28,
-        skills:["Strategy","Stakeholder Mgmt","AI Knowledge","Comms"], certs:["MBA (optional)","Industry portfolio"] },
+      { name:"AI Strategy Consultant", category:"product", type:"emerging",
+        salary:"$150K–$250K", salaryScore: 250,
+        demand:"High", demandScore: 4, growth:"28% YoY", growthScore: 28,
+        skills:["Strategy","Stakeholder Mgmt","AI Knowledge","Comms","Risk Framing"],
+        certs:["AIGP (AI Governance Professional)","CRISC (Risk & Information Systems Control)"] },
 
-      { name:"Chief AI Officer", category:"product", type:"emerging", salary:"$250K–$500K+", salaryScore: 500, demand:"High", demandScore: 4, growth:"30% YoY", growthScore: 30,
-        skills:["Executive Leadership","AI Strategy","Risk Alignment"], certs:["CISM/CRISC (recommended)"] },
+      { name:"Chief AI Officer", category:"product", type:"emerging",
+        salary:"$250K–$500K+", salaryScore: 500,
+        demand:"High", demandScore: 4, growth:"30% YoY", growthScore: 30,
+        skills:["Executive Leadership","AI Strategy","Risk Alignment","Governance Programs"],
+        certs:["CISM (Certified Information Security Manager)","CRISC (Risk & Information Systems Control)"] },
 
       // Governance
-      { name:"AI Governance Specialist", category:"governance", type:"emerging", salary:"$130K–$180K", salaryScore: 180, demand:"Very High", demandScore: 5, growth:"38% YoY", growthScore: 38,
-        skills:["AI Frameworks","Controls","Documentation","Risk Assessment"], certs:["AIGP (IAPP)"] },
+      { name:"AI Governance Specialist", category:"governance", type:"emerging",
+        salary:"$130K–$180K", salaryScore: 180,
+        demand:"Very High", demandScore: 5, growth:"38% YoY", growthScore: 38,
+        skills:["AI Frameworks","Controls","Documentation","Risk Assessment","Model/System Cards"],
+        certs:["AIGP (AI Governance Professional)"] },
 
-      { name:"AI Risk Manager", category:"governance", type:"emerging", salary:"$140K–$210K", salaryScore: 210, demand:"Very High", demandScore: 5, growth:"35% YoY", growthScore: 35,
-        skills:["Risk Assessment","NIST AI RMF","Control Testing","Reporting"], certs:["CRISC (ISACA)","AIGP (IAPP)"] },
+      { name:"AI Risk Manager", category:"governance", type:"emerging",
+        salary:"$140K–$210K", salaryScore: 210,
+        demand:"Very High", demandScore: 5, growth:"35% YoY", growthScore: 35,
+        skills:["Risk Assessment","NIST AI RMF","Control Testing","Reporting","Metrics"],
+        certs:["CRISC (Risk & Information Systems Control)","AIGP (AI Governance Professional)"] },
 
-      { name:"AI Compliance Officer", category:"governance", type:"emerging", salary:"$130K–$200K", salaryScore: 200, demand:"Very High", demandScore: 5, growth:"40% YoY", growthScore: 40,
-        skills:["Regulatory Compliance","EU AI Act (concepts)","Policy","Audit Trails"], certs:["AIGP","CIPP/E"] },
+      { name:"AI Compliance Officer", category:"governance", type:"emerging",
+        salary:"$130K–$200K", salaryScore: 200,
+        demand:"Very High", demandScore: 5, growth:"40% YoY", growthScore: 40,
+        skills:["Regulatory Compliance","Policy","Audit Trails","Vendor Risk","Documentation"],
+        certs:["AIGP (AI Governance Professional)","CIPP/E"] },
 
-      { name:"AI Privacy Officer", category:"governance", type:"emerging", salary:"$125K–$190K", salaryScore: 190, demand:"Very High", demandScore: 5, growth:"37% YoY", growthScore: 37,
-        skills:["Privacy Engineering","DPIAs","Data Mapping","Vendor Risk"], certs:["CIPP/E (or regional)"] },
+      { name:"AI Privacy Officer", category:"governance", type:"emerging",
+        salary:"$125K–$190K", salaryScore: 190,
+        demand:"Very High", demandScore: 5, growth:"37% YoY", growthScore: 37,
+        skills:["Privacy Engineering","DPIAs","Data Mapping","Vendor Risk","Controls"],
+        certs:["CIPP/E","AIGP (AI Governance Professional)"] },
 
-      { name:"AI Auditor", category:"governance", type:"emerging", salary:"$115K–$185K", salaryScore: 185, demand:"High", demandScore: 4, growth:"36% YoY", growthScore: 36,
-        skills:["Audit","Evidence","Controls","Testing","Reporting"], certs:["CRISC","AIGP"] },
+      { name:"AI Auditor", category:"governance", type:"emerging",
+        salary:"$115K–$185K", salaryScore: 185,
+        demand:"High", demandScore: 4, growth:"36% YoY", growthScore: 36,
+        skills:["Audit","Evidence","Controls","Testing","Reporting"],
+        certs:["CRISC (Risk & Information Systems Control)","AIGP (AI Governance Professional)"] },
 
-      { name:"Adversarial AI Tester", category:"governance", type:"emerging", salary:"$100K–$170K", salaryScore: 170, demand:"Very High", demandScore: 5, growth:"38% YoY", growthScore: 38,
-        skills:["Red Teaming","Prompt Injection","Threat Modeling","Abuse Testing"], certs:["Security+","SecAI+ (when available)"] },
+      { name:"Adversarial AI Tester", category:"governance", type:"emerging",
+        salary:"$100K–$170K", salaryScore: 170,
+        demand:"Very High", demandScore: 5, growth:"38% YoY", growthScore: 38,
+        skills:["Red Teaming","Prompt Injection","Threat Modeling","Abuse Testing","Reporting"],
+        certs:["CompTIA Security+","CompTIA SecAI+ (launch window: 2026)"] },
 
-      { name:"Head of AI Governance", category:"governance", type:"emerging", salary:"$180K–$280K", salaryScore: 280, demand:"High", demandScore: 4, growth:"32% YoY", growthScore: 32,
-        skills:["Leadership","Program Design","Regulatory Strategy","Risk"], certs:["CISM","CRISC","AIGP"] },
+      { name:"Head of AI Governance", category:"governance", type:"emerging",
+        salary:"$180K–$280K", salaryScore: 280,
+        demand:"High", demandScore: 4, growth:"32% YoY", growthScore: 32,
+        skills:["Leadership","Program Design","Regulatory Strategy","Risk","Controls"],
+        certs:["CISM (Certified Information Security Manager)","CRISC (Risk & Information Systems Control)","AIGP (AI Governance Professional)"] },
 
-      // Future (skills radar)
-      { name:"Synthetic Data Architect", category:"data", type:"future", salary:"$130K–$220K", salaryScore: 220, demand:"Very High", demandScore: 5, growth:"40% YoY", growthScore: 40,
-        skills:["Synthetic Data","Privacy","Simulation","Modeling"], certs:["Research-backed courses (emerging)"] },
+      // Future
+      { name:"Synthetic Data Architect", category:"data", type:"future",
+        salary:"$130K–$220K", salaryScore: 220,
+        demand:"Very High", demandScore: 5, growth:"40% YoY", growthScore: 40,
+        skills:["Synthetic Data","Privacy","Simulation","Modeling","Data Quality"],
+        certs:["CIPP/E","AIGP (AI Governance Professional)"] },
 
-      { name:"Embodied AI Roboticist", category:"engineering", type:"future", salary:"$130K–$250K", salaryScore: 250, demand:"High", demandScore: 4, growth:"42% YoY", growthScore: 42,
-        skills:["Robotics","Control Systems","Perception","ROS"], certs:["Robotics/ROS advanced"] },
+      { name:"Embodied AI Roboticist", category:"engineering", type:"future",
+        salary:"$130K–$250K", salaryScore: 250,
+        demand:"High", demandScore: 4, growth:"42% YoY", growthScore: 42,
+        skills:["Robotics","Control Systems","Perception","ROS","Systems Design"],
+        certs:["Robotics/ROS advanced"] },
 
-      { name:"Quantum AI Engineer", category:"engineering", type:"future", salary:"$160K–$300K", salaryScore: 300, demand:"Emerging", demandScore: 3, growth:"50%+ YoY", growthScore: 50,
-        skills:["Quantum Computing","Algorithms","Linear Algebra"], certs:["IBM Quantum Developer (example)"] },
+      { name:"Quantum AI Engineer", category:"engineering", type:"future",
+        salary:"$160K–$300K", salaryScore: 300,
+        demand:"Emerging", demandScore: 3, growth:"50%+ YoY", growthScore: 50,
+        skills:["Quantum Computing","Algorithms","Linear Algebra","Python"],
+        certs:["IBM Quantum Developer (example)"] },
 
-      { name:"AI-Human Coordinator", category:"product", type:"future", salary:"$120K–$200K", salaryScore: 200, demand:"High", demandScore: 4, growth:"45% YoY", growthScore: 45,
-        skills:["Human-AI Interaction","UX Research","Psychology","Design"], certs:["UX + Human-centered AI"] },
+      { name:"AI-Human Coordinator", category:"product", type:"future",
+        salary:"$120K–$200K", salaryScore: 200,
+        demand:"High", demandScore: 4, growth:"45% YoY", growthScore: 45,
+        skills:["Human-AI Interaction","UX Research","Psychology","Design","Safety"],
+        certs:["UX + Human-centered AI"] },
 
-      { name:"AI Sustainability Officer", category:"governance", type:"future", salary:"$120K–$200K", salaryScore: 200, demand:"High", demandScore: 4, growth:"40% YoY", growthScore: 40,
-        skills:["Sustainability","Green AI","Efficiency","Policy"], certs:["Sustainability credentials (varies)"] },
+      { name:"AI Sustainability Officer", category:"governance", type:"future",
+        salary:"$120K–$200K", salaryScore: 200,
+        demand:"High", demandScore: 4, growth:"40% YoY", growthScore: 40,
+        skills:["Sustainability","Green AI","Efficiency","Policy","Reporting"],
+        certs:["Sustainability credentials (varies)"] },
     ];
 
-    // Certifications (you can swap images/URLs any time)
+    // Certifications with prerequisites (by cert name)
     const CERT_DATA = [
       {
         name: "AIGP (AI Governance Professional)",
@@ -1084,9 +1352,10 @@
         cost: "$500–$600 (varies)",
         prep: "60–80 hours",
         launched: "2024",
+        prereq: [],
         img: "https://iapp.org/media/images/badges/aigp-badge.png",
         url: "https://www.iapp.org/certify/aigp/",
-        desc: "Focused AI governance credential: frameworks, oversight, compliance, and accountability.",
+        desc: "AI governance: frameworks, oversight, compliance, accountability.",
         fit: ["AI Governance Specialist","AI Risk Manager","AI Compliance Officer","AI Auditor"]
       },
       {
@@ -1097,9 +1366,10 @@
         cost: "$371 (list price)",
         prep: "60–80 hours",
         launched: "Ongoing",
+        prereq: [],
         img: "https://images.credly.com/size/340x340/images/978385ba-87b6-4ae2-b087-a2283dc99e74/CompTIA_Security_2Bce_Badge_2021.png",
         url: "https://www.comptia.org/certifications/security",
-        desc: "Core security baseline. Good foundation for security-aware AI roles and governance.",
+        desc: "Core security baseline. Useful for security-aware AI roles and governance.",
         fit: ["Adversarial AI Tester","AI Governance foundation","Security roles"]
       },
       {
@@ -1110,9 +1380,10 @@
         cost: "$371 (est.)",
         prep: "70–100 hours",
         launched: "2026",
+        prereq: ["CompTIA Security+"],
         img: "https://images1.cmp.optimizely.com/9c6446ba196611f0ae2132d1ece0fbc5?width=300&height=300",
         url: "https://www.comptia.org/en-us/certifications/secai/",
-        desc: "AI-specific security focus: model attacks, adversarial risks, securing LLM pipelines.",
+        desc: "AI security: model attacks, adversarial risks, securing LLM pipelines.",
         fit: ["Adversarial AI Tester","AI Security Engineer","AI Governance (security lens)"]
       },
       {
@@ -1123,6 +1394,7 @@
         cost: "$575–$760 (varies)",
         prep: "100–150 hours",
         launched: "Ongoing",
+        prereq: [],
         img: "https://images.credly.com/size/340x340/images/974b7329-376f-4045-8c76-35226df7b29e/CRISC-600x600.png",
         url: "https://www.isaca.org/credentialing/crisc",
         desc: "Risk management emphasis. Strong signal for AI risk and governance leadership tracks.",
@@ -1136,6 +1408,7 @@
         cost: "$760 (varies)",
         prep: "120–200 hours",
         launched: "Ongoing",
+        prereq: [],
         img: "https://images.credly.com/size/340x340/images/9463973f-676b-4e6f-96a2-a89270da6267/CISM-600x600.png",
         url: "https://www.isaca.org/credentialing/cism",
         desc: "Security management and governance credential. Useful for leadership roles.",
@@ -1149,6 +1422,7 @@
         cost: "$749 (list)",
         prep: "150–300 hours",
         launched: "Ongoing",
+        prereq: ["CompTIA Security+"],
         img: "https://images.credly.com/size/340x340/images/4eb5710d-72aa-4b0c-99d9-2eb4eb32bc3c/CISSP.png",
         url: "https://www.isc2.org/Certifications/CISSP",
         desc: "Senior security credential (experience requirements apply). Strong signal for senior tracks.",
@@ -1162,6 +1436,7 @@
         cost: "$400–$550 (varies)",
         prep: "60–80 hours",
         launched: "Ongoing",
+        prereq: [],
         img: "https://iapp.org/media/images/badges/cipp-e-badge.png",
         url: "https://www.iapp.org/certify/cipp-e/",
         desc: "Privacy law depth (GDPR). Strong for privacy + compliance AI roles.",
@@ -1175,6 +1450,7 @@
         cost: "$100 (list)",
         prep: "40–60 hours",
         launched: "2024",
+        prereq: [],
         img: "https://images.credly.com/size/340x340/images/8476602d-007d-4293-9c41-267923766723/image.png",
         url: "https://aws.amazon.com/certification/certified-ai-practitioner/",
         desc: "Entry AWS AI credential. Good for cloud-based AI engineers and PMs.",
@@ -1188,9 +1464,10 @@
         cost: "$300 (list)",
         prep: "100–150 hours",
         launched: "Ongoing",
+        prereq: ["AWS Certified AI Practitioner"],
         img: "https://images.credly.com/size/340x340/images/12836279-9942-4f7f-8c38-bd9936e76722/image.png",
         url: "https://aws.amazon.com/certification/certified-machine-learning-specialty/",
-        desc: "Production ML on AWS: data, modeling, deployment, and MLOps topics.",
+        desc: "Production ML on AWS: data, modeling, deployment, MLOps topics.",
         fit: ["ML Engineer","MLOps Engineer","AI Engineer"]
       },
       {
@@ -1201,9 +1478,10 @@
         cost: "$200 (list)",
         prep: "100–120 hours",
         launched: "Ongoing",
+        prereq: [],
         img: "https://images.credly.com/size/340x340/images/3f769062-8c03-4340-bd6f-57cb2320b925/Professional_Machine_Learning_Engineer_600x600.png",
         url: "https://cloud.google.com/learn/certification/machine-learning-engineer",
-        desc: "Production ML on GCP: Vertex AI, orchestration, and deployment workflows.",
+        desc: "Production ML on GCP: Vertex AI, orchestration, deployment workflows.",
         fit: ["ML Engineer","MLOps Engineer","AI Engineer"]
       },
       {
@@ -1214,9 +1492,10 @@
         cost: "$39–$49/month (varies)",
         prep: "120–200 hours",
         launched: "Ongoing",
+        prereq: [],
         img: "https://s3.amazonaws.com/coursera_assets/meta_images/generated_lti_launching/default_v1.png",
         url: "https://www.coursera.org/deeplearning-ai",
-        desc: "Practical learning paths: ML fundamentals, LLMs, RAG systems, agentic workflows.",
+        desc: "Practical learning paths: ML fundamentals, LLMs, RAG systems, agent workflows.",
         fit: ["RAG Specialist","AI Engineer","NLP Engineer","Prompt Engineer"]
       }
     ];
@@ -1224,7 +1503,7 @@
     /**********************
      * 2) STATE + STORAGE
      **********************/
-    const STORAGE_KEY = "ai_roadmap_saved_roles_v1";
+    const STORAGE_KEY = "ai_roadmap_saved_roles_v2";
     const saved = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"));
 
     const STATE = {
@@ -1244,14 +1523,8 @@
     function roleMatchesQuery(role, q){
       if(!q) return true;
       const hay = [
-        role.name,
-        role.category,
-        role.type,
-        role.salary,
-        role.demand,
-        role.growth,
-        ...(role.skills || []),
-        ...(role.certs || [])
+        role.name, role.category, role.type, role.salary, role.demand, role.growth,
+        ...(role.skills || []), ...(role.certs || [])
       ].join(" ");
       return normalize(hay).includes(q);
     }
@@ -1260,22 +1533,9 @@
       if(!q) return true;
       const hay = [
         cert.name, cert.issuer, cert.status, cert.type, cert.cost, cert.prep, cert.launched, cert.desc,
-        ...(cert.fit || [])
+        ...(cert.fit || []), ...(cert.prereq || [])
       ].join(" ");
       return normalize(hay).includes(q);
-    }
-
-    function demandRank(score){
-      // score: 3..6
-      if(score >= 6) return "Extremely High";
-      if(score >= 5) return "Very High";
-      if(score >= 4) return "High";
-      return "Emerging";
-    }
-
-    function formatList(items){
-      if(!items || !items.length) return "";
-      return items.map(x => `<span class="tag">${escapeHtml(x)}</span>`).join("");
     }
 
     function escapeHtml(str){
@@ -1304,7 +1564,6 @@
       if(navigator.clipboard?.writeText){
         return navigator.clipboard.writeText(text);
       }
-      // fallback
       const ta = document.createElement("textarea");
       ta.value = text;
       ta.style.position = "fixed";
@@ -1316,80 +1575,73 @@
       return Promise.resolve();
     }
 
-    /**********************
-     * 4) RENDERERS
-     **********************/
-    function renderRoleCard(role){
-      const isSaved = saved.has(role.name);
-      const catForBar = (role.type === "future") ? "future" : (role.type === "emerging") ? "emerging" : role.category;
-
-      return `
-        <article class="card" data-cat="${escapeHtml(catForBar)}">
-          <div class="cardtop">
-            <div class="titlewrap">
-              <div class="cardtitle">${escapeHtml(role.name)}</div>
-              <div class="tiny">
-                <strong>${escapeHtml(role.type.toUpperCase())}</strong> • ${escapeHtml(role.category.toUpperCase())}
-              </div>
-            </div>
-            <button class="savebtn ${isSaved ? "saved" : ""}" type="button" data-save="${escapeHtml(role.name)}" aria-pressed="${isSaved}">
-              ${isSaved ? "Saved" : "Save"} ★
-            </button>
-          </div>
-
-          <div class="badgerow">
-            <span class="badge money">💰 ${escapeHtml(role.salary)}</span>
-            <span class="badge demand">🔥 ${escapeHtml(role.demand)}</span>
-            <span class="badge growth">📈 ${escapeHtml(role.growth)}</span>
-          </div>
-
-          <div class="block">
-            <span class="label">Key Skills</span>
-            <div class="tags">${formatList(role.skills)}</div>
-          </div>
-
-          <div class="block" style="margin-bottom:0;">
-            <span class="label">Recommended Certifications / Proof</span>
-            <div class="mutedline">${escapeHtml((role.certs || []).join(" • "))}</div>
-          </div>
-        </article>
-      `;
+    function uniq(arr){
+      return [...new Set(arr)];
     }
 
-    function renderCertCard(cert){
-      return `
-        <article class="cert">
-          <div class="certimg">
-            <img src="${escapeHtml(cert.img)}" alt="${escapeHtml(cert.name)} badge/logo" loading="lazy"
-              onerror="this.closest('.certimg').style.display='none'">
-          </div>
-          <div class="certbody">
-            <div class="certhead">
-              <div class="certname">${escapeHtml(cert.name)}</div>
-              <div class="badge demand" style="border-radius:12px;">${escapeHtml(cert.status)}</div>
-            </div>
-            <div class="certmeta">
-              <span><strong>Issuer:</strong> ${escapeHtml(cert.issuer)}</span>
-              <span><strong>Cost:</strong> ${escapeHtml(cert.cost)}</span>
-              <span><strong>Prep:</strong> ${escapeHtml(cert.prep)}</span>
-              <span><strong>Launched:</strong> ${escapeHtml(cert.launched)}</span>
-            </div>
-            <div class="certdesc">${escapeHtml(cert.desc)}</div>
-            <div class="certactions">
-              <a class="linkbtn" href="${escapeHtml(cert.url)}" target="_blank" rel="noopener noreferrer">Official Details ↗</a>
-              <span class="subbtn" role="note" aria-label="Best for roles">
-                Best for: ${escapeHtml((cert.fit || []).slice(0,4).join(", "))}
-              </span>
-            </div>
-          </div>
-        </article>
-      `;
+    function intersectAll(arrays){
+      if(!arrays.length) return [];
+      const base = new Set(arrays[0]);
+      for(const a of arrays.slice(1)){
+        for(const v of [...base]){
+          if(!a.includes(v)) base.delete(v);
+        }
+      }
+      return [...base];
+    }
+
+    function topologicalSortCerts(certNames){
+      // Graph nodes = certNames that exist in CERT_DATA
+      const certByName = new Map(CERT_DATA.map(c => [c.name, c]));
+      const nodes = certNames.filter(n => certByName.has(n));
+
+      // Include prereqs that are in data (even if user didn't explicitly have them in role cert lists)
+      const expand = new Set(nodes);
+      for(const n of nodes){
+        const c = certByName.get(n);
+        (c.prereq || []).forEach(p => { if(certByName.has(p)) expand.add(p); });
+      }
+      const all = [...expand];
+
+      // Build in-degree + adjacency
+      const indeg = new Map(all.map(n => [n, 0]));
+      const adj = new Map(all.map(n => [n, []]));
+
+      for(const n of all){
+        const c = certByName.get(n);
+        for(const p of (c.prereq || [])){
+          if(!indeg.has(p)) continue;
+          // p -> n
+          adj.get(p).push(n);
+          indeg.set(n, (indeg.get(n) || 0) + 1);
+        }
+      }
+
+      // Kahn
+      const q = all.filter(n => (indeg.get(n) || 0) === 0).sort((a,b)=>a.localeCompare(b));
+      const out = [];
+      while(q.length){
+        const u = q.shift();
+        out.push(u);
+        for(const v of adj.get(u) || []){
+          indeg.set(v, indeg.get(v) - 1);
+          if(indeg.get(v) === 0){
+            q.push(v);
+            q.sort((a,b)=>a.localeCompare(b));
+          }
+        }
+      }
+
+      // If cycle or missing, fall back to alpha
+      if(out.length !== all.length){
+        return all.sort((a,b)=>a.localeCompare(b));
+      }
+      return out;
     }
 
     function applySort(items){
       const sort = STATE.sortBy;
       const copy = [...items];
-
       if(sort === "name"){
         copy.sort((a,b) => a.name.localeCompare(b.name));
       } else if(sort === "salary"){
@@ -1408,10 +1660,6 @@
 
       let out = items.filter(r => roleMatchesQuery(r, q));
 
-      // tab logic:
-      // - category tabs show category roles (not future-only unless role category matches)
-      // - emerging tab shows type === "emerging"
-      // - future tab shows type === "future"
       if(typeMode === "category"){
         out = out.filter(r => r.category === category && r.type !== "future");
       } else if(typeMode === "emerging"){
@@ -1420,7 +1668,6 @@
         out = out.filter(r => r.type === "future");
       }
 
-      // global type filter dropdown
       if(typeFilter !== "all"){
         out = out.filter(r => r.type === typeFilter);
       }
@@ -1428,12 +1675,95 @@
       return applySort(out);
     }
 
-    function renderTab(tab){
-      // Render roles/certs based on active tab + filters.
-      const tabId = tab;
+    /**********************
+     * 4) RENDERERS
+     **********************/
+    function renderRoleCard(role){
+      const isSaved = saved.has(role.name);
+      const catForBar = (role.type === "future") ? "future" : (role.type === "emerging") ? "emerging" : role.category;
 
-      // Roles
+      const skillTags = (role.skills || []).map(s =>
+        `<span class="tag" data-q="${escapeHtml(s)}" title="Click to search">${escapeHtml(s)}</span>`
+      ).join("");
+
+      const certChips = (role.certs || []).map(c =>
+        `<button class="linkchip" type="button" data-cert="${escapeHtml(c)}" title="Jump to Certifications">
+          ${escapeHtml(c)} <span class="mini">↗</span>
+        </button>`
+      ).join("");
+
+      return `
+        <article class="card" data-cat="${escapeHtml(catForBar)}">
+          <div class="cardtop">
+            <div class="titlewrap">
+              <div class="cardtitle">${escapeHtml(role.name)}</div>
+              <div class="tiny">
+                <strong>${escapeHtml(role.type.toUpperCase())}</strong> • ${escapeHtml(role.category.toUpperCase())}
+              </div>
+            </div>
+            <button class="savebtn ${isSaved ? "saved" : ""}" type="button" data-save="${escapeHtml(role.name)}" aria-pressed="${isSaved}">
+              ${isSaved ? "Saved" : "Save"} ★
+            </button>
+          </div>
+
+          <div class="badgerow">
+            <span class="badge money">💰 ${escapeHtml(role.salary)}</span>
+            <span class="badge demand" data-score="${escapeHtml(role.demandScore)}">🔥 ${escapeHtml(role.demand)}</span>
+            <span class="badge growth">📈 ${escapeHtml(role.growth)}</span>
+          </div>
+
+          <div class="block">
+            <span class="label">Key Skills (click to filter)</span>
+            <div class="tags">${skillTags}</div>
+          </div>
+
+          <div class="block" style="margin-bottom:0;">
+            <span class="label">Certifications / Proof (jump to Certifications)</span>
+            <div class="linkchips">${certChips || `<span class="mutedline">None listed.</span>`}</div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderCertCard(cert){
+      const prereq = (cert.prereq || []);
+      const prereqInline = prereq.length
+        ? `<span><strong>Prereq:</strong> ${escapeHtml(prereq.join(" → "))}</span>`
+        : `<span><strong>Prereq:</strong> None</span>`;
+
+      return `
+        <article class="cert">
+          <div class="certimg">
+            <img src="${escapeHtml(cert.img)}" alt="${escapeHtml(cert.name)} badge/logo" loading="lazy"
+              onerror="this.closest('.certimg').style.display='none'">
+          </div>
+          <div class="certbody">
+            <div class="certhead">
+              <div class="certname">${escapeHtml(cert.name)}</div>
+              <div class="badge demand" style="border-radius:12px;">${escapeHtml(cert.status)}</div>
+            </div>
+            <div class="certmeta">
+              <span><strong>Issuer:</strong> ${escapeHtml(cert.issuer)}</span>
+              <span><strong>Cost:</strong> ${escapeHtml(cert.cost)}</span>
+              <span><strong>Prep:</strong> ${escapeHtml(cert.prep)}</span>
+              <span><strong>Launched:</strong> ${escapeHtml(cert.launched)}</span>
+              ${prereqInline}
+            </div>
+            <div class="certdesc">${escapeHtml(cert.desc)}</div>
+            <div class="certactions">
+              <a class="linkbtn" href="${escapeHtml(cert.url)}" target="_blank" rel="noopener noreferrer">Official Details ↗</a>
+              <span class="subbtn" role="note" aria-label="Best for roles">
+                Best for: ${escapeHtml((cert.fit || []).slice(0,4).join(", "))}
+              </span>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderTab(tabId){
       const roleTabs = ["engineering","data","product","governance","emerging","future"];
+
       if(roleTabs.includes(tabId)){
         let filtered = [];
         if(["engineering","data","product","governance"].includes(tabId)){
@@ -1452,7 +1782,7 @@
           grid.innerHTML = `
             <div class="empty" style="grid-column: 1 / -1;">
               <strong>No matches.</strong><br/>
-              Try adjusting search, type, or sort.
+              Adjust search, type, or sort.
             </div>
           `;
           return;
@@ -1461,7 +1791,6 @@
         return;
       }
 
-      // Certifications
       if(tabId === "certifications"){
         const q = normalize(STATE.query);
         const filtered = CERT_DATA.filter(c => certMatchesQuery(c, q));
@@ -1480,182 +1809,239 @@
         return;
       }
 
-      // Roadmap
       if(tabId === "roadmap"){
         renderRoadmap();
       }
     }
 
+    /**********************
+     * 5) ROADMAP (PHASED)
+     **********************/
     function renderRoadmap(){
       const chosen = ROLE_DATA.filter(r => saved.has(r.name));
       $("count-roadmap").textContent = chosen.length;
 
-      // Left panel: saved roles
       if(!chosen.length){
         $("savedRoles").innerHTML = `
           <div class="empty">
             <strong>No saved roles yet.</strong><br/>
-            Save roles from any tab to build your roadmap.
+            Save 1–3 roles to generate a focused plan.
           </div>
         `;
         $("generatedPlan").innerHTML = `
           <div class="empty">
             <strong>Your plan will appear here.</strong><br/>
-            Save 1–3 roles to generate a focused learning path.
+            Save roles to generate phased steps.
           </div>
         `;
         updateStats();
         return;
       }
 
+      // Saved roles panel (with clickable skill tags + cert chips)
       const savedHtml = chosen
         .sort((a,b)=>a.name.localeCompare(b.name))
-        .map(r => `
-          <div class="step">
-            <div class="steptop">
-              <div class="steptitle">${escapeHtml(r.name)}</div>
-              <div class="stepmeta">${escapeHtml(r.type.toUpperCase())}</div>
+        .map(r => {
+          const skillTags = (r.skills||[]).map(s => `<span class="tag" data-q="${escapeHtml(s)}">${escapeHtml(s)}</span>`).join("");
+          const certChips = (r.certs||[]).map(c => `<button class="linkchip" type="button" data-cert="${escapeHtml(c)}">${escapeHtml(c)} <span class="mini">↗</span></button>`).join("");
+          return `
+            <div class="step">
+              <div class="steptop">
+                <div class="steptitle">${escapeHtml(r.name)}</div>
+                <div class="stepmeta">${escapeHtml(r.type.toUpperCase())}</div>
+              </div>
+              <div class="block">
+                <span class="label">Skills (click to filter)</span>
+                <div class="tags">${skillTags}</div>
+              </div>
+              <div class="block" style="margin-bottom:0;">
+                <span class="label">Certifications / Proof (jump)</span>
+                <div class="linkchips">${certChips || `<span class="mutedline">None listed.</span>`}</div>
+              </div>
             </div>
-            <div class="stepline"><strong>Skills:</strong> ${escapeHtml((r.skills||[]).join(", "))}</div>
-            <div class="stepline"><strong>Certs/Proof:</strong> ${escapeHtml((r.certs||[]).join(" • "))}</div>
-          </div>
-        `).join("");
+          `;
+        }).join("");
 
       $("savedRoles").innerHTML = savedHtml;
 
-      // Right panel: generated plan
-      const skillCounts = new Map();
-      const certCounts = new Map();
+      // Skill overlap visualization
+      const skillArrays = chosen.map(r => r.skills || []);
+      const baselineSkills = intersectAll(skillArrays).sort((a,b)=>a.localeCompare(b));
+      const allSkills = uniq(chosen.flatMap(r => r.skills || []));
+      const roleSpecificSkills = allSkills.filter(s => !baselineSkills.includes(s)).sort((a,b)=>a.localeCompare(b));
 
-      for(const r of chosen){
-        for(const s of (r.skills||[])){
-          skillCounts.set(s, (skillCounts.get(s)||0)+1);
+      // Lane-specific emphasis (Phase 2 categorization)
+      const laneBuckets = {
+        engineering: new Set(["Python","Kubernetes","Docker","CI/CD","MLOps","Model Deployment","APIs","Systems Design","Monitoring","Vector DBs","Embeddings","Retrieval","Fine-tuning","Transformers","Serving","Evaluation"]),
+        data: new Set(["SQL","ETL","Data Modeling","Spark","Airflow","Warehousing","Data Quality","Validation","Testing","Observability","Benchmarks","Eval Metrics","Statistics","Experimentation"]),
+        governance: new Set(["Controls","Risk Assessment","NIST AI RMF","Audit","Evidence","Reporting","Policy","Vendor Risk","DPIAs","Privacy Engineering","Audit Trails","Model/System Cards","Threat Modeling","Prompt Injection","Abuse Testing"]),
+        product: new Set(["Product Strategy","Metrics","User Research","Roadmapping","Stakeholder Mgmt","Comms","Risk Framing","AI Literacy","Safety"])
+      };
+
+      function inferLaneSkills(skills){
+        const buckets = { engineering: [], data: [], governance: [], product: [], general: [] };
+        for(const s of skills){
+          let placed = false;
+          for(const lane of ["engineering","data","governance","product"]){
+            if(laneBuckets[lane].has(s)){
+              buckets[lane].push(s); placed = true; break;
+            }
+          }
+          if(!placed) buckets.general.push(s);
         }
-        for(const c of (r.certs||[])){
-          certCounts.set(c, (certCounts.get(c)||0)+1);
+        for(const k of Object.keys(buckets)){
+          buckets[k] = buckets[k].sort((a,b)=>a.localeCompare(b));
         }
+        return buckets;
       }
 
-      const topSkills = [...skillCounts.entries()]
-        .sort((a,b)=> b[1]-a[1] || a[0].localeCompare(b[0]))
-        .slice(0, 12)
-        .map(([s])=>s);
+      const laneSplit = inferLaneSkills(roleSpecificSkills);
 
-      const topCerts = [...certCounts.entries()]
-        .sort((a,b)=> b[1]-a[1] || a[0].localeCompare(b[0]))
-        .slice(0, 8)
-        .map(([c])=>c);
+      // Cert ordering with prerequisites
+      const roleCerts = uniq(chosen.flatMap(r => r.certs || []));
+      const orderedCerts = topologicalSortCerts(roleCerts);
 
-      const governanceHint = chosen.some(r => r.category === "governance");
-      const engHint = chosen.some(r => r.category === "engineering");
-      const dataHint = chosen.some(r => r.category === "data");
-      const prodHint = chosen.some(r => r.category === "product");
+      // Proof phase suggestions
+      const hasRAG = allSkills.some(s => ["RAG","Retrieval","Vector DBs","Embeddings"].includes(s));
+      const hasAgents = allSkills.some(s => ["Agent Orchestration","Tool Use","Safety Controls"].includes(s));
+      const hasGov = chosen.some(r => r.category === "governance");
+      const hasData = chosen.some(r => r.category === "data");
+      const hasEng = chosen.some(r => r.category === "engineering");
+      const hasProd = chosen.some(r => r.category === "product");
 
-      // Suggested steps (simple but useful)
-      const steps = [];
+      const proofItems = [];
+      proofItems.push("Publish a single flagship repo: problem, constraints, metrics, limitations, and demo instructions.");
+      if(hasRAG) proofItems.push("Build a RAG pipeline with evaluation (retrieval metrics + answer quality rubric) and monitoring hooks.");
+      if(hasAgents) proofItems.push("Build an agent workflow with tool permissions, sandboxed actions, and audit logs for each action.");
+      if(hasGov) proofItems.push("Add governance artifacts: risk register, control mapping, model/system card, and incident response workflow.");
+      if(hasData) proofItems.push("Add data quality gates: validation tests, dataset versioning notes, and repeatable evaluation runs.");
+      if(hasProd) proofItems.push("Write a 1-page PRD: user, success metrics, rollout, red lines, and safety/abuse scenarios.");
 
-      steps.push({
-        title: "Step 1 — Define your target outcomes",
-        meta: "Week 1",
-        line: "Pick 1 primary role and 1 secondary role. Write a 5-sentence target statement: domain + problems you solve + constraints + proof you will build."
-      });
-
-      steps.push({
-        title: "Step 2 — Build the core skill cluster",
-        meta: "Weeks 2–6",
-        line: `Focus on: ${topSkills.slice(0,6).join(", ")}. Build one project that demonstrates these skills end-to-end (repo + short writeup).`
-      });
-
-      if(engHint){
-        steps.push({
-          title: "Step 3 — Ship a production-minded project",
-          meta: "Weeks 6–10",
-          line: "Add monitoring/evaluation + error handling. Document tradeoffs. Treat it like a real system: inputs, risks, metrics, limitations."
-        });
-      }
-
-      if(governanceHint){
-        steps.push({
-          title: "Step 3 — Add governance artifacts",
-          meta: "Weeks 6–10",
-          line: "Create a lightweight control set: risk register + model/system card + evaluation plan + incident workflow. Make it auditable."
-        });
-      }
-
-      if(dataHint){
-        steps.push({
-          title: "Step 4 — Data quality + evaluation",
-          meta: "Weeks 8–12",
-          line: "Implement validation checks, dataset/version notes, and repeatable evaluation. Show improvement over a baseline."
-        });
-      }
-
-      if(prodHint){
-        steps.push({
-          title: "Step 4 — Product framing",
-          meta: "Weeks 8–12",
-          line: "Write a 1-page PRD: user, problem, success metrics, risks, rollout plan. Include an FAQ + edge cases."
-        });
-      }
-
-      steps.push({
-        title: "Step 5 — Credential and publish",
-        meta: "Ongoing",
-        line: `Pick 1–2 certifications that align with your primary role. Suggested from your saves: ${topCerts.length ? topCerts.join(" • ") : "Add certs to your role data for suggestions."}`
-      });
-
-      const planHtml = `
-        <div class="block">
-          <span class="label">Top Skills to Focus</span>
-          <div class="tags">${formatList(topSkills)}</div>
-        </div>
-        <div class="block">
-          <span class="label">Suggested Certifications / Proof</span>
-          <div class="mutedline">${escapeHtml(topCerts.join(" • "))}</div>
-        </div>
-        ${steps.map(s => `
-          <div class="step">
-            <div class="steptop">
-              <div class="steptitle">${escapeHtml(s.title)}</div>
-              <div class="stepmeta">${escapeHtml(s.meta)}</div>
-            </div>
-            <div class="stepline">${escapeHtml(s.line)}</div>
+      // Render phases
+      const phase1 = `
+        <div class="phase" data-phase="1">
+          <div class="phasetop">
+            <h4>Phase 1 — Foundation</h4>
+            <div class="range">Weeks 1–4</div>
           </div>
-        `).join("")}
+
+          <div class="skillsplit">
+            <div class="skillbox">
+              <span class="label">Common Baseline Skills (shared across saved roles)</span>
+              <div class="tags">
+                ${baselineSkills.length
+                  ? baselineSkills.map(s => `<span class="tag" data-q="${escapeHtml(s)}">${escapeHtml(s)}</span>`).join("")
+                  : `<span class="mutedline">No perfect overlap (try saving 2–3 closely related roles).</span>`
+                }
+              </div>
+            </div>
+            <div class="skillbox">
+              <span class="label">Foundation Tasks</span>
+              <div class="mutedline">
+                Choose 1 primary role + 1 secondary. Write a target statement and success metrics. Set up a single repo template (readme, changelog, eval notes).
+              </div>
+            </div>
+          </div>
+
+          <div class="block" style="margin-bottom:0;">
+            <span class="label">Chronological Certifications (based on prerequisites)</span>
+            <div class="linkchips">
+              ${orderedCerts.length
+                ? orderedCerts.map(c => `<button class="linkchip" type="button" data-cert="${escapeHtml(c)}">${escapeHtml(c)} <span class="mini">↗</span></button>`).join("")
+                : `<span class="mutedline">No certs detected from saved roles.</span>`
+              }
+            </div>
+          </div>
+        </div>
       `;
 
-      $("generatedPlan").innerHTML = planHtml;
+      const phase2 = `
+        <div class="phase" data-phase="2">
+          <div class="phasetop">
+            <h4>Phase 2 — Core Technicals</h4>
+            <div class="range">Weeks 5–12</div>
+          </div>
+
+          <div class="skillsplit">
+            <div class="skillbox">
+              <span class="label">Role-Specific Skills (unique additions)</span>
+              <div class="tags">
+                ${roleSpecificSkills.length
+                  ? roleSpecificSkills.map(s => `<span class="tag" data-q="${escapeHtml(s)}">${escapeHtml(s)}</span>`).join("")
+                  : `<span class="mutedline">All skills overlap across your saved roles.</span>`
+                }
+              </div>
+            </div>
+            <div class="skillbox">
+              <span class="label">Lane Clusters (to reduce confusion)</span>
+              <div class="mutedline">
+                ${hasEng ? `<strong>Engineering:</strong> ${laneSplit.engineering.slice(0,8).join(", ") || "—"}<br/>` : ""}
+                ${hasData ? `<strong>Data:</strong> ${laneSplit.data.slice(0,8).join(", ") || "—"}<br/>` : ""}
+                ${hasGov ? `<strong>Governance:</strong> ${laneSplit.governance.slice(0,8).join(", ") || "—"}<br/>` : ""}
+                ${hasProd ? `<strong>Product:</strong> ${laneSplit.product.slice(0,8).join(", ") || "—"}<br/>` : ""}
+                <span style="color:#64748b; font-weight:700;">Tip:</span> Click any skill to filter roles/certs and deepen the lane.
+              </div>
+            </div>
+          </div>
+
+          <div class="block" style="margin-bottom:0;">
+            <span class="label">Core Output (by end of Phase 2)</span>
+            <div class="mutedline">
+              Build one end-to-end project with evaluation. Treat it as a system: inputs, failure modes, metrics, monitoring, and documented tradeoffs.
+            </div>
+          </div>
+        </div>
+      `;
+
+      const phase3 = `
+        <div class="phase" data-phase="3">
+          <div class="phasetop">
+            <h4>Phase 3 — Proof</h4>
+            <div class="range">Weeks 10–16</div>
+          </div>
+          <div class="block">
+            <span class="label">Proof Deliverables (choose 2–4)</span>
+            <ul style="list-style:none; display:grid; gap:8px; color:#334155; font-size:.93rem; line-height:1.55;">
+              ${proofItems.map(x => `<li style="position:relative; padding-left:18px;">
+                <span style="position:absolute; left:0; color:#7c3aed; font-weight:900;">→</span>${escapeHtml(x)}
+              </li>`).join("")}
+            </ul>
+          </div>
+
+          <div class="block" style="margin-bottom:0;">
+            <span class="label">Publish Package</span>
+            <div class="mutedline">
+              Create: (1) a repo demo, (2) a one-page writeup, (3) a “what went wrong” section, (4) an evidence folder (eval runs, logs, screenshots).
+            </div>
+          </div>
+        </div>
+      `;
+
+      $("generatedPlan").innerHTML = phase1 + phase2 + phase3;
       updateStats();
     }
 
     /**********************
-     * 5) TABS + ROUTING
+     * 6) TABS + ROUTING
      **********************/
     function setActiveTab(tabId){
       STATE.activeTab = tabId;
 
-      // update tab UI
       document.querySelectorAll(".tab").forEach(btn => {
         const isActive = btn.dataset.tab === tabId;
         btn.classList.toggle("active", isActive);
         btn.setAttribute("aria-selected", isActive ? "true" : "false");
       });
 
-      // update panels
-      const panels = [
-        "engineering","data","product","governance","emerging","future","certifications","roadmap"
-      ];
+      const panels = ["engineering","data","product","governance","emerging","future","certifications","roadmap"];
       panels.forEach(p => {
         const el = $("panel-" + p);
         if(!el) return;
-        const show = (p === tabId);
-        el.hidden = !show;
+        el.hidden = (p !== tabId);
       });
 
-      // render
       renderTab(tabId);
 
-      // update hash for sharable deep-link
       const url = new URL(window.location.href);
       url.hash = tabId;
       history.replaceState(null, "", url);
@@ -1664,22 +2050,30 @@
     function initFromHash(){
       const hash = (window.location.hash || "").replace("#","").trim();
       const valid = new Set(["engineering","data","product","governance","emerging","future","certifications","roadmap"]);
-      if(valid.has(hash)){
-        setActiveTab(hash);
-      } else {
-        setActiveTab("engineering");
-      }
+      setActiveTab(valid.has(hash) ? hash : "engineering");
+    }
+
+    function setQuery(q){
+      STATE.query = q || "";
+      $("search").value = STATE.query;
+      renderTab(STATE.activeTab);
+    }
+
+    function jumpToCertsAndFilter(certName){
+      setActiveTab("certifications");
+      setQuery(certName);
+      // scroll to top of content for clarity
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     /**********************
-     * 6) EVENTS
+     * 7) EVENTS
      **********************/
     function bindEvents(){
       // tabs
       document.querySelectorAll(".tab").forEach(btn => {
         btn.addEventListener("click", () => setActiveTab(btn.dataset.tab));
         btn.addEventListener("keydown", (e) => {
-          // basic roving with left/right
           if(e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
           e.preventDefault();
           const tabs = [...document.querySelectorAll(".tab")];
@@ -1707,7 +2101,7 @@
         renderTab(STATE.activeTab);
       });
 
-      // save role buttons (event delegation)
+      // Save role buttons
       document.addEventListener("click", (e) => {
         const btn = e.target.closest("[data-save]");
         if(!btn) return;
@@ -1718,12 +2112,24 @@
         else saved.add(name);
 
         saveToStorage();
-
-        // re-render active tab (to update button state)
         renderTab(STATE.activeTab);
-
-        // roadmap tab should update if user is there
         if(STATE.activeTab === "roadmap") renderRoadmap();
+      });
+
+      // Click any skill tag (or lane guidance tag) to filter search in current tab
+      document.addEventListener("click", (e) => {
+        const tag = e.target.closest(".tag");
+        if(!tag) return;
+        const q = tag.getAttribute("data-q") || tag.textContent || "";
+        setQuery(q);
+      });
+
+      // Click cert chips to jump to Certifications tab + filter
+      document.addEventListener("click", (e) => {
+        const chip = e.target.closest("[data-cert]");
+        if(!chip) return;
+        const certName = chip.getAttribute("data-cert");
+        if(certName) jumpToCertsAndFilter(certName);
       });
 
       // compare modal
@@ -1736,9 +2142,8 @@
         if(e.key === "Escape") closeCompare();
       });
 
-      // share
+      // share (includes saved roles)
       $("shareBtn").addEventListener("click", async () => {
-        // share includes selected roles in URL params
         const url = new URL(window.location.href);
         url.hash = "roadmap";
         url.searchParams.set("saved", encodeURIComponent(JSON.stringify([...saved])));
@@ -1748,7 +2153,7 @@
           $("shareBtn").textContent = "Copied ✓";
           setTimeout(() => $("shareBtn").textContent = "Share Roadmap", 1100);
         } catch {
-          alert("Copy failed. You can manually copy the URL from the address bar.");
+          alert("Copy failed. Copy the URL from the address bar.");
         }
       });
 
@@ -1760,7 +2165,6 @@
         renderRoadmap();
       });
 
-      // hash change
       window.addEventListener("hashchange", initFromHash);
     }
 
@@ -1779,21 +2183,24 @@
             <div class="cardtitle">${escapeHtml(r.name)}</div>
             <div class="badgerow">
               <span class="badge money">💰 ${escapeHtml(r.salary)}</span>
-              <span class="badge demand">🔥 ${escapeHtml(r.demand)}</span>
+              <span class="badge demand" data-score="${escapeHtml(r.demandScore)}">🔥 ${escapeHtml(r.demand)}</span>
               <span class="badge growth">📈 ${escapeHtml(r.growth)}</span>
             </div>
             <div class="block">
               <span class="label">Skills</span>
-              <div class="tags">${formatList(r.skills)}</div>
+              <div class="tags">
+                ${(r.skills||[]).map(s => `<span class="tag" data-q="${escapeHtml(s)}">${escapeHtml(s)}</span>`).join("")}
+              </div>
             </div>
             <div class="block" style="margin-bottom:0;">
               <span class="label">Certs / Proof</span>
-              <div class="mutedline">${escapeHtml((r.certs||[]).join(" • "))}</div>
+              <div class="linkchips">
+                ${(r.certs||[]).map(c => `<button class="linkchip" type="button" data-cert="${escapeHtml(c)}">${escapeHtml(c)} <span class="mini">↗</span></button>`).join("")}
+              </div>
             </div>
           </div>
         `).join("");
       }
-
       $("compareModal").classList.add("open");
     }
 
@@ -1802,7 +2209,7 @@
     }
 
     /**********************
-     * 7) INIT (INCLUDING SHARE IMPORT)
+     * 8) INIT (SHARE IMPORT)
      **********************/
     function importSavedFromUrl(){
       const url = new URL(window.location.href);
@@ -1818,7 +2225,6 @@
       } catch {
         // ignore
       } finally {
-        // Clean up URL (keep hash)
         url.searchParams.delete("saved");
         history.replaceState(null, "", url.toString());
       }
@@ -1826,12 +2232,8 @@
 
     function initialRender(){
       updateStats();
-
-      // render all non-active panels on-demand, but pre-render engineering for first paint
       renderTab("engineering");
-      renderRoadmap(); // so roadmap is ready instantly
-
-      // counts for other tabs are computed when tab opens
+      renderRoadmap();
       $("count-engineering").textContent = applyRoleFilters(ROLE_DATA, {category:"engineering", typeMode:"category"}).length;
     }
 
@@ -1841,6 +2243,9 @@
     initFromHash();
     initialRender();
     updateStats();
+
+    // also render certs lazily when user lands on that tab; still set stat count
+    // (renderTab handles it)
   </script>
 </body>
-            </html>
+          </html>
