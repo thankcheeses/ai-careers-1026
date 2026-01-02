@@ -6,20 +6,24 @@
     <title>AI Career Nexus 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Neon/Dark Theme Colors */
+            /* Theme Colors */
             --eng: #3b82f6;   /* Blue */
-            --data: #10b981;  /* Emerald */
-            --prod: #f59e0b;  /* Amber */
+            --data: #10b981;  /* Green */
+            --prod: #f59e0b;  /* Orange */
             --gov: #a855f7;   /* Purple */
             --emerge: #ef4444;/* Red */
             --future: #6366f1;/* Indigo */
             --cert: #0ea5e9;  /* Sky */
             
-            --bg-main: #000000;
+            --road: #ec4899;  /* Pink */
+            --comp: #14b8a6;  /* Teal */
+            --market: #eab308;/* Yellow */
+            
+            --bg-main: #000000; /* PURE BLACK */
             --bg-card: #111111;
             --bg-hover: #1a1a1a;
             --text-main: #ffffff;
@@ -55,11 +59,11 @@
             font-size: 3.5em;
             letter-spacing: -1px;
             margin-bottom: 10px;
-            /* Blue Gradient Text */
+            /* Electric Blue Gradient */
             background: linear-gradient(to right, #60a5fa, #3b82f6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+            text-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
         }
 
         .header p {
@@ -109,6 +113,9 @@
         .btn-emerge.active { color: var(--emerge); border-color: var(--emerge); }
         .btn-future.active { color: var(--future); border-color: var(--future); }
         .btn-cert.active { color: var(--cert); border-color: var(--cert); }
+        .btn-road.active { color: var(--road); border-color: var(--road); }
+        .btn-comp.active { color: var(--comp); border-color: var(--comp); }
+        .btn-market.active { color: var(--market); border-color: var(--market); }
 
         /* CONTENT LAYOUT */
         .tab-content {
@@ -153,6 +160,9 @@
         .card[data-cat="governance"]::before { background: var(--gov); }
         .card[data-cat="emerging"]::before { background: var(--emerge); }
         .card[data-cat="future"]::before { background: var(--future); }
+        .card[data-cat="roadmap"]::before { background: var(--road); }
+        .card[data-cat="company"]::before { background: var(--comp); }
+        .card[data-cat="market"]::before { background: var(--market); }
 
         .card-title {
             font-family: 'Outfit';
@@ -198,7 +208,7 @@
             border: 1px solid #333;
         }
 
-        /* CERTIFICATION CARDS - The New Look */
+        /* CERTIFICATION CARDS */
         .cert-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -211,10 +221,10 @@
         }
 
         .cert-image-box {
-            width: 130px;
-            height: 130px;
+            width: 140px;
+            height: 140px;
             flex-shrink: 0;
-            background: #fff; /* White background behind badge for visibility */
+            background: #fff; /* White background to make badge pop */
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -262,6 +272,25 @@
         }
         .cert-link:hover { color: var(--cert); }
 
+        /* ROADMAP TIMELINE STYLE */
+        .timeline-step {
+            display: flex;
+            margin-bottom: 15px;
+            border-left: 2px solid #333;
+            padding-left: 20px;
+            position: relative;
+        }
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: -6px; top: 5px;
+            width: 10px; height: 10px;
+            background: var(--road);
+            border-radius: 50%;
+        }
+        .step-title { font-weight: 700; color: white; }
+        .step-desc { font-size: 0.9em; color: var(--text-sub); }
+
         .footer {
             margin-top: 60px;
             border-top: 1px solid var(--border);
@@ -281,7 +310,7 @@
 
     <div class="container">
         <div class="header">
-            <h1>AI Career Nexus 2026</h1>
+            <h1>AI Career Nexus 🚀</h1>
             <p>The definitive roadmap for Engineering, Data, and Governance professionals.</p>
         </div>
         
@@ -292,6 +321,11 @@
             <button class="tab-button btn-gov" onclick="switchTab(event, 'governance')">Governance</button>
             <button class="tab-button btn-emerge" onclick="switchTab(event, 'emerging')">Emerging</button>
             <button class="tab-button btn-future" onclick="switchTab(event, 'future')">🚀 Future</button>
+            
+            <button class="tab-button btn-road" onclick="switchTab(event, 'roadmaps')">🗺️ Roadmaps</button>
+            <button class="tab-button btn-comp" onclick="switchTab(event, 'companies')">🏢 Top Companies</button>
+            <button class="tab-button btn-market" onclick="switchTab(event, 'insights')">📈 Insights '26</button>
+            
             <button class="tab-button btn-cert" onclick="switchTab(event, 'certifications')">📜 Certs & Stacks</button>
         </div>
         
@@ -301,6 +335,10 @@
         <div id="governance-roles" class="tab-content grid"></div>
         <div id="emerging-roles" class="tab-content grid"></div>
         <div id="future-roles" class="tab-content grid"></div>
+        
+        <div id="roadmaps-list" class="tab-content grid"></div>
+        <div id="companies-list" class="tab-content grid"></div>
+        <div id="insights-list" class="tab-content grid"></div>
         
         <div id="certifications-list" class="tab-content"></div>
         
@@ -332,194 +370,4 @@
             "Synthetic Data Architect": { category: "future", type: "future", salary: "$130K-$220K", skills: "GANs 🧬, Simulation, Privacy-Preserving ML", certs: "PhD/Research Background", demand: "Emerging" },
             "Embodied AI Roboticist": { category: "future", type: "future", salary: "$130K-$250K", skills: "Robotics 🤖, Physical AI, Control Systems", certs: "Robotics Engineering", demand: "High" },
             "Quantum AI Engineer": { category: "future", type: "future", salary: "$160K-$300K", skills: "Quantum Computing ⚛️, Qiskit, Algorithms", certs: "IBM Quantum Developer", demand: "Emerging" },
-            "AI-Human Coordinator": { category: "future", type: "future", salary: "$120K-$200K", skills: "HCI, UX/UI, Psychology 🧠", certs: "UX Design + Human-Centered AI", demand: "High" }
-        };
-
-        // --- 2. CERTIFICATIONS DATABASE (With Mapped Images) ---
-        const certifications = {
-            "CompTIA SecAI+ (NEW)": {
-                type: "vendor-neutral", 
-                image: "https://www.comptia.org/_next/image/?url=https%3A%2F%2Fimages1.cmp.optimizely.com%2F9c6446ba196611f0ae2132d1ece0fbc5%3Fwidth%3D300%26height%3D300&w=640&q=90",
-                description: "🚀 <strong>Launching Feb 17, 2026</strong>. The industry's first dedicated AI Security certification. Covers adversarial attacks, data poisoning, and securing LLM pipelines.",
-                website: "https://www.comptia.org/en-us/certifications/secai/#pre-order",
-                stack: "🛡️ <strong>AI Defender Stack:</strong> Security+ → <strong>SecAI+</strong> → CySA+"
-            },
-            "CompTIA Security+": {
-                type: "vendor-neutral",
-                image: "https://images.credly.com/size/340x340/images/978385ba-87b6-4ae2-b087-a2283dc99e74/CompTIA_Security_2Bce_Badge_2021.png",
-                description: "The global baseline for security careers. Essential for Adversarial AI & Governance roles.",
-                website: "https://www.credly.com/org/comptia/badge/comptia-security-ce-certification",
-                stack: "🧱 <strong>Classic Trifecta:</strong> A+ → Network+ → <strong>Security+</strong>"
-            },
-            "IAPP AIGP": {
-                type: "vendor-neutral",
-                image: "https://iapp.org/media/images/badges/aigp-badge.png",
-                description: "🏆 The Gold Standard for AI Governance. Covers EU AI Act, NIST RMF, and compliance.",
-                website: "https://iapp.org/certify/aigp",
-                stack: "⚖️ <strong>Governance Stack:</strong> CIPP/E → <strong>AIGP</strong> → CISM"
-            },
-            "Google Professional ML Engineer": {
-                type: "vendor-specific",
-                image: "https://images.credly.com/size/340x340/images/3f769062-8c03-4340-bd6f-57cb2320b925/Professional_Machine_Learning_Engineer_600x600.png",
-                description: "For engineers building on Vertex AI and TensorFlow. Highly respected.",
-                website: "https://www.credly.com/org/google-cloud/badge/professional-machine-learning-engineer-certificatio",
-                stack: "☁️ <strong>GCP Stack:</strong> Cloud Engineer → <strong>ML Engineer</strong>"
-            },
-            "Google Professional Data Engineer": {
-                type: "vendor-specific",
-                image: "https://images.credly.com/size/340x340/images/3d65dc2f-786d-473d-bd6d-96a8cb63c473/Professional_Data_Engineer_600x600.png",
-                description: "Designing data processing systems and operationalizing machine learning models.",
-                website: "https://www.credly.com/org/google-cloud/badge/professional-data-engineer-certification",
-                stack: "📊 <strong>Data Stack:</strong> Cloud Engineer → <strong>Data Engineer</strong>"
-            },
-            "AWS Certified AI Practitioner": {
-                type: "vendor-specific",
-                image: "https://images.credly.com/size/340x340/images/8476602d-007d-4293-9c41-267923766723/image.png",
-                description: "Foundational knowledge of AI/ML concepts on AWS. Great entry point.",
-                website: "https://www.credly.com/org/amazon-web-services/badge/aws-certified-ai-practitioner",
-                stack: "☁️ <strong>AWS Start:</strong> Cloud Practitioner → <strong>AI Practitioner</strong>"
-            },
-            "AWS Machine Learning Specialty": {
-                type: "vendor-specific",
-                image: "https://images.credly.com/size/340x340/images/12836279-9942-4f7f-8c38-bd9936e76722/image.png",
-                description: "Validates expertise in building, training, and deploying ML models on AWS.",
-                website: "https://www.credly.com/org/amazon-web-services/badge/aws-certified-machine-learning-specialty",
-                stack: "☁️ <strong>ML Trifecta:</strong> Solutions Architect → <strong>ML Specialty</strong>"
-            },
-            "AWS Data Analytics Specialty": {
-                type: "vendor-specific",
-                image: "https://images.credly.com/size/340x340/images/2d84e428-9078-49b6-a804-13c15383d0de/image.png",
-                description: "Expertise in designing and maintaining Big Data solutions on AWS.",
-                website: "https://www.credly.com/org/mthree/badge/aws-certified-data-analytics-specialty-exam-prepara",
-                stack: "📊 <strong>Data Stack:</strong> Cloud Practitioner → <strong>Data Analytics</strong>"
-            },
-            "Azure AI Engineer Associate": {
-                type: "vendor-specific",
-                image: "https://images.credly.com/size/340x340/images/5b9c0206-e7df-4244-a93d-429214436577/image.png",
-                description: "Building and managing AI solutions using Azure Cognitive Services.",
-                website: "https://www.credly.com/org/thinksmart/badge/microsoft-certified-azure-ai-engineer-associate.1",
-                stack: "🟦 <strong>Azure Stack:</strong> Azure Fundamentals → <strong>AI Engineer</strong>"
-            },
-            "CISSP (ISC2)": {
-                type: "vendor-neutral",
-                image: "https://images.credly.com/size/340x340/images/4eb5710d-72aa-4b0c-99d9-2eb4eb32bc3c/CISSP.png",
-                description: "The world's premier cybersecurity certification. For senior leaders.",
-                website: "https://www.credly.com/org/isc2/badge/certified-information-systems-security-professional-cissp",
-                stack: "🏆 <strong>Gold Standard:</strong> 5 Yrs Exp + CISSP Exam"
-            },
-            "CISM (ISACA)": {
-                type: "vendor-neutral",
-                image: "https://images.credly.com/size/340x340/images/9463973f-676b-4e6f-96a2-a89270da6267/CISM-600x600.png",
-                description: "Management-focused cert for information security governance.",
-                website: "https://www.isaca.org/credentialing/cism",
-                stack: "👔 <strong>Exec Stack:</strong> CISSP (Tech) → <strong>CISM</strong> (Mgmt)"
-            },
-            "CRISC (ISACA)": {
-                type: "vendor-neutral",
-                image: "https://images.credly.com/size/340x340/images/974b7329-376f-4045-8c76-35226df7b29e/CRISC-600x600.png",
-                description: "The only cert focused on enterprise IT risk management.",
-                website: "https://www.isaca.org/credentialing/crisc",
-                stack: "📉 <strong>Risk Stack:</strong> CISA (Audit) → <strong>CRISC</strong> (Risk)"
-            },
-            "CIPP/E (IAPP)": {
-                type: "vendor-neutral",
-                image: "https://iapp.org/media/images/badges/cipp-e-badge.png",
-                description: "Comprehensive GDPR knowledge. Essential for European compliance.",
-                website: "https://iapp.org/certify/cippe",
-                stack: "🇪🇺 <strong>EU Stack:</strong> CIPP/E (Law) → CIPM (Ops)"
-            }
-        };
-
-        // --- 3. HELPER FUNCTIONS ---
-
-        function createRoleCard(title, data) {
-            return `
-                <div class="card" data-cat="${data.category}">
-                    <div class="card-title">${title}</div>
-                    <div style="margin-bottom: 15px;">
-                        <span class="badge badge-salary">💰 ${data.salary}</span>
-                        <span class="badge badge-demand">🔥 ${data.demand}</span>
-                    </div>
-                    
-                    <div class="section-label">Tech Stack</div>
-                    <div>${data.skills.split(',').map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}</div>
-                    
-                    <div class="section-label">Top Certs</div>
-                    <div style="font-size: 0.9em; color: #94a3b8;">${data.certs}</div>
-                </div>
-            `;
-        }
-
-        function createCertCard(name, data) {
-            const stackBlock = data.stack ? `
-                <div class="stack-box">
-                    <span class="stack-label">Recommended Career Stack</span>
-                    <div class="stack-text">${data.stack}</div>
-                </div>` : '';
-
-            return `
-                <div class="cert-card">
-                    <div class="cert-image-box">
-                        <img src="${data.image}" alt="${name}">
-                    </div>
-                    <div class="cert-content">
-                        <div class="cert-header">
-                            <div class="cert-name">${name}</div>
-                            <span class="cert-badge">VERIFIED</span>
-                        </div>
-                        <div class="cert-desc">${data.description}</div>
-                        ${stackBlock}
-                        <a href="${data.website}" target="_blank" class="cert-link">Official Credentials ↗</a>
-                    </div>
-                </div>
-            `;
-        }
-
-        function populateTab(category) {
-            if (category === 'certifications') {
-                const container = document.getElementById('certifications-list');
-                let html = '';
-                for (const [name, data] of Object.entries(certifications)) {
-                    html += createCertCard(name, data);
-                }
-                container.innerHTML = html;
-                return;
-            }
-
-            const maps = { engineering: 'engineering-roles', data: 'data-roles', product: 'product-roles', governance: 'governance-roles', emerging: 'emerging-roles', future: 'future-roles' };
-            const container = document.getElementById(maps[category]);
-            if (!container) return;
-
-            let html = '';
-            const sorted = Object.entries(roles).sort(([a],[b]) => a.localeCompare(b));
-            for (const [title, data] of sorted) {
-                // Strict category matching (Future goes to Future, etc.)
-                if (data.category === category || (category === 'emerging' && data.type === 'emerging')) {
-                    html += createRoleCard(title, data);
-                }
-            }
-            container.innerHTML = html || '<p style="padding:20px; color:#999;">No roles found.</p>';
-        }
-
-        function switchTab(event, category) {
-            document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
-            document.querySelectorAll('.tab-button').forEach(e => e.classList.remove('active'));
-            
-            const targetId = category === 'certifications' ? 'certifications-list' : `${category}-roles`;
-            const target = document.getElementById(targetId);
-            
-            if(target) target.classList.add('active');
-            event.currentTarget.classList.add('active');
-            
-            populateTab(category);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            populateTab('engineering'); 
-        });
-
-        window.switchTab = switchTab;
-    </script>
-</body>
-</html>
-
+            "AI-Human Coordinator": { category: "future", type: "future", salary: "$120K-$200K", skills: "HCI
