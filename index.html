@@ -1,151 +1,1846 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Career Nexus 2026</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --eng: #3b82f6; --data: #10b981; --prod: #f59e0b; 
-            --gov: #a855f7; --emerge: #ef4444; --future: #6366f1; 
-            --cert: #0ea5e9; --road: #ec4899; --comp: #14b8a6; 
-            --market: #eab308; --bg-main: #000000; --bg-card: #111111;
-            --text-main: #ffffff; --text-sub: #94a3b8; --border: #333333;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Career Roadmap Tool 2026</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); padding: 20px; min-height: 100vh; }
-        .container { max-width: 1400px; margin: 0 auto; }
-        
-        .header { padding: 60px 20px; text-align: center; border-bottom: 1px solid var(--border); margin-bottom: 30px; }
-        .header h1 { font-family: 'Outfit', sans-serif; font-size: 3.5em; background: linear-gradient(to right, #60a5fa, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(59, 130, 246, 0.4); }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
 
-        .tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
-        .tab-button { padding: 12px 24px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-sub); cursor: pointer; border-radius: 8px; transition: 0.3s; font-family: 'Outfit'; }
-        .tab-button.active { color: white; border-color: currentColor; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
-        
-        .btn-eng.active { color: var(--eng); border-color: var(--eng); }
-        .btn-data.active { color: var(--data); border-color: var(--data); }
-        .btn-gov.active { color: var(--gov); border-color: var(--gov); }
-        .btn-cert.active { color: var(--cert); border-color: var(--cert); }
+  <style>
+    :root{
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 16px 40px -16px rgba(2,6,23,.25);
 
-        .tab-content { display: none; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; animation: fadeIn 0.5s ease; }
-        .tab-content.active { display: grid; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+      --eng: #3b82f6;
+      --data:#10b981;
+      --prod:#f59e0b;
+      --gov: #8b5cf6;
+      --emerge:#ef4444;
+      --future:#6366f1;
+      --cert:#0ea5e9;
 
-        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 25px; position: relative; overflow: hidden; border-top: 3px solid #333; }
-        .card[data-cat="engineering"] { border-top-color: var(--eng); }
-        .card[data-cat="governance"] { border-top-color: var(--gov); }
-        .card-title { font-family: 'Outfit'; font-size: 1.5em; margin-bottom: 15px; }
-        .badge { display: inline-block; padding: 5px 10px; border-radius: 6px; font-size: 0.85em; background: #222; border: 1px solid #444; margin: 0 5px 10px 0; }
-        .badge-salary { color: #4ade80; }
-        .skill-tag { background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 4px; font-size: 0.85em; margin: 0 5px 5px 0; display: inline-block; border: 1px solid #333; }
+      --okbg: #dcfce7; --ok: #166534;
+      --warnbg:#fef3c7; --warn:#92400e;
+      --infobg:#dbeafe; --info:#1e40af;
+      --badgebg:#f1f5f9;
 
-        .cert-card { display: flex !important; grid-column: 1 / -1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 25px; gap: 25px; }
-        .cert-image-box { width: 120px; height: 120px; background: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; padding: 10px; flex-shrink: 0; }
-        .cert-image-box img { max-width: 100%; max-height: 100%; }
-        .stack-box { background: rgba(255,255,255,0.03); border: 1px dashed #444; padding: 15px; border-radius: 8px; margin: 15px 0; }
-        .btn-link { text-decoration: none; padding: 10px 20px; background: var(--eng); color: white; border-radius: 6px; font-weight: 600; display: inline-block; margin-top: 10px; }
+      --radius: 22px;
+      --radius-sm: 14px;
+      --radius-xs: 10px;
 
-        .timeline-step { border-left: 2px solid var(--road); padding-left: 20px; margin-bottom: 20px; position: relative; }
-        .timeline-step::after { content: ''; position: absolute; left: -7px; top: 5px; width: 12px; height: 12px; background: var(--road); border-radius: 50%; }
-    </style>
+      --focus: 0 0 0 4px rgba(59,130,246,.25);
+
+      color-scheme: light;
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 18px;
+      min-height: 100vh;
+    }
+
+    a{ color: inherit; }
+
+    .container{
+      max-width: 1400px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      border: 1px solid rgba(226,232,240,.85);
+    }
+
+    /* Header */
+    .header{
+      position: relative;
+      padding: 56px 28px 38px;
+      text-align:center;
+      color: #fff;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,.10), transparent 45%),
+        radial-gradient(circle at 85% 30%, rgba(255,255,255,.08), transparent 50%),
+        linear-gradient(135deg, #0b1224 0%, #111d35 55%, #0b1224 100%);
+    }
+
+    .header h1{
+      font-family: Outfit, system-ui, sans-serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 3.2vw, 3.4rem);
+      letter-spacing:-1px;
+      line-height: 1.05;
+      margin-bottom: 10px;
+      background: linear-gradient(to right, #60a5fa, #c084fc);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header p{
+      color: rgba(226,232,240,.9);
+      font-size: 1.02rem;
+      max-width: 860px;
+      margin: 0 auto 16px;
+      line-height: 1.55;
+    }
+
+    .pillrow{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .pill{
+      display:inline-flex;
+      gap: 8px;
+      align-items:center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      color: rgba(255,255,255,.92);
+      font-size: .9rem;
+      backdrop-filter: blur(8px);
+    }
+    .pill strong{ font-weight: 700; }
+
+    /* Top controls */
+    .topbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+      align-items:center;
+      justify-content:space-between;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      background: #fff;
+    }
+
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      flex: 1 1 auto;
+    }
+
+    .input{
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      min-width: 260px;
+      flex: 1 1 320px;
+      max-width: 560px;
+    }
+    .input svg{ width:18px; height:18px; color: #94a3b8; flex: 0 0 auto; }
+    .input input{
+      border:none;
+      outline:none;
+      width:100%;
+      font-size: .95rem;
+      color: var(--text);
+      background: transparent;
+    }
+
+    .select, .button{
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 600;
+      font-size: .92rem;
+      color: #0f172a;
+      cursor:pointer;
+      transition: transform .06s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .select{
+      padding: 10px 12px;
+      min-width: 170px;
+    }
+
+    .button{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      user-select:none;
+    }
+    .button:active{ transform: translateY(1px); }
+    .button:hover{ background: #f8fafc; }
+    .button:focus, .select:focus, .input:focus-within, .tab:focus{
+      outline:none;
+      box-shadow: var(--focus);
+      border-color: rgba(59,130,246,.55);
+    }
+
+    .button.primary{
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      border-color: transparent;
+    }
+    .button.primary:hover{ filter: brightness(1.03); }
+    .button.danger{
+      background: #fff;
+      border-color: rgba(239,68,68,.35);
+      color: #b91c1c;
+    }
+    .button.danger:hover{ background: rgba(239,68,68,.06); }
+
+    .right-actions{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex: 0 0 auto;
+    }
+
+    /* Tabs */
+    .tabs{
+      display:flex;
+      gap: 8px;
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--border);
+      background:#fff;
+      overflow-x:auto;
+      scrollbar-width: thin;
+    }
+    .tab{
+      border:none;
+      background: transparent;
+      cursor:pointer;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-family: Outfit, system-ui, sans-serif;
+      font-weight: 700;
+      font-size: .98rem;
+      color: var(--muted);
+      white-space: nowrap;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      transition: background .2s ease, color .2s ease;
+      position: relative;
+    }
+    .tab:hover{ background: #f8fafc; color: #0f172a; }
+    .tab.active{
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .tab .dot{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      background: #94a3b8;
+      box-shadow: 0 0 0 3px rgba(148,163,184,.15);
+    }
+
+    .tab[data-cat="engineering"] .dot{ background: var(--eng); box-shadow: 0 0 0 3px rgba(59,130,246,.18); }
+    .tab[data-cat="data"] .dot{ background: var(--data); box-shadow: 0 0 0 3px rgba(16,185,129,.18); }
+    .tab[data-cat="product"] .dot{ background: var(--prod); box-shadow: 0 0 0 3px rgba(245,158,11,.18); }
+    .tab[data-cat="governance"] .dot{ background: var(--gov); box-shadow: 0 0 0 3px rgba(139,92,246,.18); }
+    .tab[data-cat="emerging"] .dot{ background: var(--emerge); box-shadow: 0 0 0 3px rgba(239,68,68,.18); }
+    .tab[data-cat="future"] .dot{ background: var(--future); box-shadow: 0 0 0 3px rgba(99,102,241,.18); }
+    .tab[data-cat="certifications"] .dot{ background: var(--cert); box-shadow: 0 0 0 3px rgba(14,165,233,.18); }
+    .tab[data-cat="roadmap"] .dot{ background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.18); }
+
+    /* Layout */
+    .content{
+      background: #f8fafc;
+      padding: 18px;
+    }
+
+    .sectionhead{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 10px 4px 16px;
+    }
+    .sectiontitle{
+      font-family: Outfit, system-ui, sans-serif;
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing:-.5px;
+    }
+    .sectionsub{
+      color: var(--muted);
+      font-size: .95rem;
+      line-height: 1.4;
+      margin-top: 6px;
+      max-width: 880px;
+    }
+
+    .count{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background:#fff;
+      color: #334155;
+      font-weight: 700;
+      font-size: .9rem;
+      white-space: nowrap;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 14px;
+    }
+
+    /* Cards */
+    .card{
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid rgba(226,232,240,.95);
+      box-shadow: 0 6px 14px -10px rgba(2,6,23,.25);
+      padding: 16px;
+      transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+      position: relative;
+      overflow:hidden;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 18px 28px -18px rgba(2,6,23,.35);
+      border-color: rgba(148,163,184,.7);
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:0 0 auto 0;
+      height: 4px;
+      background: #cbd5e1;
+    }
+    .card[data-cat="engineering"]::before{ background: var(--eng); }
+    .card[data-cat="data"]::before{ background: var(--data); }
+    .card[data-cat="product"]::before{ background: var(--prod); }
+    .card[data-cat="governance"]::before{ background: var(--gov); }
+    .card[data-cat="emerging"]::before{ background: var(--emerge); }
+    .card[data-cat="future"]::before{ background: var(--future); }
+
+    .cardtop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .titlewrap{ min-width: 0; }
+    .cardtitle{
+      font-family: Outfit, system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 1.18rem;
+      letter-spacing: -.2px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .tiny{
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.35;
+    }
+
+    .savebtn{
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor:pointer;
+      font-weight: 800;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      transition: background .2s ease, transform .06s ease, border-color .2s ease;
+      white-space: nowrap;
+    }
+    .savebtn:hover{ background: #f8fafc; }
+    .savebtn:active{ transform: translateY(1px); }
+    .savebtn.saved{
+      border-color: rgba(34,197,94,.35);
+      background: rgba(34,197,94,.08);
+      color: #166534;
+    }
+
+    .badgerow{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      margin: 10px 0 12px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: .86rem;
+      font-weight: 800;
+      border: 1px solid rgba(226,232,240,.95);
+      background: #fff;
+      color: #0f172a;
+      white-space: nowrap;
+    }
+    .badge.money{ background: var(--okbg); color: var(--ok); border-color: rgba(22,101,52,.15); }
+    .badge.demand{ background: var(--warnbg); color: var(--warn); border-color: rgba(146,64,14,.15); }
+    .badge.growth{ background: var(--infobg); color: var(--info); border-color: rgba(30,64,175,.15); }
+
+    .block{
+      background: var(--badgebg);
+      border: 1px solid rgba(226,232,240,.95);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .label{
+      display:block;
+      font-size: .72rem;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      font-weight: 900;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 6px;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      padding: 5px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(226,232,240,.95);
+      background:#fff;
+      font-size: .86rem;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .mutedline{
+      color: #475569;
+      font-size: .93rem;
+      line-height: 1.55;
+    }
+
+    /* Summary / callout */
+    .callout{
+      background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 45%, #eff6ff 100%);
+      border: 1px solid rgba(99,102,241,.18);
+      border-left: 5px solid var(--future);
+      border-radius: 16px;
+      padding: 14px 14px 14px 14px;
+      margin-bottom: 14px;
+    }
+    .callout h3{
+      font-family: Outfit, system-ui, sans-serif;
+      font-weight: 900;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      color: #0f172a;
+    }
+    .callout ul{
+      list-style:none;
+      display:grid;
+      gap: 6px;
+      color: #334155;
+      font-size: .94rem;
+      line-height: 1.5;
+    }
+    .callout li{
+      padding-left: 18px;
+      position: relative;
+    }
+    .callout li::before{
+      content:"→";
+      position:absolute;
+      left:0;
+      color: #4f46e5;
+      font-weight: 900;
+    }
+
+    /* Certifications */
+    .certlist{
+      display:grid;
+      gap: 12px;
+    }
+    .cert{
+      background:#fff;
+      border-radius: 16px;
+      border: 1px solid rgba(226,232,240,.95);
+      box-shadow: 0 6px 14px -10px rgba(2,6,23,.25);
+      padding: 16px;
+      display:flex;
+      gap: 14px;
+      align-items:flex-start;
+    }
+    .certimg{
+      width: 78px;
+      height: 78px;
+      border-radius: 14px;
+      border: 1px solid rgba(226,232,240,.95);
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 6px;
+      flex: 0 0 auto;
+      overflow:hidden;
+    }
+    .certimg img{
+      max-width:100%;
+      max-height:100%;
+      object-fit:contain;
+    }
+    .certbody{ flex:1 1 auto; min-width:0; }
+    .certhead{
+      display:flex;
+      gap: 10px;
+      justify-content:space-between;
+      align-items:flex-start;
+      margin-bottom: 6px;
+    }
+    .certname{
+      font-family: Outfit, system-ui, sans-serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+    .certmeta{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      color: #64748b;
+      font-weight: 700;
+      font-size: .86rem;
+      margin: 6px 0 10px;
+    }
+    .certmeta span{
+      padding: 5px 8px;
+      border-radius: 999px;
+      background:#f8fafc;
+      border: 1px solid rgba(226,232,240,.95);
+    }
+    .certdesc{
+      color: #475569;
+      font-size: .93rem;
+      line-height: 1.55;
+      margin-bottom: 10px;
+    }
+    .certactions{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+    }
+    .linkbtn{
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 12px;
+      background: #0f172a;
+      color:#fff;
+      font-weight: 800;
+      font-size: .9rem;
+      border: 1px solid rgba(15,23,42,.85);
+      transition: transform .06s ease, filter .2s ease;
+    }
+    .linkbtn:active{ transform: translateY(1px); }
+    .linkbtn:hover{ filter: brightness(1.08); }
+
+    .subbtn{
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 12px;
+      background: #fff;
+      color:#0f172a;
+      font-weight: 800;
+      font-size: .9rem;
+      border: 1px solid rgba(226,232,240,.95);
+      transition: background .2s ease, transform .06s ease;
+    }
+    .subbtn:hover{ background: #f8fafc; }
+    .subbtn:active{ transform: translateY(1px); }
+
+    /* Roadmap */
+    .roadmapwrap{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      align-items:start;
+    }
+
+    .panel{
+      background:#fff;
+      border-radius: 16px;
+      border: 1px solid rgba(226,232,240,.95);
+      box-shadow: 0 6px 14px -10px rgba(2,6,23,.25);
+      padding: 16px;
+    }
+    .panel h3{
+      font-family: Outfit, system-ui, sans-serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+    }
+    .panel p{
+      color: #475569;
+      font-size: .93rem;
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+
+    .step{
+      border: 1px solid rgba(226,232,240,.95);
+      border-radius: 14px;
+      padding: 12px;
+      background: #fff;
+      margin-bottom: 10px;
+    }
+    .steptop{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      justify-content:space-between;
+      margin-bottom: 8px;
+    }
+    .steptitle{
+      font-weight: 900;
+      color: #0f172a;
+      font-size: .98rem;
+      line-height:1.25;
+    }
+    .stepmeta{
+      color: #64748b;
+      font-size: .85rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .stepline{
+      color: #475569;
+      font-size: .92rem;
+      line-height:1.5;
+    }
+
+    .empty{
+      padding: 22px;
+      text-align:center;
+      color: #64748b;
+      border: 1px dashed rgba(148,163,184,.6);
+      border-radius: 16px;
+      background: rgba(255,255,255,.6);
+    }
+    .empty strong{ color: #0f172a; }
+
+    /* Footer */
+    .footer{
+      padding: 18px 20px;
+      border-top: 1px solid var(--border);
+      background: #fff;
+      color: #64748b;
+      font-size: .9rem;
+      line-height: 1.5;
+      text-align:center;
+    }
+
+    /* Modal */
+    .modalbackdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 999;
+    }
+    .modalbackdrop.open{ display:flex; }
+    .modal{
+      width: min(920px, 100%);
+      background: #fff;
+      border-radius: 18px;
+      border: 1px solid rgba(226,232,240,.95);
+      box-shadow: 0 30px 80px -40px rgba(2,6,23,.6);
+      overflow:hidden;
+    }
+    .modalhead{
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      background:#fff;
+    }
+    .modalhead strong{
+      font-family: Outfit, system-ui, sans-serif;
+      font-weight: 900;
+      font-size: 1.05rem;
+    }
+    .modalbody{
+      padding: 16px;
+      background:#f8fafc;
+    }
+    .modalgrid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .closebtn{
+      border: 1px solid rgba(226,232,240,.95);
+      background:#fff;
+      padding: 9px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight: 900;
+    }
+    .closebtn:hover{ background:#f8fafc; }
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
+    }
+
+    @media (max-width: 980px){
+      .roadmapwrap{ grid-template-columns: 1fr; }
+      .input{ min-width: 220px; }
+    }
+    @media (max-width: 720px){
+      body{ padding: 12px; }
+      .header{ padding: 40px 16px 28px; }
+      .topbar{ padding: 14px 12px; }
+      .content{ padding: 12px; }
+      .grid{ grid-template-columns: 1fr; }
+      .cert{ flex-direction:column; }
+      .certimg{ width: 88px; height: 88px; }
+    }
+  </style>
 </head>
-<body>
 
-    <div class="container">
-        <div class="header">
-            <h1>AI Career Nexus 2026</h1>
-            <p>The definitive roadmap for Engineering, Data, and Governance professionals.</p>
-        </div>
-        
-        <div class="tabs">
-            <button class="tab-button btn-eng active" onclick="switchTab(event, 'engineering')">Engineering</button>
-            <button class="tab-button btn-data" onclick="switchTab(event, 'data')">Data</button>
-            <button class="tab-button btn-prod" onclick="switchTab(event, 'product')">Product</button>
-            <button class="tab-button btn-gov" onclick="switchTab(event, 'governance')">Governance</button>
-            <button class="tab-button btn-emerge" onclick="switchTab(event, 'emerging')">Emerging</button>
-            <button class="tab-button btn-future" onclick="switchTab(event, 'future')">🚀 Future</button>
-            <button class="tab-button btn-road" onclick="switchTab(event, 'roadmaps')">🗺️ Roadmaps</button>
-            <button class="tab-button btn-comp" onclick="switchTab(event, 'companies')">🏢 Companies</button>
-            <button class="tab-button btn-market" onclick="switchTab(event, 'insights')">📈 Insights</button>
-            <button class="tab-button btn-cert" onclick="switchTab(event, 'certifications')">📜 Certs</button>
-        </div>
-        
-        <div id="content-area" class="tab-content active"></div>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>AI Career Roadmap Tool 2026</h1>
+      <p>
+        A structured, interactive roadmap tool: browse roles, filter by category and type, compare options,
+        save your picks, and generate a practical learning plan.
+      </p>
+      <div class="pillrow" aria-label="Quick stats">
+        <span class="pill"><strong id="statRoles">0</strong> roles</span>
+        <span class="pill"><strong id="statCerts">0</strong> certifications</span>
+        <span class="pill"><strong id="statSaved">0</strong> saved</span>
+      </div>
+    </header>
+
+    <div class="topbar" role="region" aria-label="Global controls">
+      <div class="controls">
+        <label class="input" aria-label="Search roles and certifications">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input id="search" type="search" placeholder="Search roles, skills, certs (e.g., 'governance', 'RAG', 'CRISC')…" autocomplete="off"/>
+        </label>
+
+        <select id="typeFilter" class="select" aria-label="Filter by role type">
+          <option value="all">All types</option>
+          <option value="established">Established</option>
+          <option value="emerging">Emerging</option>
+          <option value="future">Future</option>
+        </select>
+
+        <select id="sortBy" class="select" aria-label="Sort results">
+          <option value="name">Sort: Name (A–Z)</option>
+          <option value="salary">Sort: Salary (High)</option>
+          <option value="demand">Sort: Demand (High)</option>
+          <option value="growth">Sort: Growth (High)</option>
+        </select>
+      </div>
+
+      <div class="right-actions">
+        <button id="compareBtn" class="button" type="button" title="Compare saved roles">
+          Compare (<span id="compareCount">0</span>)
+        </button>
+        <button id="shareBtn" class="button primary" type="button" title="Copy share link">
+          Share Roadmap
+        </button>
+        <button id="resetBtn" class="button danger" type="button" title="Clear saved roadmap">
+          Reset
+        </button>
+      </div>
     </div>
 
-    <script>
-        const roles = {
-            "Machine Learning Engineer": { category: "engineering", salary: "$130K-$210K", skills: "Python 🐍, TensorFlow, PyTorch", certs: "AWS ML Specialty", demand: "Very High" },
-            "AI Engineer": { category: "engineering", salary: "$120K-$220K", skills: "RAG Pipelines 🦜🔗, LangChain", certs: "AWS AI Practitioner", demand: "Very High" },
-            "AI Governance Specialist": { category: "governance", salary: "$135K-$190K", skills: "NIST AI RMF 🛡️, EU AI Act", certs: "IAPP AIGP", demand: "Very High" },
-            "Adversarial AI Tester": { category: "governance", salary: "$110K-$180K", skills: "Red Teaming 🔴, Prompt Injection", certs: "CompTIA SecAI+", demand: "High" }
-        };
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab active" data-tab="engineering" data-cat="engineering" role="tab" aria-selected="true" aria-controls="panel-engineering" id="tab-engineering">
+        <span class="dot" aria-hidden="true"></span> Engineering
+      </button>
+      <button class="tab" data-tab="data" data-cat="data" role="tab" aria-selected="false" aria-controls="panel-data" id="tab-data">
+        <span class="dot" aria-hidden="true"></span> Data & Analytics
+      </button>
+      <button class="tab" data-tab="product" data-cat="product" role="tab" aria-selected="false" aria-controls="panel-product" id="tab-product">
+        <span class="dot" aria-hidden="true"></span> Product
+      </button>
+      <button class="tab" data-tab="governance" data-cat="governance" role="tab" aria-selected="false" aria-controls="panel-governance" id="tab-governance">
+        <span class="dot" aria-hidden="true"></span> Governance
+      </button>
+      <button class="tab" data-tab="emerging" data-cat="emerging" role="tab" aria-selected="false" aria-controls="panel-emerging" id="tab-emerging">
+        <span class="dot" aria-hidden="true"></span> Emerging
+      </button>
+      <button class="tab" data-tab="future" data-cat="future" role="tab" aria-selected="false" aria-controls="panel-future" id="tab-future">
+        <span class="dot" aria-hidden="true"></span> Future
+      </button>
+      <button class="tab" data-tab="certifications" data-cat="certifications" role="tab" aria-selected="false" aria-controls="panel-certifications" id="tab-certifications">
+        <span class="dot" aria-hidden="true"></span> Certifications
+      </button>
+      <button class="tab" data-tab="roadmap" data-cat="roadmap" role="tab" aria-selected="false" aria-controls="panel-roadmap" id="tab-roadmap">
+        <span class="dot" aria-hidden="true"></span> My Roadmap
+      </button>
+    </nav>
 
-        const certifications = {
-            "CompTIA SecAI+": {
-                image: "https://images1.cmp.optimizely.com/9c6446ba196611f0ae2132d1ece0fbc5?width=300&height=300",
-                desc: "🚀 Launching Feb 2026. The industry's first dedicated AI Security certification.",
-                stack: "Security+ → SecAI+ → CySA+",
-                url: "https://www.comptia.org/certifications/security-ai-plus"
-            },
-            "CompTIA Security+": {
-                image: "https://images.credly.com/size/340x340/images/978385ba-87b6-4ae2-b087-a2283dc99e74/CompTIA_Security_2Bce_Badge_2021.png",
-                desc: "The global baseline for security careers. Essential for Adversarial AI.",
-                stack: "A+ → Network+ → Security+",
-                url: "https://www.comptia.org/certifications/security"
-            }
-        };
+    <main class="content">
+      <!-- Panels -->
+      <section id="panel-engineering" role="tabpanel" aria-labelledby="tab-engineering">
+        <div class="sectionhead">
+          <div>
+            <div class="sectiontitle">Engineering & Technical Careers</div>
+            <div class="sectionsub">Build, deploy, and operate ML / LLM systems in production.</div>
+          </div>
+          <div class="count"><span id="count-engineering">0</span> results</div>
+        </div>
+        <div id="grid-engineering" class="grid" aria-live="polite"></div>
+      </section>
 
-        function switchTab(event, category) {
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            
-            const container = document.getElementById('content-area');
-            let html = '';
+      <section id="panel-data" role="tabpanel" aria-labelledby="tab-data" hidden>
+        <div class="sectionhead">
+          <div>
+            <div class="sectiontitle">Data & Analytics Careers</div>
+            <div class="sectionsub">Own data pipelines, measurement, evaluation, and quality.</div>
+          </div>
+          <div class="count"><span id="count-data">0</span> results</div>
+        </div>
+        <div id="grid-data" class="grid" aria-live="polite"></div>
+      </section>
 
-            if (category === 'certifications') {
-                Object.entries(certifications).forEach(([name, data]) => {
-                    html += `
-                        <div class="cert-card">
-                            <div class="cert-image-box"><img src="${data.image}"></div>
-                            <div class="cert-content">
-                                <div class="cert-name">${name}</div>
-                                <p style="color:#94a3b8; margin:10px 0;">${data.desc}</p>
-                                <div class="stack-box"><span style="color:var(--cert); font-size:0.8em; font-weight:bold;">STACK:</span><br>${data.stack}</div>
-                                <a href="${data.url}" class="btn-link" target="_blank">Official Site</a>
-                            </div>
-                        </div>`;
-                });
-            } else if (category === 'roadmaps') {
-                html = `<div class="card" style="grid-column: 1/-1;">
-                            <div class="card-title">AI Engineering Roadmap</div>
-                            <div class="timeline-step"><strong>Entry:</strong> Junior AI Engineer (Python/APIs)</div>
-                            <div class="timeline-step"><strong>Mid:</strong> AI Engineer (RAG/Fine-tuning)</div>
-                            <div class="timeline-step"><strong>Senior:</strong> Principal Architect</div>
-                        </div>`;
-            } else {
-                Object.entries(roles).forEach(([title, data]) => {
-                    if (data.category === category) {
-                        html += `
-                            <div class="card" data-cat="${data.category}">
-                                <div class="card-title">${title}</div>
-                                <span class="badge badge-salary">💰 ${data.salary}</span>
-                                <div class="section-label">Skills</div>
-                                <div>${data.skills.split(',').map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}</div>
-                            </div>`;
-                    }
-                });
-            }
-            container.innerHTML = html || '<div style="grid-column:1/-1; text-align:center; padding:50px; color:#555;">Content coming soon...</div>';
+      <section id="panel-product" role="tabpanel" aria-labelledby="tab-product" hidden>
+        <div class="sectionhead">
+          <div>
+            <div class="sectiontitle">Product & Business Careers</div>
+            <div class="sectionsub">Translate AI capabilities into products, strategy, and outcomes.</div>
+          </div>
+          <div class="count"><span id="count-product">0</span> results</div>
+        </div>
+        <div id="grid-product" class="grid" aria-live="polite"></div>
+      </section>
+
+      <section id="panel-governance" role="tabpanel" aria-labelledby="tab-governance" hidden>
+        <div class="sectionhead">
+          <div>
+            <div class="sectiontitle">Governance, Risk, Privacy & Compliance</div>
+            <div class="sectionsub">Control AI systems: risk, oversight, auditing, privacy, and accountability.</div>
+          </div>
+          <div class="count"><span id="count-governance">0</span> results</div>
+        </div>
+        <div id="grid-governance" class="grid" aria-live="polite"></div>
+      </section>
+
+      <section id="panel-emerging" role="tabpanel" aria-labelledby="tab-emerging" hidden>
+        <div class="sectionhead">
+          <div>
+            <div class="sectiontitle">Emerging Roles</div>
+            <div class="sectionsub">Newer roles with rapidly solidifying job descriptions and demand.</div>
+          </div>
+          <div class="count"><span id="count-emerging">0</span> results</div>
+        </div>
+        <div class="callout">
+          <h3>Why emerging roles can be the smartest entry point</h3>
+          <ul>
+            <li>Less competition than legacy titles with similar pay trajectories.</li>
+            <li>Fast learning loops: tooling + standards are still forming.</li>
+            <li>Strong leverage if you can document process and measurable outcomes.</li>
+          </ul>
+        </div>
+        <div id="grid-emerging" class="grid" aria-live="polite"></div>
+      </section>
+
+      <section id="panel-future" role="tabpanel" aria-labelledby="tab-future" hidden>
+        <div class="sectionhead">
+          <div>
+            <div class="sectiontitle">Future Roles</div>
+            <div class="sectionsub">Speculative titles that map to real skills you can start building now.</div>
+          </div>
+          <div class="count"><span id="count-future">0</span> results</div>
+        </div>
+        <div class="callout" style="border-left-color: var(--future);">
+          <h3>Use this tab as a “skills radar”</h3>
+          <ul>
+            <li>Don’t chase titles—build foundations the titles will require.</li>
+            <li>Track adjacent skills: governance, safety, systems, data, and deployment.</li>
+            <li>Document projects (writeups + repos) to make speculation credible.</li>
+          </ul>
+        </div>
+        <div id="grid-future" class="grid" aria-live="polite"></div>
+      </section>
+
+      <section id="panel-certifications" role="tabpanel" aria-labelledby="tab-certifications" hidden>
+        <div class="sectionhead">
+          <div>
+            <div class="sectiontitle">Certifications & Learning Paths</div>
+            <div class="sectionsub">A curated set of certifications and course paths with links and suggested fit.</div>
+          </div>
+          <div class="count"><span id="count-certifications">0</span> results</div>
+        </div>
+
+        <div class="callout" style="border-left-color: var(--cert);">
+          <h3>Strategy: build a stack, not a pile</h3>
+          <ul>
+            <li><strong>Foundation:</strong> baseline security + cloud literacy.</li>
+            <li><strong>Specialization:</strong> pick a lane (governance, ML engineering, data, product).</li>
+            <li><strong>Proof:</strong> publish a project / writeup that demonstrates the lane.</li>
+          </ul>
+        </div>
+
+        <div id="certList" class="certlist" aria-live="polite"></div>
+      </section>
+
+      <section id="panel-roadmap" role="tabpanel" aria-labelledby="tab-roadmap" hidden>
+        <div class="sectionhead">
+          <div>
+            <div class="sectiontitle">My Roadmap</div>
+            <div class="sectionsub">Saved roles become your personalized roadmap: skills, certs, and action steps.</div>
+          </div>
+          <div class="count"><span id="count-roadmap">0</span> saved</div>
+        </div>
+
+        <div class="roadmapwrap">
+          <div class="panel">
+            <h3>Saved Roles</h3>
+            <p>Save roles from any tab. This tool will generate a consolidated learning plan below.</p>
+            <div id="savedRoles"></div>
+          </div>
+
+          <div class="panel">
+            <h3>Generated Plan</h3>
+            <p>Auto-generated from your saved roles (skills + certs). Edit your data tables to make this uniquely yours.</p>
+            <div id="generatedPlan"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div><strong>Note:</strong> Salary/demand/growth fields are placeholders you can refine with your own sources. Use this as a roadmap tool, not a guarantee engine.</div>
+    </footer>
+  </div>
+
+  <!-- Compare Modal -->
+  <div class="modalbackdrop" id="compareModal" role="dialog" aria-modal="true" aria-labelledby="compareTitle">
+    <div class="modal">
+      <div class="modalhead">
+        <strong id="compareTitle">Compare Saved Roles</strong>
+        <button class="closebtn" id="closeCompare" type="button">Close</button>
+      </div>
+      <div class="modalbody">
+        <div id="compareGrid" class="modalgrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**********************
+     * 1) DATA (EDIT HERE)
+     **********************/
+    // Salary, demand, growth are "display strings" and "scores" (for sorting). You can refine later.
+    const ROLE_DATA = [
+      // Engineering
+      { name:"Machine Learning Engineer", category:"engineering", type:"established", salary:"$120K–$190K", salaryScore: 190, demand:"Very High", demandScore: 5, growth:"20% YoY", growthScore: 20,
+        skills:["Python","TensorFlow","PyTorch","Data Science","Model Deployment"], certs:["AWS ML Specialty","Google Cloud ML Engineer"] },
+
+      { name:"MLOps Engineer", category:"engineering", type:"established", salary:"$130K–$210K", salaryScore: 210, demand:"Very High", demandScore: 5, growth:"25% YoY", growthScore: 25,
+        skills:["Kubernetes","CI/CD","Docker","Monitoring","Model Registry"], certs:["AWS DevOps Pro","Google Cloud Architect"] },
+
+      { name:"RAG Specialist", category:"engineering", type:"emerging", salary:"$105K–$175K", salaryScore: 175, demand:"Very High", demandScore: 5, growth:"40% YoY", growthScore: 40,
+        skills:["Vector DBs","Embeddings","Retrieval","Evaluation","Prompting"], certs:["DeepLearning.AI RAG Course"] },
+
+      { name:"AI Agents Developer", category:"engineering", type:"emerging", salary:"$100K–$190K", salaryScore: 190, demand:"Extremely High", demandScore: 6, growth:"45% YoY", growthScore: 45,
+        skills:["Agent Orchestration","Tool Use","RAG","Systems Design","Safety Controls"], certs:["DeepLearning.AI Agents Course"] },
+
+      { name:"AI Engineer", category:"engineering", type:"emerging", salary:"$110K–$200K", salaryScore: 200, demand:"Very High", demandScore: 5, growth:"28% YoY", growthScore: 28,
+        skills:["APIs","Deployment","MLOps","RAG","Full-stack AI"], certs:["AWS AI Practitioner","Google Cloud ML"] },
+
+      { name:"Computer Vision Engineer", category:"engineering", type:"established", salary:"$120K–$200K", salaryScore: 200, demand:"High", demandScore: 4, growth:"18% YoY", growthScore: 18,
+        skills:["OpenCV","CNNs","Image Processing","Data Pipelines"], certs:["AWS ML Specialty","TensorFlow Cert"] },
+
+      { name:"NLP Engineer", category:"engineering", type:"established", salary:"$125K–$210K", salaryScore: 210, demand:"Very High", demandScore: 5, growth:"22% YoY", growthScore: 22,
+        skills:["Transformers","Tokenization","Evaluation","Serving"], certs:["Hugging Face NLP Specialization"] },
+
+      { name:"LLM Fine-tuning Specialist", category:"engineering", type:"emerging", salary:"$110K–$180K", salaryScore: 180, demand:"High", demandScore: 4, growth:"30% YoY", growthScore: 30,
+        skills:["Fine-tuning","LoRA/QLoRA","Data Curation","Evaluation"], certs:["Hugging Face Specialization"] },
+
+      { name:"Vector Database Specialist", category:"engineering", type:"emerging", salary:"$110K–$190K", salaryScore: 190, demand:"High", demandScore: 4, growth:"32% YoY", growthScore: 32,
+        skills:["Pinecone/Weaviate/Milvus","Indexing","Embeddings","Latency"], certs:["Vendor training (Pinecone/Weaviate)"] },
+
+      // Data
+      { name:"Data Scientist", category:"data", type:"established", salary:"$110K–$170K", salaryScore: 170, demand:"Very High", demandScore: 5, growth:"15% YoY", growthScore: 15,
+        skills:["Python","Statistics","SQL","ML","Experimentation"], certs:["Google Data Analytics","AWS ML"] },
+
+      { name:"Data Engineer", category:"data", type:"established", salary:"$115K–$185K", salaryScore: 185, demand:"Very High", demandScore: 5, growth:"18% YoY", growthScore: 18,
+        skills:["ETL","SQL","Spark","Airflow","Warehousing"], certs:["AWS Data Analytics Specialty"] },
+
+      { name:"Analytics Engineer", category:"data", type:"established", salary:"$100K–$160K", salaryScore: 160, demand:"High", demandScore: 4, growth:"16% YoY", growthScore: 16,
+        skills:["SQL","dbt","Data Modeling","BI","Governed Metrics"], certs:["dbt Fundamentals"] },
+
+      { name:"Training Data Manager", category:"data", type:"emerging", salary:"$75K–$130K", salaryScore: 130, demand:"High", demandScore: 4, growth:"28% YoY", growthScore: 28,
+        skills:["Data Quality","Annotation Ops","QA","Vendor Mgmt"], certs:["Project Management Fundamentals"] },
+
+      { name:"AI Model Evaluator", category:"data", type:"emerging", salary:"$85K–$150K", salaryScore: 150, demand:"Very High", demandScore: 5, growth:"36% YoY", growthScore: 36,
+        skills:["Benchmarks","Eval Metrics","Rubrics","Red Teaming (light)"], certs:["DeepLearning.AI Evaluation Courses"] },
+
+      { name:"Data Quality Engineer", category:"data", type:"emerging", salary:"$90K–$150K", salaryScore: 150, demand:"High", demandScore: 4, growth:"24% YoY", growthScore: 24,
+        skills:["Validation","Testing","Observability","SLAs"], certs:["AWS Data Analytics Specialty"] },
+
+      // Product
+      { name:"AI Product Manager", category:"product", type:"emerging", salary:"$130K–$190K", salaryScore: 190, demand:"Very High", demandScore: 5, growth:"26% YoY", growthScore: 26,
+        skills:["Product Strategy","Metrics","User Research","AI Literacy"], certs:["DeepLearning.AI Fundamentals"] },
+
+      { name:"GenAI Product Manager", category:"product", type:"emerging", salary:"$140K–$210K", salaryScore: 210, demand:"Extremely High", demandScore: 6, growth:"35% YoY", growthScore: 35,
+        skills:["LLM Ecosystem","RAG","Safety","Roadmapping"], certs:["Hands-on LLM product work"] },
+
+      { name:"AI Strategy Consultant", category:"product", type:"emerging", salary:"$150K–$250K", salaryScore: 250, demand:"High", demandScore: 4, growth:"28% YoY", growthScore: 28,
+        skills:["Strategy","Stakeholder Mgmt","AI Knowledge","Comms"], certs:["MBA (optional)","Industry portfolio"] },
+
+      { name:"Chief AI Officer", category:"product", type:"emerging", salary:"$250K–$500K+", salaryScore: 500, demand:"High", demandScore: 4, growth:"30% YoY", growthScore: 30,
+        skills:["Executive Leadership","AI Strategy","Risk Alignment"], certs:["CISM/CRISC (recommended)"] },
+
+      // Governance
+      { name:"AI Governance Specialist", category:"governance", type:"emerging", salary:"$130K–$180K", salaryScore: 180, demand:"Very High", demandScore: 5, growth:"38% YoY", growthScore: 38,
+        skills:["AI Frameworks","Controls","Documentation","Risk Assessment"], certs:["AIGP (IAPP)"] },
+
+      { name:"AI Risk Manager", category:"governance", type:"emerging", salary:"$140K–$210K", salaryScore: 210, demand:"Very High", demandScore: 5, growth:"35% YoY", growthScore: 35,
+        skills:["Risk Assessment","NIST AI RMF","Control Testing","Reporting"], certs:["CRISC (ISACA)","AIGP (IAPP)"] },
+
+      { name:"AI Compliance Officer", category:"governance", type:"emerging", salary:"$130K–$200K", salaryScore: 200, demand:"Very High", demandScore: 5, growth:"40% YoY", growthScore: 40,
+        skills:["Regulatory Compliance","EU AI Act (concepts)","Policy","Audit Trails"], certs:["AIGP","CIPP/E"] },
+
+      { name:"AI Privacy Officer", category:"governance", type:"emerging", salary:"$125K–$190K", salaryScore: 190, demand:"Very High", demandScore: 5, growth:"37% YoY", growthScore: 37,
+        skills:["Privacy Engineering","DPIAs","Data Mapping","Vendor Risk"], certs:["CIPP/E (or regional)"] },
+
+      { name:"AI Auditor", category:"governance", type:"emerging", salary:"$115K–$185K", salaryScore: 185, demand:"High", demandScore: 4, growth:"36% YoY", growthScore: 36,
+        skills:["Audit","Evidence","Controls","Testing","Reporting"], certs:["CRISC","AIGP"] },
+
+      { name:"Adversarial AI Tester", category:"governance", type:"emerging", salary:"$100K–$170K", salaryScore: 170, demand:"Very High", demandScore: 5, growth:"38% YoY", growthScore: 38,
+        skills:["Red Teaming","Prompt Injection","Threat Modeling","Abuse Testing"], certs:["Security+","SecAI+ (when available)"] },
+
+      { name:"Head of AI Governance", category:"governance", type:"emerging", salary:"$180K–$280K", salaryScore: 280, demand:"High", demandScore: 4, growth:"32% YoY", growthScore: 32,
+        skills:["Leadership","Program Design","Regulatory Strategy","Risk"], certs:["CISM","CRISC","AIGP"] },
+
+      // Future (skills radar)
+      { name:"Synthetic Data Architect", category:"data", type:"future", salary:"$130K–$220K", salaryScore: 220, demand:"Very High", demandScore: 5, growth:"40% YoY", growthScore: 40,
+        skills:["Synthetic Data","Privacy","Simulation","Modeling"], certs:["Research-backed courses (emerging)"] },
+
+      { name:"Embodied AI Roboticist", category:"engineering", type:"future", salary:"$130K–$250K", salaryScore: 250, demand:"High", demandScore: 4, growth:"42% YoY", growthScore: 42,
+        skills:["Robotics","Control Systems","Perception","ROS"], certs:["Robotics/ROS advanced"] },
+
+      { name:"Quantum AI Engineer", category:"engineering", type:"future", salary:"$160K–$300K", salaryScore: 300, demand:"Emerging", demandScore: 3, growth:"50%+ YoY", growthScore: 50,
+        skills:["Quantum Computing","Algorithms","Linear Algebra"], certs:["IBM Quantum Developer (example)"] },
+
+      { name:"AI-Human Coordinator", category:"product", type:"future", salary:"$120K–$200K", salaryScore: 200, demand:"High", demandScore: 4, growth:"45% YoY", growthScore: 45,
+        skills:["Human-AI Interaction","UX Research","Psychology","Design"], certs:["UX + Human-centered AI"] },
+
+      { name:"AI Sustainability Officer", category:"governance", type:"future", salary:"$120K–$200K", salaryScore: 200, demand:"High", demandScore: 4, growth:"40% YoY", growthScore: 40,
+        skills:["Sustainability","Green AI","Efficiency","Policy"], certs:["Sustainability credentials (varies)"] },
+    ];
+
+    // Certifications (you can swap images/URLs any time)
+    const CERT_DATA = [
+      {
+        name: "AIGP (AI Governance Professional)",
+        issuer: "IAPP",
+        status: "EXAM-BASED",
+        type: "vendor-neutral",
+        cost: "$500–$600 (varies)",
+        prep: "60–80 hours",
+        launched: "2024",
+        img: "https://iapp.org/media/images/badges/aigp-badge.png",
+        url: "https://www.iapp.org/certify/aigp/",
+        desc: "Focused AI governance credential: frameworks, oversight, compliance, and accountability.",
+        fit: ["AI Governance Specialist","AI Risk Manager","AI Compliance Officer","AI Auditor"]
+      },
+      {
+        name: "CompTIA Security+",
+        issuer: "CompTIA",
+        status: "EXAM-BASED",
+        type: "vendor-neutral",
+        cost: "$371 (list price)",
+        prep: "60–80 hours",
+        launched: "Ongoing",
+        img: "https://images.credly.com/size/340x340/images/978385ba-87b6-4ae2-b087-a2283dc99e74/CompTIA_Security_2Bce_Badge_2021.png",
+        url: "https://www.comptia.org/certifications/security",
+        desc: "Core security baseline. Good foundation for security-aware AI roles and governance.",
+        fit: ["Adversarial AI Tester","AI Governance foundation","Security roles"]
+      },
+      {
+        name: "CompTIA SecAI+ (launch window: 2026)",
+        issuer: "CompTIA",
+        status: "EXAM-BASED",
+        type: "vendor-neutral",
+        cost: "$371 (est.)",
+        prep: "70–100 hours",
+        launched: "2026",
+        img: "https://images1.cmp.optimizely.com/9c6446ba196611f0ae2132d1ece0fbc5?width=300&height=300",
+        url: "https://www.comptia.org/en-us/certifications/secai/",
+        desc: "AI-specific security focus: model attacks, adversarial risks, securing LLM pipelines.",
+        fit: ["Adversarial AI Tester","AI Security Engineer","AI Governance (security lens)"]
+      },
+      {
+        name: "CRISC (Risk & Information Systems Control)",
+        issuer: "ISACA",
+        status: "EXAM-BASED",
+        type: "vendor-neutral",
+        cost: "$575–$760 (varies)",
+        prep: "100–150 hours",
+        launched: "Ongoing",
+        img: "https://images.credly.com/size/340x340/images/974b7329-376f-4045-8c76-35226df7b29e/CRISC-600x600.png",
+        url: "https://www.isaca.org/credentialing/crisc",
+        desc: "Risk management emphasis. Strong signal for AI risk and governance leadership tracks.",
+        fit: ["AI Risk Manager","AI Auditor","Head of AI Governance"]
+      },
+      {
+        name: "CISM (Certified Information Security Manager)",
+        issuer: "ISACA",
+        status: "EXAM-BASED",
+        type: "vendor-neutral",
+        cost: "$760 (varies)",
+        prep: "120–200 hours",
+        launched: "Ongoing",
+        img: "https://images.credly.com/size/340x340/images/9463973f-676b-4e6f-96a2-a89270da6267/CISM-600x600.png",
+        url: "https://www.isaca.org/credentialing/cism",
+        desc: "Security management and governance credential. Useful for leadership roles.",
+        fit: ["Head of AI Governance","Security Manager","Governance leadership"]
+      },
+      {
+        name: "CISSP",
+        issuer: "ISC2",
+        status: "EXAM-BASED",
+        type: "vendor-neutral",
+        cost: "$749 (list)",
+        prep: "150–300 hours",
+        launched: "Ongoing",
+        img: "https://images.credly.com/size/340x340/images/4eb5710d-72aa-4b0c-99d9-2eb4eb32bc3c/CISSP.png",
+        url: "https://www.isc2.org/Certifications/CISSP",
+        desc: "Senior security credential (experience requirements apply). Strong signal for senior tracks.",
+        fit: ["Senior security roles","Governance leadership","Security architecture"]
+      },
+      {
+        name: "CIPP/E",
+        issuer: "IAPP",
+        status: "EXAM-BASED",
+        type: "vendor-neutral",
+        cost: "$400–$550 (varies)",
+        prep: "60–80 hours",
+        launched: "Ongoing",
+        img: "https://iapp.org/media/images/badges/cipp-e-badge.png",
+        url: "https://www.iapp.org/certify/cipp-e/",
+        desc: "Privacy law depth (GDPR). Strong for privacy + compliance AI roles.",
+        fit: ["AI Privacy Officer","AI Compliance Officer"]
+      },
+      {
+        name: "AWS Certified AI Practitioner",
+        issuer: "AWS",
+        status: "EXAM-BASED",
+        type: "vendor-specific",
+        cost: "$100 (list)",
+        prep: "40–60 hours",
+        launched: "2024",
+        img: "https://images.credly.com/size/340x340/images/8476602d-007d-4293-9c41-267923766723/image.png",
+        url: "https://aws.amazon.com/certification/certified-ai-practitioner/",
+        desc: "Entry AWS AI credential. Good for cloud-based AI engineers and PMs.",
+        fit: ["AI Engineer","ML Engineer","GenAI Product Manager"]
+      },
+      {
+        name: "AWS Certified Machine Learning – Specialty",
+        issuer: "AWS",
+        status: "EXAM-BASED",
+        type: "vendor-specific",
+        cost: "$300 (list)",
+        prep: "100–150 hours",
+        launched: "Ongoing",
+        img: "https://images.credly.com/size/340x340/images/12836279-9942-4f7f-8c38-bd9936e76722/image.png",
+        url: "https://aws.amazon.com/certification/certified-machine-learning-specialty/",
+        desc: "Production ML on AWS: data, modeling, deployment, and MLOps topics.",
+        fit: ["ML Engineer","MLOps Engineer","AI Engineer"]
+      },
+      {
+        name: "Google Cloud Professional ML Engineer",
+        issuer: "Google Cloud",
+        status: "EXAM-BASED",
+        type: "vendor-specific",
+        cost: "$200 (list)",
+        prep: "100–120 hours",
+        launched: "Ongoing",
+        img: "https://images.credly.com/size/340x340/images/3f769062-8c03-4340-bd6f-57cb2320b925/Professional_Machine_Learning_Engineer_600x600.png",
+        url: "https://cloud.google.com/learn/certification/machine-learning-engineer",
+        desc: "Production ML on GCP: Vertex AI, orchestration, and deployment workflows.",
+        fit: ["ML Engineer","MLOps Engineer","AI Engineer"]
+      },
+      {
+        name: "DeepLearning.AI (Coursera) Specializations",
+        issuer: "DeepLearning.AI / Coursera",
+        status: "COURSE-BASED",
+        type: "vendor-specific",
+        cost: "$39–$49/month (varies)",
+        prep: "120–200 hours",
+        launched: "Ongoing",
+        img: "https://s3.amazonaws.com/coursera_assets/meta_images/generated_lti_launching/default_v1.png",
+        url: "https://www.coursera.org/deeplearning-ai",
+        desc: "Practical learning paths: ML fundamentals, LLMs, RAG systems, agentic workflows.",
+        fit: ["RAG Specialist","AI Engineer","NLP Engineer","Prompt Engineer"]
+      }
+    ];
+
+    /**********************
+     * 2) STATE + STORAGE
+     **********************/
+    const STORAGE_KEY = "ai_roadmap_saved_roles_v1";
+    const saved = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"));
+
+    const STATE = {
+      activeTab: "engineering",
+      query: "",
+      typeFilter: "all",
+      sortBy: "name"
+    };
+
+    /**********************
+     * 3) HELPERS
+     **********************/
+    const $ = (id) => document.getElementById(id);
+
+    function normalize(s){ return (s || "").toLowerCase().trim(); }
+
+    function roleMatchesQuery(role, q){
+      if(!q) return true;
+      const hay = [
+        role.name,
+        role.category,
+        role.type,
+        role.salary,
+        role.demand,
+        role.growth,
+        ...(role.skills || []),
+        ...(role.certs || [])
+      ].join(" ");
+      return normalize(hay).includes(q);
+    }
+
+    function certMatchesQuery(cert, q){
+      if(!q) return true;
+      const hay = [
+        cert.name, cert.issuer, cert.status, cert.type, cert.cost, cert.prep, cert.launched, cert.desc,
+        ...(cert.fit || [])
+      ].join(" ");
+      return normalize(hay).includes(q);
+    }
+
+    function demandRank(score){
+      // score: 3..6
+      if(score >= 6) return "Extremely High";
+      if(score >= 5) return "Very High";
+      if(score >= 4) return "High";
+      return "Emerging";
+    }
+
+    function formatList(items){
+      if(!items || !items.length) return "";
+      return items.map(x => `<span class="tag">${escapeHtml(x)}</span>`).join("");
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function saveToStorage(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...saved]));
+      updateStats();
+    }
+
+    function updateStats(){
+      $("statRoles").textContent = ROLE_DATA.length;
+      $("statCerts").textContent = CERT_DATA.length;
+      $("statSaved").textContent = saved.size;
+      $("compareCount").textContent = saved.size;
+      $("count-roadmap").textContent = saved.size;
+    }
+
+    function copyToClipboard(text){
+      if(navigator.clipboard?.writeText){
+        return navigator.clipboard.writeText(text);
+      }
+      // fallback
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      return Promise.resolve();
+    }
+
+    /**********************
+     * 4) RENDERERS
+     **********************/
+    function renderRoleCard(role){
+      const isSaved = saved.has(role.name);
+      const catForBar = (role.type === "future") ? "future" : (role.type === "emerging") ? "emerging" : role.category;
+
+      return `
+        <article class="card" data-cat="${escapeHtml(catForBar)}">
+          <div class="cardtop">
+            <div class="titlewrap">
+              <div class="cardtitle">${escapeHtml(role.name)}</div>
+              <div class="tiny">
+                <strong>${escapeHtml(role.type.toUpperCase())}</strong> • ${escapeHtml(role.category.toUpperCase())}
+              </div>
+            </div>
+            <button class="savebtn ${isSaved ? "saved" : ""}" type="button" data-save="${escapeHtml(role.name)}" aria-pressed="${isSaved}">
+              ${isSaved ? "Saved" : "Save"} ★
+            </button>
+          </div>
+
+          <div class="badgerow">
+            <span class="badge money">💰 ${escapeHtml(role.salary)}</span>
+            <span class="badge demand">🔥 ${escapeHtml(role.demand)}</span>
+            <span class="badge growth">📈 ${escapeHtml(role.growth)}</span>
+          </div>
+
+          <div class="block">
+            <span class="label">Key Skills</span>
+            <div class="tags">${formatList(role.skills)}</div>
+          </div>
+
+          <div class="block" style="margin-bottom:0;">
+            <span class="label">Recommended Certifications / Proof</span>
+            <div class="mutedline">${escapeHtml((role.certs || []).join(" • "))}</div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderCertCard(cert){
+      return `
+        <article class="cert">
+          <div class="certimg">
+            <img src="${escapeHtml(cert.img)}" alt="${escapeHtml(cert.name)} badge/logo" loading="lazy"
+              onerror="this.closest('.certimg').style.display='none'">
+          </div>
+          <div class="certbody">
+            <div class="certhead">
+              <div class="certname">${escapeHtml(cert.name)}</div>
+              <div class="badge demand" style="border-radius:12px;">${escapeHtml(cert.status)}</div>
+            </div>
+            <div class="certmeta">
+              <span><strong>Issuer:</strong> ${escapeHtml(cert.issuer)}</span>
+              <span><strong>Cost:</strong> ${escapeHtml(cert.cost)}</span>
+              <span><strong>Prep:</strong> ${escapeHtml(cert.prep)}</span>
+              <span><strong>Launched:</strong> ${escapeHtml(cert.launched)}</span>
+            </div>
+            <div class="certdesc">${escapeHtml(cert.desc)}</div>
+            <div class="certactions">
+              <a class="linkbtn" href="${escapeHtml(cert.url)}" target="_blank" rel="noopener noreferrer">Official Details ↗</a>
+              <span class="subbtn" role="note" aria-label="Best for roles">
+                Best for: ${escapeHtml((cert.fit || []).slice(0,4).join(", "))}
+              </span>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function applySort(items){
+      const sort = STATE.sortBy;
+      const copy = [...items];
+
+      if(sort === "name"){
+        copy.sort((a,b) => a.name.localeCompare(b.name));
+      } else if(sort === "salary"){
+        copy.sort((a,b) => (b.salaryScore||0) - (a.salaryScore||0));
+      } else if(sort === "demand"){
+        copy.sort((a,b) => (b.demandScore||0) - (a.demandScore||0));
+      } else if(sort === "growth"){
+        copy.sort((a,b) => (b.growthScore||0) - (a.growthScore||0));
+      }
+      return copy;
+    }
+
+    function applyRoleFilters(items, {category, typeMode}){
+      const q = normalize(STATE.query);
+      const typeFilter = STATE.typeFilter;
+
+      let out = items.filter(r => roleMatchesQuery(r, q));
+
+      // tab logic:
+      // - category tabs show category roles (not future-only unless role category matches)
+      // - emerging tab shows type === "emerging"
+      // - future tab shows type === "future"
+      if(typeMode === "category"){
+        out = out.filter(r => r.category === category && r.type !== "future");
+      } else if(typeMode === "emerging"){
+        out = out.filter(r => r.type === "emerging");
+      } else if(typeMode === "future"){
+        out = out.filter(r => r.type === "future");
+      }
+
+      // global type filter dropdown
+      if(typeFilter !== "all"){
+        out = out.filter(r => r.type === typeFilter);
+      }
+
+      return applySort(out);
+    }
+
+    function renderTab(tab){
+      // Render roles/certs based on active tab + filters.
+      const tabId = tab;
+
+      // Roles
+      const roleTabs = ["engineering","data","product","governance","emerging","future"];
+      if(roleTabs.includes(tabId)){
+        let filtered = [];
+        if(["engineering","data","product","governance"].includes(tabId)){
+          filtered = applyRoleFilters(ROLE_DATA, { category: tabId, typeMode: "category" });
+        } else if(tabId === "emerging"){
+          filtered = applyRoleFilters(ROLE_DATA, { category: tabId, typeMode: "emerging" });
+        } else if(tabId === "future"){
+          filtered = applyRoleFilters(ROLE_DATA, { category: tabId, typeMode: "future" });
         }
 
-        window.onload = () => { document.querySelector('.btn-eng').click(); };
-    </script>
+        const grid = $("grid-" + tabId);
+        const count = $("count-" + tabId);
+        count.textContent = filtered.length;
+
+        if(!filtered.length){
+          grid.innerHTML = `
+            <div class="empty" style="grid-column: 1 / -1;">
+              <strong>No matches.</strong><br/>
+              Try adjusting search, type, or sort.
+            </div>
+          `;
+          return;
+        }
+        grid.innerHTML = filtered.map(renderRoleCard).join("");
+        return;
+      }
+
+      // Certifications
+      if(tabId === "certifications"){
+        const q = normalize(STATE.query);
+        const filtered = CERT_DATA.filter(c => certMatchesQuery(c, q));
+        $("count-certifications").textContent = filtered.length;
+
+        if(!filtered.length){
+          $("certList").innerHTML = `
+            <div class="empty">
+              <strong>No matches.</strong><br/>
+              Try a different keyword (e.g., “AWS”, “IAPP”, “risk”).
+            </div>
+          `;
+          return;
+        }
+        $("certList").innerHTML = filtered.map(renderCertCard).join("");
+        return;
+      }
+
+      // Roadmap
+      if(tabId === "roadmap"){
+        renderRoadmap();
+      }
+    }
+
+    function renderRoadmap(){
+      const chosen = ROLE_DATA.filter(r => saved.has(r.name));
+      $("count-roadmap").textContent = chosen.length;
+
+      // Left panel: saved roles
+      if(!chosen.length){
+        $("savedRoles").innerHTML = `
+          <div class="empty">
+            <strong>No saved roles yet.</strong><br/>
+            Save roles from any tab to build your roadmap.
+          </div>
+        `;
+        $("generatedPlan").innerHTML = `
+          <div class="empty">
+            <strong>Your plan will appear here.</strong><br/>
+            Save 1–3 roles to generate a focused learning path.
+          </div>
+        `;
+        updateStats();
+        return;
+      }
+
+      const savedHtml = chosen
+        .sort((a,b)=>a.name.localeCompare(b.name))
+        .map(r => `
+          <div class="step">
+            <div class="steptop">
+              <div class="steptitle">${escapeHtml(r.name)}</div>
+              <div class="stepmeta">${escapeHtml(r.type.toUpperCase())}</div>
+            </div>
+            <div class="stepline"><strong>Skills:</strong> ${escapeHtml((r.skills||[]).join(", "))}</div>
+            <div class="stepline"><strong>Certs/Proof:</strong> ${escapeHtml((r.certs||[]).join(" • "))}</div>
+          </div>
+        `).join("");
+
+      $("savedRoles").innerHTML = savedHtml;
+
+      // Right panel: generated plan
+      const skillCounts = new Map();
+      const certCounts = new Map();
+
+      for(const r of chosen){
+        for(const s of (r.skills||[])){
+          skillCounts.set(s, (skillCounts.get(s)||0)+1);
+        }
+        for(const c of (r.certs||[])){
+          certCounts.set(c, (certCounts.get(c)||0)+1);
+        }
+      }
+
+      const topSkills = [...skillCounts.entries()]
+        .sort((a,b)=> b[1]-a[1] || a[0].localeCompare(b[0]))
+        .slice(0, 12)
+        .map(([s])=>s);
+
+      const topCerts = [...certCounts.entries()]
+        .sort((a,b)=> b[1]-a[1] || a[0].localeCompare(b[0]))
+        .slice(0, 8)
+        .map(([c])=>c);
+
+      const governanceHint = chosen.some(r => r.category === "governance");
+      const engHint = chosen.some(r => r.category === "engineering");
+      const dataHint = chosen.some(r => r.category === "data");
+      const prodHint = chosen.some(r => r.category === "product");
+
+      // Suggested steps (simple but useful)
+      const steps = [];
+
+      steps.push({
+        title: "Step 1 — Define your target outcomes",
+        meta: "Week 1",
+        line: "Pick 1 primary role and 1 secondary role. Write a 5-sentence target statement: domain + problems you solve + constraints + proof you will build."
+      });
+
+      steps.push({
+        title: "Step 2 — Build the core skill cluster",
+        meta: "Weeks 2–6",
+        line: `Focus on: ${topSkills.slice(0,6).join(", ")}. Build one project that demonstrates these skills end-to-end (repo + short writeup).`
+      });
+
+      if(engHint){
+        steps.push({
+          title: "Step 3 — Ship a production-minded project",
+          meta: "Weeks 6–10",
+          line: "Add monitoring/evaluation + error handling. Document tradeoffs. Treat it like a real system: inputs, risks, metrics, limitations."
+        });
+      }
+
+      if(governanceHint){
+        steps.push({
+          title: "Step 3 — Add governance artifacts",
+          meta: "Weeks 6–10",
+          line: "Create a lightweight control set: risk register + model/system card + evaluation plan + incident workflow. Make it auditable."
+        });
+      }
+
+      if(dataHint){
+        steps.push({
+          title: "Step 4 — Data quality + evaluation",
+          meta: "Weeks 8–12",
+          line: "Implement validation checks, dataset/version notes, and repeatable evaluation. Show improvement over a baseline."
+        });
+      }
+
+      if(prodHint){
+        steps.push({
+          title: "Step 4 — Product framing",
+          meta: "Weeks 8–12",
+          line: "Write a 1-page PRD: user, problem, success metrics, risks, rollout plan. Include an FAQ + edge cases."
+        });
+      }
+
+      steps.push({
+        title: "Step 5 — Credential and publish",
+        meta: "Ongoing",
+        line: `Pick 1–2 certifications that align with your primary role. Suggested from your saves: ${topCerts.length ? topCerts.join(" • ") : "Add certs to your role data for suggestions."}`
+      });
+
+      const planHtml = `
+        <div class="block">
+          <span class="label">Top Skills to Focus</span>
+          <div class="tags">${formatList(topSkills)}</div>
+        </div>
+        <div class="block">
+          <span class="label">Suggested Certifications / Proof</span>
+          <div class="mutedline">${escapeHtml(topCerts.join(" • "))}</div>
+        </div>
+        ${steps.map(s => `
+          <div class="step">
+            <div class="steptop">
+              <div class="steptitle">${escapeHtml(s.title)}</div>
+              <div class="stepmeta">${escapeHtml(s.meta)}</div>
+            </div>
+            <div class="stepline">${escapeHtml(s.line)}</div>
+          </div>
+        `).join("")}
+      `;
+
+      $("generatedPlan").innerHTML = planHtml;
+      updateStats();
+    }
+
+    /**********************
+     * 5) TABS + ROUTING
+     **********************/
+    function setActiveTab(tabId){
+      STATE.activeTab = tabId;
+
+      // update tab UI
+      document.querySelectorAll(".tab").forEach(btn => {
+        const isActive = btn.dataset.tab === tabId;
+        btn.classList.toggle("active", isActive);
+        btn.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+
+      // update panels
+      const panels = [
+        "engineering","data","product","governance","emerging","future","certifications","roadmap"
+      ];
+      panels.forEach(p => {
+        const el = $("panel-" + p);
+        if(!el) return;
+        const show = (p === tabId);
+        el.hidden = !show;
+      });
+
+      // render
+      renderTab(tabId);
+
+      // update hash for sharable deep-link
+      const url = new URL(window.location.href);
+      url.hash = tabId;
+      history.replaceState(null, "", url);
+    }
+
+    function initFromHash(){
+      const hash = (window.location.hash || "").replace("#","").trim();
+      const valid = new Set(["engineering","data","product","governance","emerging","future","certifications","roadmap"]);
+      if(valid.has(hash)){
+        setActiveTab(hash);
+      } else {
+        setActiveTab("engineering");
+      }
+    }
+
+    /**********************
+     * 6) EVENTS
+     **********************/
+    function bindEvents(){
+      // tabs
+      document.querySelectorAll(".tab").forEach(btn => {
+        btn.addEventListener("click", () => setActiveTab(btn.dataset.tab));
+        btn.addEventListener("keydown", (e) => {
+          // basic roving with left/right
+          if(e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+          e.preventDefault();
+          const tabs = [...document.querySelectorAll(".tab")];
+          const idx = tabs.indexOf(btn);
+          const next = e.key === "ArrowRight" ? (idx + 1) : (idx - 1);
+          const target = tabs[(next + tabs.length) % tabs.length];
+          target.focus();
+          setActiveTab(target.dataset.tab);
+        });
+      });
+
+      // search + filters
+      $("search").addEventListener("input", (e) => {
+        STATE.query = e.target.value || "";
+        renderTab(STATE.activeTab);
+      });
+
+      $("typeFilter").addEventListener("change", (e) => {
+        STATE.typeFilter = e.target.value;
+        renderTab(STATE.activeTab);
+      });
+
+      $("sortBy").addEventListener("change", (e) => {
+        STATE.sortBy = e.target.value;
+        renderTab(STATE.activeTab);
+      });
+
+      // save role buttons (event delegation)
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-save]");
+        if(!btn) return;
+        const name = btn.getAttribute("data-save");
+        if(!name) return;
+
+        if(saved.has(name)) saved.delete(name);
+        else saved.add(name);
+
+        saveToStorage();
+
+        // re-render active tab (to update button state)
+        renderTab(STATE.activeTab);
+
+        // roadmap tab should update if user is there
+        if(STATE.activeTab === "roadmap") renderRoadmap();
+      });
+
+      // compare modal
+      $("compareBtn").addEventListener("click", () => openCompare());
+      $("closeCompare").addEventListener("click", closeCompare);
+      $("compareModal").addEventListener("click", (e) => {
+        if(e.target === $("compareModal")) closeCompare();
+      });
+      document.addEventListener("keydown", (e) => {
+        if(e.key === "Escape") closeCompare();
+      });
+
+      // share
+      $("shareBtn").addEventListener("click", async () => {
+        // share includes selected roles in URL params
+        const url = new URL(window.location.href);
+        url.hash = "roadmap";
+        url.searchParams.set("saved", encodeURIComponent(JSON.stringify([...saved])));
+
+        try{
+          await copyToClipboard(url.toString());
+          $("shareBtn").textContent = "Copied ✓";
+          setTimeout(() => $("shareBtn").textContent = "Share Roadmap", 1100);
+        } catch {
+          alert("Copy failed. You can manually copy the URL from the address bar.");
+        }
+      });
+
+      // reset
+      $("resetBtn").addEventListener("click", () => {
+        saved.clear();
+        saveToStorage();
+        renderTab(STATE.activeTab);
+        renderRoadmap();
+      });
+
+      // hash change
+      window.addEventListener("hashchange", initFromHash);
+    }
+
+    function openCompare(){
+      const chosen = ROLE_DATA.filter(r => saved.has(r.name));
+      if(!chosen.length){
+        $("compareGrid").innerHTML = `
+          <div class="empty" style="grid-column:1/-1;">
+            <strong>No saved roles to compare.</strong><br/>
+            Save roles first, then open compare.
+          </div>
+        `;
+      } else {
+        $("compareGrid").innerHTML = chosen.map(r => `
+          <div class="card" data-cat="${escapeHtml(r.category)}">
+            <div class="cardtitle">${escapeHtml(r.name)}</div>
+            <div class="badgerow">
+              <span class="badge money">💰 ${escapeHtml(r.salary)}</span>
+              <span class="badge demand">🔥 ${escapeHtml(r.demand)}</span>
+              <span class="badge growth">📈 ${escapeHtml(r.growth)}</span>
+            </div>
+            <div class="block">
+              <span class="label">Skills</span>
+              <div class="tags">${formatList(r.skills)}</div>
+            </div>
+            <div class="block" style="margin-bottom:0;">
+              <span class="label">Certs / Proof</span>
+              <div class="mutedline">${escapeHtml((r.certs||[]).join(" • "))}</div>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      $("compareModal").classList.add("open");
+    }
+
+    function closeCompare(){
+      $("compareModal").classList.remove("open");
+    }
+
+    /**********************
+     * 7) INIT (INCLUDING SHARE IMPORT)
+     **********************/
+    function importSavedFromUrl(){
+      const url = new URL(window.location.href);
+      const savedParam = url.searchParams.get("saved");
+      if(!savedParam) return;
+
+      try{
+        const decoded = JSON.parse(decodeURIComponent(savedParam));
+        if(Array.isArray(decoded)){
+          decoded.forEach(x => typeof x === "string" && saved.add(x));
+          saveToStorage();
+        }
+      } catch {
+        // ignore
+      } finally {
+        // Clean up URL (keep hash)
+        url.searchParams.delete("saved");
+        history.replaceState(null, "", url.toString());
+      }
+    }
+
+    function initialRender(){
+      updateStats();
+
+      // render all non-active panels on-demand, but pre-render engineering for first paint
+      renderTab("engineering");
+      renderRoadmap(); // so roadmap is ready instantly
+
+      // counts for other tabs are computed when tab opens
+      $("count-engineering").textContent = applyRoleFilters(ROLE_DATA, {category:"engineering", typeMode:"category"}).length;
+    }
+
+    // Boot
+    importSavedFromUrl();
+    bindEvents();
+    initFromHash();
+    initialRender();
+    updateStats();
+  </script>
 </body>
-</html>
+            </html>
