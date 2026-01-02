@@ -10,307 +10,56 @@
     
     <style>
         :root {
-            /* Theme Colors */
-            --eng: #3b82f6;   /* Blue */
-            --data: #10b981;  /* Green */
-            --prod: #f59e0b;  /* Orange */
-            --gov: #a855f7;   /* Purple */
-            --emerge: #ef4444;/* Red */
-            --future: #6366f1;/* Indigo */
-            --cert: #0ea5e9;  /* Sky */
-            
-            --road: #ec4899;  /* Pink */
-            --comp: #14b8a6;  /* Teal */
-            --market: #eab308;/* Yellow */
-            
-            --bg-main: #000000; /* PURE BLACK */
-            --bg-card: #111111;
-            --bg-hover: #1a1a1a;
-            --text-main: #ffffff;
-            --text-sub: #94a3b8;
-            --border: #333333;
+            --eng: #3b82f6; --data: #10b981; --prod: #f59e0b; 
+            --gov: #a855f7; --emerge: #ef4444; --future: #6366f1; 
+            --cert: #0ea5e9; --road: #ec4899; --comp: #14b8a6; 
+            --market: #eab308; --bg-main: #000000; --bg-card: #111111;
+            --text-main: #ffffff; --text-sub: #94a3b8; --border: #333333;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); padding: 20px; min-height: 100vh; }
+        .container { max-width: 1400px; margin: 0 auto; }
         
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        /* HEADER */
-        .header {
-            padding: 60px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 30px;
-        }
-        
-        .header h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 3.5em;
-            letter-spacing: -1px;
-            margin-bottom: 10px;
-            /* Electric Blue Gradient */
-            background: linear-gradient(to right, #60a5fa, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
-        }
+        .header { padding: 60px 20px; text-align: center; border-bottom: 1px solid var(--border); margin-bottom: 30px; }
+        .header h1 { font-family: 'Outfit', sans-serif; font-size: 3.5em; background: linear-gradient(to right, #60a5fa, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(59, 130, 246, 0.4); }
 
-        .header p {
-            font-size: 1.2em;
-            color: var(--text-sub);
-        }
-
-        /* TABS */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 40px;
-        }
+        .tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+        .tab-button { padding: 12px 24px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-sub); cursor: pointer; border-radius: 8px; transition: 0.3s; font-family: 'Outfit'; }
+        .tab-button.active { color: white; border-color: currentColor; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
         
-        .tab-button {
-            padding: 12px 24px;
-            border: 1px solid var(--border);
-            background: var(--bg-card);
-            font-family: 'Outfit', sans-serif;
-            font-size: 1em;
-            color: var(--text-sub);
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .tab-button:hover {
-            background: var(--bg-hover);
-            color: white;
-            border-color: #555;
-        }
-
-        .tab-button.active {
-            background: #222;
-            color: white;
-            border-color: currentColor; 
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-        }
-        
-        /* Tab Specific Active Colors */
         .btn-eng.active { color: var(--eng); border-color: var(--eng); }
         .btn-data.active { color: var(--data); border-color: var(--data); }
-        .btn-prod.active { color: var(--prod); border-color: var(--prod); }
         .btn-gov.active { color: var(--gov); border-color: var(--gov); }
-        .btn-emerge.active { color: var(--emerge); border-color: var(--emerge); }
-        .btn-future.active { color: var(--future); border-color: var(--future); }
         .btn-cert.active { color: var(--cert); border-color: var(--cert); }
-        .btn-road.active { color: var(--road); border-color: var(--road); }
-        .btn-comp.active { color: var(--comp); border-color: var(--comp); }
-        .btn-market.active { color: var(--market); border-color: var(--market); }
 
-        /* CONTENT LAYOUT */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
+        .tab-content { display: none; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; animation: fadeIn 0.5s ease; }
         .tab-content.active { display: grid; }
-        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .grid {
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-        }
-
-        /* ROLE CARDS */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 25px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border-color: #555;
-        }
-
-        /* Top colored line for categories */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 3px;
-        }
-        .card[data-cat="engineering"]::before { background: var(--eng); }
-        .card[data-cat="data"]::before { background: var(--data); }
-        .card[data-cat="product"]::before { background: var(--prod); }
-        .card[data-cat="governance"]::before { background: var(--gov); }
-        .card[data-cat="emerging"]::before { background: var(--emerge); }
-        .card[data-cat="future"]::before { background: var(--future); }
-        .card[data-cat="roadmap"]::before { background: var(--road); }
-        .card[data-cat="company"]::before { background: var(--comp); }
-        .card[data-cat="market"]::before { background: var(--market); }
-
-        .card-title {
-            font-family: 'Outfit';
-            font-size: 1.5em;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 15px;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 0.85em;
-            font-weight: 600;
-            margin-right: 5px;
-            margin-bottom: 10px;
-            background: #2a2a2a;
-            border: 1px solid #444;
-        }
-        
+        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 25px; position: relative; overflow: hidden; border-top: 3px solid #333; }
+        .card[data-cat="engineering"] { border-top-color: var(--eng); }
+        .card[data-cat="governance"] { border-top-color: var(--gov); }
+        .card-title { font-family: 'Outfit'; font-size: 1.5em; margin-bottom: 15px; }
+        .badge { display: inline-block; padding: 5px 10px; border-radius: 6px; font-size: 0.85em; background: #222; border: 1px solid #444; margin: 0 5px 10px 0; }
         .badge-salary { color: #4ade80; }
-        .badge-demand { color: #60a5fa; }
+        .skill-tag { background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 4px; font-size: 0.85em; margin: 0 5px 5px 0; display: inline-block; border: 1px solid #333; }
 
-        .section-label {
-            font-size: 0.75em;
-            text-transform: uppercase;
-            color: #64748b;
-            font-weight: 700;
-            margin-top: 15px;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
+        .cert-card { display: flex !important; grid-column: 1 / -1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 25px; gap: 25px; }
+        .cert-image-box { width: 120px; height: 120px; background: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; padding: 10px; flex-shrink: 0; }
+        .cert-image-box img { max-width: 100%; max-height: 100%; }
+        .stack-box { background: rgba(255,255,255,0.03); border: 1px dashed #444; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .btn-link { text-decoration: none; padding: 10px 20px; background: var(--eng); color: white; border-radius: 6px; font-weight: 600; display: inline-block; margin-top: 10px; }
 
-        .skill-tag {
-            display: inline-block;
-            background: rgba(255,255,255,0.05);
-            color: #ccc;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.9em;
-            margin: 0 5px 5px 0;
-            border: 1px solid #333;
-        }
-
-        /* CERTIFICATION CARDS */
-        .cert-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 25px;
-            display: flex;
-            gap: 25px;
-            align-items: flex-start;
-        }
-
-        .cert-image-box {
-            width: 140px;
-            height: 140px;
-            flex-shrink: 0;
-            background: #fff; /* White background to make badge pop */
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-        }
-
-        .cert-image-box img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .cert-content { flex: 1; }
-
-        .cert-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-        .cert-name { font-family: 'Outfit'; font-size: 1.4em; font-weight: 700; color: white; }
-        
-        .cert-badge { 
-            font-size: 0.75em; font-weight: 700; padding: 4px 10px; border-radius: 4px; 
-            background: rgba(14, 165, 233, 0.1); color: var(--cert); border: 1px solid rgba(14, 165, 233, 0.3);
-        }
-
-        .cert-desc { color: var(--text-sub); line-height: 1.6; margin-bottom: 15px; }
-
-        .stack-box {
-            background: rgba(255,255,255,0.03);
-            border: 1px dashed #444;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-        }
-        
-        .stack-label { color: var(--cert); font-size: 0.8em; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .stack-text { font-family: monospace; color: #ddd; font-size: 0.95em; }
-
-        .cert-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            border-bottom: 2px solid var(--cert);
-            transition: all 0.2s;
-        }
-        .cert-link:hover { color: var(--cert); }
-
-        /* ROADMAP TIMELINE STYLE */
-        .timeline-step {
-            display: flex;
-            margin-bottom: 15px;
-            border-left: 2px solid #333;
-            padding-left: 20px;
-            position: relative;
-        }
-        .timeline-step::before {
-            content: '';
-            position: absolute;
-            left: -6px; top: 5px;
-            width: 10px; height: 10px;
-            background: var(--road);
-            border-radius: 50%;
-        }
-        .step-title { font-weight: 700; color: white; }
-        .step-desc { font-size: 0.9em; color: var(--text-sub); }
-
-        .footer {
-            margin-top: 60px;
-            border-top: 1px solid var(--border);
-            padding: 40px;
-            text-align: center;
-            color: #555;
-        }
-
-        @media (max-width: 768px) {
-            .grid { grid-template-columns: 1fr; }
-            .cert-card { flex-direction: column; align-items: center; text-align: center; }
-            .cert-header { flex-direction: column; align-items: center; gap: 10px; }
-        }
+        .timeline-step { border-left: 2px solid var(--road); padding-left: 20px; margin-bottom: 20px; position: relative; }
+        .timeline-step::after { content: ''; position: absolute; left: -7px; top: 5px; width: 12px; height: 12px; background: var(--road); border-radius: 50%; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="header">
-            <h1>AI Career Nexus 🚀</h1>
+            <h1>AI Career Nexus 2026</h1>
             <p>The definitive roadmap for Engineering, Data, and Governance professionals.</p>
         </div>
         
@@ -321,53 +70,82 @@
             <button class="tab-button btn-gov" onclick="switchTab(event, 'governance')">Governance</button>
             <button class="tab-button btn-emerge" onclick="switchTab(event, 'emerging')">Emerging</button>
             <button class="tab-button btn-future" onclick="switchTab(event, 'future')">🚀 Future</button>
-            
             <button class="tab-button btn-road" onclick="switchTab(event, 'roadmaps')">🗺️ Roadmaps</button>
-            <button class="tab-button btn-comp" onclick="switchTab(event, 'companies')">🏢 Top Companies</button>
-            <button class="tab-button btn-market" onclick="switchTab(event, 'insights')">📈 Insights '26</button>
-            
-            <button class="tab-button btn-cert" onclick="switchTab(event, 'certifications')">📜 Certs & Stacks</button>
+            <button class="tab-button btn-comp" onclick="switchTab(event, 'companies')">🏢 Companies</button>
+            <button class="tab-button btn-market" onclick="switchTab(event, 'insights')">📈 Insights</button>
+            <button class="tab-button btn-cert" onclick="switchTab(event, 'certifications')">📜 Certs</button>
         </div>
         
-        <div id="engineering-roles" class="tab-content active grid"></div>
-        <div id="data-roles" class="tab-content grid"></div>
-        <div id="product-roles" class="tab-content grid"></div>
-        <div id="governance-roles" class="tab-content grid"></div>
-        <div id="emerging-roles" class="tab-content grid"></div>
-        <div id="future-roles" class="tab-content grid"></div>
-        
-        <div id="roadmaps-list" class="tab-content grid"></div>
-        <div id="companies-list" class="tab-content grid"></div>
-        <div id="insights-list" class="tab-content grid"></div>
-        
-        <div id="certifications-list" class="tab-content"></div>
-        
-        <div class="footer">
-            <p>Data updated Feb 2026 (Projected) • Always verify pricing with vendors.</p>
-        </div>
+        <div id="content-area" class="tab-content active"></div>
     </div>
 
     <script>
-        // --- 1. ROLES DATABASE ---
         const roles = {
-            "Machine Learning Engineer": { category: "engineering", type: "established", salary: "$130K-$210K", skills: "Python 🐍, TensorFlow, PyTorch, Transformers", certs: "AWS ML Specialty, Google Cloud ML", demand: "Very High" },
-            "Prompt Engineer": { category: "engineering", type: "emerging", salary: "$80K-$190K", skills: "LLM Structures 🧠, Context Windows, Chain-of-Thought", certs: "DeepLearning.AI, CompTIA SecAI+", demand: "Explosive" },
-            "AI Engineer": { category: "engineering", type: "emerging", salary: "$120K-$220K", skills: "RAG Pipelines 🦜🔗, LangChain, Vector DBs, APIs", certs: "AWS Certified AI Practitioner", demand: "Very High" },
-            "MLOps Engineer": { category: "engineering", type: "established", salary: "$140K-$230K", skills: "Kubernetes ☸️, Docker, CI/CD for ML, Model Registry", certs: "AWS DevOps Pro, Google Cloud DevOps", demand: "High" },
-            
-            "AI Governance Specialist": { category: "governance", type: "emerging", salary: "$135K-$190K", skills: "NIST AI RMF 🛡️, EU AI Act, Policy Drafting", certs: "IAPP AIGP (Gold Standard), CRISC", demand: "Very High" },
-            "AI Risk Manager": { category: "governance", type: "emerging", salary: "$150K-$220K", skills: "Algorithmic Audit 📝, Bias Testing, ISO 42001", certs: "ISACA CRISC, ISACA AAIA", demand: "High" },
-            "Adversarial AI Tester": { category: "governance", type: "emerging", salary: "$110K-$180K", skills: "Red Teaming 🔴, Prompt Injection, Jailbreaking", certs: "CompTIA Security+, CompTIA SecAI+, CEH", demand: "High" },
-            "AI Ethics Officer": { category: "governance", type: "emerging", salary: "$120K-$180K", skills: "Ethics Framework ⚖️, Stakeholder Management", certs: "AI Ethics domain knowledge", demand: "High" },
-            "AI Privacy Officer": { category: "governance", type: "emerging", salary: "$125K-$190K", skills: "Data Privacy 🔐, GDPR, Compliance", certs: "CIPP/E, IAPP standards", demand: "Very High" },
+            "Machine Learning Engineer": { category: "engineering", salary: "$130K-$210K", skills: "Python 🐍, TensorFlow, PyTorch", certs: "AWS ML Specialty", demand: "Very High" },
+            "AI Engineer": { category: "engineering", salary: "$120K-$220K", skills: "RAG Pipelines 🦜🔗, LangChain", certs: "AWS AI Practitioner", demand: "Very High" },
+            "AI Governance Specialist": { category: "governance", salary: "$135K-$190K", skills: "NIST AI RMF 🛡️, EU AI Act", certs: "IAPP AIGP", demand: "Very High" },
+            "Adversarial AI Tester": { category: "governance", salary: "$110K-$180K", skills: "Red Teaming 🔴, Prompt Injection", certs: "CompTIA SecAI+", demand: "High" }
+        };
 
-            "Data Scientist": { category: "data", type: "established", salary: "$120K-$180K", skills: "Statistical Analysis 📈, SQL, Pandas, Scikit-learn", certs: "Google Data Analytics, IBM Data Science", demand: "Steady" },
-            "Data Engineer": { category: "data", type: "established", salary: "$125K-$195K", skills: "ETL Pipelines ⚡, Spark, Data Warehousing", certs: "AWS Data Analytics", demand: "Very High" },
+        const certifications = {
+            "CompTIA SecAI+": {
+                image: "https://images1.cmp.optimizely.com/9c6446ba196611f0ae2132d1ece0fbc5?width=300&height=300",
+                desc: "🚀 Launching Feb 2026. The industry's first dedicated AI Security certification.",
+                stack: "Security+ → SecAI+ → CySA+",
+                url: "https://www.comptia.org/certifications/security-ai-plus"
+            },
+            "CompTIA Security+": {
+                image: "https://images.credly.com/size/340x340/images/978385ba-87b6-4ae2-b087-a2283dc99e74/CompTIA_Security_2Bce_Badge_2021.png",
+                desc: "The global baseline for security careers. Essential for Adversarial AI.",
+                stack: "A+ → Network+ → Security+",
+                url: "https://www.comptia.org/certifications/security"
+            }
+        };
+
+        function switchTab(event, category) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
             
-            "AI Product Manager": { category: "product", type: "emerging", salary: "$140K-$210K", skills: "Roadmap Strategy ♟️, User Stories, Model KPI", certs: "AIPM, PMP, Scrum Master", demand: "High" },
-            "Chief AI Officer": { category: "product", type: "emerging", salary: "$250K-$500K+", skills: "Leadership 👔, P&L, Tech Vision, Governance", certs: "MBA, Exec Ed", demand: "Medium" },
-            
-            "Synthetic Data Architect": { category: "future", type: "future", salary: "$130K-$220K", skills: "GANs 🧬, Simulation, Privacy-Preserving ML", certs: "PhD/Research Background", demand: "Emerging" },
-            "Embodied AI Roboticist": { category: "future", type: "future", salary: "$130K-$250K", skills: "Robotics 🤖, Physical AI, Control Systems", certs: "Robotics Engineering", demand: "High" },
-            "Quantum AI Engineer": { category: "future", type: "future", salary: "$160K-$300K", skills: "Quantum Computing ⚛️, Qiskit, Algorithms", certs: "IBM Quantum Developer", demand: "Emerging" },
-            "AI-Human Coordinator": { category: "future", type: "future", salary: "$120K-$200K", skills: "HCI
+            const container = document.getElementById('content-area');
+            let html = '';
+
+            if (category === 'certifications') {
+                Object.entries(certifications).forEach(([name, data]) => {
+                    html += `
+                        <div class="cert-card">
+                            <div class="cert-image-box"><img src="${data.image}"></div>
+                            <div class="cert-content">
+                                <div class="cert-name">${name}</div>
+                                <p style="color:#94a3b8; margin:10px 0;">${data.desc}</p>
+                                <div class="stack-box"><span style="color:var(--cert); font-size:0.8em; font-weight:bold;">STACK:</span><br>${data.stack}</div>
+                                <a href="${data.url}" class="btn-link" target="_blank">Official Site</a>
+                            </div>
+                        </div>`;
+                });
+            } else if (category === 'roadmaps') {
+                html = `<div class="card" style="grid-column: 1/-1;">
+                            <div class="card-title">AI Engineering Roadmap</div>
+                            <div class="timeline-step"><strong>Entry:</strong> Junior AI Engineer (Python/APIs)</div>
+                            <div class="timeline-step"><strong>Mid:</strong> AI Engineer (RAG/Fine-tuning)</div>
+                            <div class="timeline-step"><strong>Senior:</strong> Principal Architect</div>
+                        </div>`;
+            } else {
+                Object.entries(roles).forEach(([title, data]) => {
+                    if (data.category === category) {
+                        html += `
+                            <div class="card" data-cat="${data.category}">
+                                <div class="card-title">${title}</div>
+                                <span class="badge badge-salary">💰 ${data.salary}</span>
+                                <div class="section-label">Skills</div>
+                                <div>${data.skills.split(',').map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}</div>
+                            </div>`;
+                    }
+                });
+            }
+            container.innerHTML = html || '<div style="grid-column:1/-1; text-align:center; padding:50px; color:#555;">Content coming soon...</div>';
+        }
+
+        window.onload = () => { document.querySelector('.btn-eng').click(); };
+    </script>
+</body>
+</html>
