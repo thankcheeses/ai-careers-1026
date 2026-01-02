@@ -6,21 +6,33 @@
     <title>AI Career Nexus 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --eng: #3b82f6; --data: #10b981; --prod: #f59e0b; 
-            --gov: #8b5cf6; --emerge: #ef4444; --future: #6366f1; 
-            --cert: #0ea5e9; --dark: #0f172a; --bg: #f8fafc;
+            /* Neon/Dark Theme Colors */
+            --eng: #3b82f6;   /* Blue */
+            --data: #10b981;  /* Emerald */
+            --prod: #f59e0b;  /* Amber */
+            --gov: #a855f7;   /* Purple */
+            --emerge: #ef4444;/* Red */
+            --future: #6366f1;/* Indigo */
+            --cert: #0ea5e9;  /* Sky */
+            
+            --bg-main: #000000;
+            --bg-card: #111111;
+            --bg-hover: #1a1a1a;
+            --text-main: #ffffff;
+            --text-sub: #94a3b8;
+            --border: #333333;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Inter', sans-serif;
-            background: #f1f5f9;
-            color: #334155;
+            background-color: var(--bg-main);
+            color: var(--text-main);
             padding: 20px;
             min-height: 100vh;
         }
@@ -28,133 +40,189 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
-            overflow: hidden;
         }
         
         /* HEADER */
         .header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: white;
-            padding: 60px 40px;
+            padding: 60px 20px;
             text-align: center;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
         }
         
         .header h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: 3em;
+            font-size: 3.5em;
             letter-spacing: -1px;
             margin-bottom: 10px;
-            background: linear-gradient(to right, #60a5fa, #c084fc);
+            /* Blue Gradient Text */
+            background: linear-gradient(to right, #60a5fa, #3b82f6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: var(--text-sub);
         }
 
         /* TABS */
         .tabs {
             display: flex;
-            background: white;
-            padding: 0 20px;
-            overflow-x: auto;
-            border-bottom: 1px solid #e2e8f0;
+            justify-content: center;
+            flex-wrap: wrap;
             gap: 10px;
+            margin-bottom: 40px;
         }
         
         .tab-button {
-            padding: 20px 25px;
-            border: none;
-            background: transparent;
+            padding: 12px 24px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
             font-family: 'Outfit', sans-serif;
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #64748b;
+            font-size: 1em;
+            color: var(--text-sub);
             cursor: pointer;
+            border-radius: 8px;
             transition: all 0.3s ease;
-            white-space: nowrap;
-            border-bottom: 4px solid transparent;
         }
 
-        .tab-button:hover { background: #f8fafc; color: var(--dark); }
-        .tab-button.active { color: var(--dark); }
-        
-        .btn-eng.active { border-color: var(--eng); color: var(--eng); }
-        .btn-data.active { border-color: var(--data); color: var(--data); }
-        .btn-prod.active { border-color: var(--prod); color: var(--prod); }
-        .btn-gov.active { border-color: var(--gov); color: var(--gov); }
-        .btn-emerge.active { border-color: var(--emerge); color: var(--emerge); }
-        .btn-future.active { border-color: var(--future); color: var(--future); }
-        .btn-cert.active { border-color: var(--cert); color: var(--cert); }
+        .tab-button:hover {
+            background: var(--bg-hover);
+            color: white;
+            border-color: #555;
+        }
 
-        /* CONTENT */
-        .tab-content { display: none; padding: 40px; background: #f8fafc; min-height: 600px; }
-        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+        .tab-button.active {
+            background: #222;
+            color: white;
+            border-color: currentColor; 
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+        
+        /* Tab Specific Active Colors */
+        .btn-eng.active { color: var(--eng); border-color: var(--eng); }
+        .btn-data.active { color: var(--data); border-color: var(--data); }
+        .btn-prod.active { color: var(--prod); border-color: var(--prod); }
+        .btn-gov.active { color: var(--gov); border-color: var(--gov); }
+        .btn-emerge.active { color: var(--emerge); border-color: var(--emerge); }
+        .btn-future.active { color: var(--future); border-color: var(--future); }
+        .btn-cert.active { color: var(--cert); border-color: var(--cert); }
+
+        /* CONTENT LAYOUT */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .tab-content.active { display: grid; }
+        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ROLE CARDS */
         .grid {
-            display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 25px;
         }
 
+        /* ROLE CARDS */
         .card {
-            background: white;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: 16px;
             padding: 25px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-            border-top: 5px solid #cbd5e1;
-            transition: transform 0.2s;
-            display: flex;
-            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card:hover { transform: translateY(-5px); }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-color: #555;
+        }
+
+        /* Top colored line for categories */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+        }
+        .card[data-cat="engineering"]::before { background: var(--eng); }
+        .card[data-cat="data"]::before { background: var(--data); }
+        .card[data-cat="product"]::before { background: var(--prod); }
+        .card[data-cat="governance"]::before { background: var(--gov); }
+        .card[data-cat="emerging"]::before { background: var(--emerge); }
+        .card[data-cat="future"]::before { background: var(--future); }
+
+        .card-title {
+            font-family: 'Outfit';
+            font-size: 1.5em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+        }
         
-        .card[data-cat="engineering"] { border-top-color: var(--eng); }
-        .card[data-cat="data"] { border-top-color: var(--data); }
-        .card[data-cat="product"] { border-top-color: var(--prod); }
-        .card[data-cat="governance"] { border-top-color: var(--gov); }
-        .card[data-cat="emerging"] { border-top-color: var(--emerge); }
-        .card[data-cat="future"] { border-top-color: var(--future); }
-
-        .card-title { font-family: 'Outfit'; font-size: 1.4em; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 5px;
+            margin-bottom: 10px;
+            background: #2a2a2a;
+            border: 1px solid #444;
+        }
         
-        .badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.85em; font-weight: 700; margin-right: 5px; margin-bottom: 5px; }
-        .badge-salary { background: #ecfdf5; color: #059669; }
-        .badge-demand { background: #eff6ff; color: #1d4ed8; }
-        .badge-growth { background: #fff1f2; color: #be123c; }
+        .badge-salary { color: #4ade80; }
+        .badge-demand { color: #60a5fa; }
 
-        .skill-tag { background: #f1f5f9; padding: 3px 8px; border-radius: 4px; font-size: 0.8em; color: #475569; display: inline-block; margin: 0 4px 4px 0; }
+        .section-label {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            color: #64748b;
+            font-weight: 700;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
 
-        /* CERTIFICATION CARDS */
+        .skill-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.05);
+            color: #ccc;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            margin: 0 5px 5px 0;
+            border: 1px solid #333;
+        }
+
+        /* CERTIFICATION CARDS - The New Look */
         .cert-card {
-            background: white;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: 16px;
             padding: 25px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
             display: flex;
-            gap: 20px;
+            gap: 25px;
             align-items: flex-start;
         }
 
-        .cert-image {
-            width: 100px;
-            height: 100px;
+        .cert-image-box {
+            width: 130px;
+            height: 130px;
             flex-shrink: 0;
+            background: #fff; /* White background behind badge for visibility */
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #fff;
-            border-radius: 10px;
             padding: 10px;
-            border: 1px solid #eee;
         }
 
-        .cert-image img {
+        .cert-image-box img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
@@ -162,36 +230,50 @@
 
         .cert-content { flex: 1; }
 
-        .cert-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .cert-name { font-family: 'Outfit'; font-size: 1.3em; font-weight: 800; color: var(--dark); }
+        .cert-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .cert-name { font-family: 'Outfit'; font-size: 1.4em; font-weight: 700; color: white; }
         
-        .cert-badge { font-size: 0.7em; font-weight: 700; padding: 4px 8px; border-radius: 4px; letter-spacing: 0.5px; }
-        .badge-cert { background: #dcfce7; color: #166534; }
-        .badge-certificate { background: #dbeafe; color: #1e40af; }
-
-        .cert-meta { display: flex; gap: 15px; margin-bottom: 10px; font-size: 0.9em; color: #64748b; }
-        
-        .stack-box {
-            margin: 15px 0;
-            padding: 15px;
-            background: #f0f9ff;
-            border: 1px dashed #0ea5e9;
-            border-radius: 8px;
+        .cert-badge { 
+            font-size: 0.75em; font-weight: 700; padding: 4px 10px; border-radius: 4px; 
+            background: rgba(14, 165, 233, 0.1); color: var(--cert); border: 1px solid rgba(14, 165, 233, 0.3);
         }
-        .stack-label { font-size: 0.75em; text-transform: uppercase; color: #0284c7; font-weight: 800; margin-bottom: 5px; display: block; }
-        .stack-text { font-family: monospace; color: #0c4a6e; font-size: 0.95em; }
 
-        .cert-links { margin-top: 15px; }
-        .btn-link { text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.9em; font-weight: 600; background: #0f172a; color: white; transition: 0.2s; }
-        .btn-link:hover { background: #334155; }
+        .cert-desc { color: var(--text-sub); line-height: 1.6; margin-bottom: 15px; }
 
-        .footer { text-align: center; padding: 40px; color: #94a3b8; font-size: 0.9em; }
+        .stack-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px dashed #444;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .stack-label { color: var(--cert); font-size: 0.8em; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        .stack-text { font-family: monospace; color: #ddd; font-size: 0.95em; }
 
-        @media (max-width: 768px) { 
-            .grid { grid-template-columns: 1fr; } 
-            .cert-card { flex-direction: column; text-align: center; }
-            .cert-image { margin: 0 auto; }
-            .cert-meta { justify-content: center; }
+        .cert-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid var(--cert);
+            transition: all 0.2s;
+        }
+        .cert-link:hover { color: var(--cert); }
+
+        .footer {
+            margin-top: 60px;
+            border-top: 1px solid var(--border);
+            padding: 40px;
+            text-align: center;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .cert-card { flex-direction: column; align-items: center; text-align: center; }
+            .cert-header { flex-direction: column; align-items: center; gap: 10px; }
         }
     </style>
 </head>
@@ -199,8 +281,8 @@
 
     <div class="container">
         <div class="header">
-            <h1>AI Career Nexus 🚀</h1>
-            <p style="color: #cbd5e1;">The 2026 Roadmap: Verified Salaries, Skills & Career Stacks</p>
+            <h1>AI Career Nexus 2026</h1>
+            <p>The definitive roadmap for Engineering, Data, and Governance professionals.</p>
         </div>
         
         <div class="tabs">
@@ -219,128 +301,136 @@
         <div id="governance-roles" class="tab-content grid"></div>
         <div id="emerging-roles" class="tab-content grid"></div>
         <div id="future-roles" class="tab-content grid"></div>
+        
         <div id="certifications-list" class="tab-content"></div>
         
         <div class="footer">
-            <p>Data updated Feb 2026 (Projected) • Salaries are market averages • Always verify pricing.</p>
+            <p>Data updated Feb 2026 (Projected) • Always verify pricing with vendors.</p>
         </div>
     </div>
 
     <script>
         // --- 1. ROLES DATABASE ---
         const roles = {
-            "Machine Learning Engineer": { category: "engineering", type: "established", salary: "$130K-$210K", skills: "Python 🐍, TensorFlow, PyTorch, Transformers", certs: "AWS ML Specialty, Google Cloud ML", demand: "Very High", growth: "22%" },
-            "Prompt Engineer": { category: "engineering", type: "emerging", salary: "$80K-$190K", skills: "LLM Structures 🧠, Context Windows, Chain-of-Thought", certs: "DeepLearning.AI, CompTIA SecAI+", demand: "Explosive", growth: "35%" },
-            "AI Engineer": { category: "engineering", type: "emerging", salary: "$120K-$220K", skills: "RAG Pipelines 🦜🔗, LangChain, Vector DBs, APIs", certs: "AWS Certified AI Practitioner", demand: "Very High", growth: "30%" },
-            "MLOps Engineer": { category: "engineering", type: "established", salary: "$140K-$230K", skills: "Kubernetes ☸️, Docker, CI/CD for ML, Model Registry", certs: "AWS DevOps Pro, Google Cloud DevOps", demand: "High", growth: "25%" },
+            "Machine Learning Engineer": { category: "engineering", type: "established", salary: "$130K-$210K", skills: "Python 🐍, TensorFlow, PyTorch, Transformers", certs: "AWS ML Specialty, Google Cloud ML", demand: "Very High" },
+            "Prompt Engineer": { category: "engineering", type: "emerging", salary: "$80K-$190K", skills: "LLM Structures 🧠, Context Windows, Chain-of-Thought", certs: "DeepLearning.AI, CompTIA SecAI+", demand: "Explosive" },
+            "AI Engineer": { category: "engineering", type: "emerging", salary: "$120K-$220K", skills: "RAG Pipelines 🦜🔗, LangChain, Vector DBs, APIs", certs: "AWS Certified AI Practitioner", demand: "Very High" },
+            "MLOps Engineer": { category: "engineering", type: "established", salary: "$140K-$230K", skills: "Kubernetes ☸️, Docker, CI/CD for ML, Model Registry", certs: "AWS DevOps Pro, Google Cloud DevOps", demand: "High" },
             
-            "AI Governance Specialist": { category: "governance", type: "emerging", salary: "$135K-$190K", skills: "NIST AI RMF 🛡️, EU AI Act, Policy Drafting", certs: "IAPP AIGP, CRISC", demand: "Very High", growth: "40%" },
-            "AI Risk Manager": { category: "governance", type: "emerging", salary: "$150K-$220K", skills: "Algorithmic Audit 📝, Bias Testing, ISO 42001", certs: "ISACA CRISC, ISACA AAIA", demand: "High", growth: "35%" },
-            "Adversarial AI Tester": { category: "governance", type: "emerging", salary: "$110K-$180K", skills: "Red Teaming 🔴, Prompt Injection, Jailbreaking", certs: "CompTIA Security+, CompTIA SecAI+, CEH", demand: "High", growth: "42%" },
+            "AI Governance Specialist": { category: "governance", type: "emerging", salary: "$135K-$190K", skills: "NIST AI RMF 🛡️, EU AI Act, Policy Drafting", certs: "IAPP AIGP (Gold Standard), CRISC", demand: "Very High" },
+            "AI Risk Manager": { category: "governance", type: "emerging", salary: "$150K-$220K", skills: "Algorithmic Audit 📝, Bias Testing, ISO 42001", certs: "ISACA CRISC, ISACA AAIA", demand: "High" },
+            "Adversarial AI Tester": { category: "governance", type: "emerging", salary: "$110K-$180K", skills: "Red Teaming 🔴, Prompt Injection, Jailbreaking", certs: "CompTIA Security+, CompTIA SecAI+, CEH", demand: "High" },
+            "AI Ethics Officer": { category: "governance", type: "emerging", salary: "$120K-$180K", skills: "Ethics Framework ⚖️, Stakeholder Management", certs: "AI Ethics domain knowledge", demand: "High" },
+            "AI Privacy Officer": { category: "governance", type: "emerging", salary: "$125K-$190K", skills: "Data Privacy 🔐, GDPR, Compliance", certs: "CIPP/E, IAPP standards", demand: "Very High" },
+
+            "Data Scientist": { category: "data", type: "established", salary: "$120K-$180K", skills: "Statistical Analysis 📈, SQL, Pandas, Scikit-learn", certs: "Google Data Analytics, IBM Data Science", demand: "Steady" },
+            "Data Engineer": { category: "data", type: "established", salary: "$125K-$195K", skills: "ETL Pipelines ⚡, Spark, Data Warehousing", certs: "AWS Data Analytics", demand: "Very High" },
             
-            "Data Scientist": { category: "data", type: "established", salary: "$120K-$180K", skills: "Statistical Analysis 📈, SQL, Pandas, Scikit-learn", certs: "Google Data Analytics, IBM Data Science", demand: "Steady", growth: "15%" },
-            "Data Engineer": { category: "data", type: "established", salary: "$125K-$195K", skills: "ETL Pipelines ⚡, Spark, Data Warehousing, Airflow", certs: "AWS Data Analytics", demand: "Very High", growth: "18%" },
+            "AI Product Manager": { category: "product", type: "emerging", salary: "$140K-$210K", skills: "Roadmap Strategy ♟️, User Stories, Model KPI", certs: "AIPM, PMP, Scrum Master", demand: "High" },
+            "Chief AI Officer": { category: "product", type: "emerging", salary: "$250K-$500K+", skills: "Leadership 👔, P&L, Tech Vision, Governance", certs: "MBA, Exec Ed", demand: "Medium" },
             
-            "AI Product Manager": { category: "product", type: "emerging", salary: "$140K-$210K", skills: "Roadmap Strategy ♟️, User Stories, Model KPI definition", certs: "AIPM, PMP, Scrum Master", demand: "High", growth: "28%" },
-            "Chief AI Officer": { category: "product", type: "emerging", salary: "$250K-$500K+", skills: "Executive Leadership 👔, P&L, Tech Vision", certs: "MBA, Executive Education", demand: "Medium", growth: "30%" },
-            
-            "Synthetic Data Architect": { category: "future", type: "future", salary: "$130K-$220K", skills: "GANs, Simulation, Privacy-Preserving ML", certs: "PhD/Research Background", demand: "Emerging", growth: "40%" },
-            "Embodied AI Roboticist": { category: "future", type: "future", salary: "$130K-$250K", skills: "Robotics, Physical AI, Control Systems", certs: "Robotics Engineering", demand: "High", growth: "42%" },
-            "Quantum AI Engineer": { category: "future", type: "future", salary: "$160K-$300K", skills: "Quantum Computing, Quantum Algorithms", certs: "IBM Quantum Developer", demand: "Emerging", growth: "50%" },
-            "AI-Human Coordinator": { category: "future", type: "future", salary: "$120K-$200K", skills: "Human-AI Interaction, UX/UI, Psychology", certs: "UX Design + Human-Centered AI", demand: "High", growth: "45%" },
-            "AI Sustainability Officer": { category: "future", type: "future", salary: "$120K-$200K", skills: "Sustainability, Green Computing", certs: "Sustainability Cert", demand: "High", growth: "40%" }
+            "Synthetic Data Architect": { category: "future", type: "future", salary: "$130K-$220K", skills: "GANs 🧬, Simulation, Privacy-Preserving ML", certs: "PhD/Research Background", demand: "Emerging" },
+            "Embodied AI Roboticist": { category: "future", type: "future", salary: "$130K-$250K", skills: "Robotics 🤖, Physical AI, Control Systems", certs: "Robotics Engineering", demand: "High" },
+            "Quantum AI Engineer": { category: "future", type: "future", salary: "$160K-$300K", skills: "Quantum Computing ⚛️, Qiskit, Algorithms", certs: "IBM Quantum Developer", demand: "Emerging" },
+            "AI-Human Coordinator": { category: "future", type: "future", salary: "$120K-$200K", skills: "HCI, UX/UI, Psychology 🧠", certs: "UX Design + Human-Centered AI", demand: "High" }
         };
 
-        // --- 2. CERTIFICATIONS DATABASE (WITH IMAGE PLACEHOLDERS) ---
-        // NOTE: Replace the 'image' URLs below with your specific Badge URLs if you find them.
-        // Currently using high-quality vendor logos as robust placeholders.
+        // --- 2. CERTIFICATIONS DATABASE (With Mapped Images) ---
         const certifications = {
-            "AIGP (AI Governance Professional)": {
-                type: "vendor-neutral", status: "cert", issuer: "IAPP",
-                image: "https://iapp.org/globalassets/iapp-logo-symbol.png", 
-                description: "🏆 Only dedicated AI governance certification. Essential for governance, risk, and compliance roles.",
-                website: "https://www.iapp.org/certify/aigp/",
-                stack: "⚖️ <strong>Governance Stack:</strong> CIPP/E (Privacy Law) → <strong>AIGP</strong> (AI Control) → CISM (Mgmt)"
+            "CompTIA SecAI+ (NEW)": {
+                type: "vendor-neutral", 
+                image: "https://www.comptia.org/_next/image/?url=https%3A%2F%2Fimages1.cmp.optimizely.com%2F9c6446ba196611f0ae2132d1ece0fbc5%3Fwidth%3D300%26height%3D300&w=640&q=90",
+                description: "🚀 <strong>Launching Feb 17, 2026</strong>. The industry's first dedicated AI Security certification. Covers adversarial attacks, data poisoning, and securing LLM pipelines.",
+                website: "https://www.comptia.org/en-us/certifications/secai/#pre-order",
+                stack: "🛡️ <strong>AI Defender Stack:</strong> Security+ → <strong>SecAI+</strong> → CySA+"
             },
             "CompTIA Security+": {
-                type: "vendor-neutral", status: "cert", issuer: "CompTIA",
-                image: "https://www.comptia.org/globalassets/comptia-logo-master-400.png",
-                description: "🔒 Foundational security certification. Essential entry point for security-focused AI careers.",
-                website: "https://www.comptia.org/certifications/security",
-                stack: "🧱 <strong>Classic Trifecta:</strong> A+ (Support) → Network+ (Connect) → <strong>Security+</strong> (Secure)"
+                type: "vendor-neutral",
+                image: "https://images.credly.com/size/340x340/images/978385ba-87b6-4ae2-b087-a2283dc99e74/CompTIA_Security_2Bce_Badge_2021.png",
+                description: "The global baseline for security careers. Essential for Adversarial AI & Governance roles.",
+                website: "https://www.credly.com/org/comptia/badge/comptia-security-ce-certification",
+                stack: "🧱 <strong>Classic Trifecta:</strong> A+ → Network+ → <strong>Security+</strong>"
             },
-            "CompTIA SecAI+ (NEW Feb 2026)": {
-                type: "vendor-neutral", status: "cert", issuer: "CompTIA",
-                image: "https://www.comptia.org/globalassets/comptia-logo-master-400.png",
-                description: "🚀 First dedicated AI Security cert. Covers adversarial attacks, data poisoning, and securing LLM pipelines.",
-                website: "https://www.comptia.org/certifications/security/secai",
-                stack: "🛡️ <strong>AI Defender Stack:</strong> Security+ (Foundation) → <strong>SecAI+</strong> (Specialization) → CySA+ (Analysis)"
+            "IAPP AIGP": {
+                type: "vendor-neutral",
+                image: "https://iapp.org/media/images/badges/aigp-badge.png",
+                description: "🏆 The Gold Standard for AI Governance. Covers EU AI Act, NIST RMF, and compliance.",
+                website: "https://iapp.org/certify/aigp",
+                stack: "⚖️ <strong>Governance Stack:</strong> CIPP/E → <strong>AIGP</strong> → CISM"
             },
-            "CRISC (Risk & Info Systems Control)": {
-                type: "vendor-neutral", status: "cert", issuer: "ISACA",
-                image: "https://www.isaca.org/globalassets/images/logos/isaca-logo.png",
-                description: "⚙️ Critical for risk management roles. Gold standard for AI Risk Managers.",
-                website: "https://www.isaca.org/credentialing/crisc",
-                stack: "📉 <strong>Risk Stack:</strong> CISA (Audit) → <strong>CRISC</strong> (Risk) → CISM (Strategy)"
+            "Google Professional ML Engineer": {
+                type: "vendor-specific",
+                image: "https://images.credly.com/size/340x340/images/3f769062-8c03-4340-bd6f-57cb2320b925/Professional_Machine_Learning_Engineer_600x600.png",
+                description: "For engineers building on Vertex AI and TensorFlow. Highly respected.",
+                website: "https://www.credly.com/org/google-cloud/badge/professional-machine-learning-engineer-certificatio",
+                stack: "☁️ <strong>GCP Stack:</strong> Cloud Engineer → <strong>ML Engineer</strong>"
             },
-            "CISM (Certified Info Security Manager)": {
-                type: "vendor-neutral", status: "cert", issuer: "ISACA",
-                image: "https://www.isaca.org/globalassets/images/logos/isaca-logo.png",
-                description: "👔 Enterprise-level security management. For C-suite AI governance roles.",
-                website: "https://www.isaca.org/credentialing/cism",
-                stack: "👔 <strong>Exec Stack:</strong> CISSP (Technical) → <strong>CISM</strong> (Management)"
-            },
-            "CISSP": {
-                type: "vendor-neutral", status: "cert", issuer: "ISC2",
-                image: "https://www.isc2.org/favicon.ico",
-                description: "🏅 Premium credential. Requires 5+ years experience. For senior governance roles.",
-                website: "https://www.isc2.org/Certifications/CISSP",
-                stack: "🏆 <strong>The Gold Standard:</strong> Requires 5 Yrs Exp + CISSP Exam"
-            },
-            "CIPP/E (Privacy Pro - Europe)": {
-                type: "vendor-neutral", status: "cert", issuer: "IAPP",
-                image: "https://iapp.org/globalassets/iapp-logo-symbol.png",
-                description: "🇪🇺 Essential for GDPR and EU AI Act compliance.",
-                website: "https://www.iapp.org/certify/cipp-e/",
-                stack: "🇪🇺 <strong>EU Compliance:</strong> CIPP/E (Laws) → CIPM (Management) → CIPT (Technology)"
+            "Google Professional Data Engineer": {
+                type: "vendor-specific",
+                image: "https://images.credly.com/size/340x340/images/3d65dc2f-786d-473d-bd6d-96a8cb63c473/Professional_Data_Engineer_600x600.png",
+                description: "Designing data processing systems and operationalizing machine learning models.",
+                website: "https://www.credly.com/org/google-cloud/badge/professional-data-engineer-certification",
+                stack: "📊 <strong>Data Stack:</strong> Cloud Engineer → <strong>Data Engineer</strong>"
             },
             "AWS Certified AI Practitioner": {
-                type: "vendor-specific", status: "cert", issuer: "AWS",
-                image: "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x627.png",
-                description: "☁️ Entry-level AWS AI certification. Perfect starting point for cloud engineers.",
-                website: "https://aws.amazon.com/certification/",
-                stack: "☁️ <strong>AWS Start:</strong> Cloud Practitioner → <strong>AI Practitioner</strong> → Solutions Architect"
+                type: "vendor-specific",
+                image: "https://images.credly.com/size/340x340/images/8476602d-007d-4293-9c41-267923766723/image.png",
+                description: "Foundational knowledge of AI/ML concepts on AWS. Great entry point.",
+                website: "https://www.credly.com/org/amazon-web-services/badge/aws-certified-ai-practitioner",
+                stack: "☁️ <strong>AWS Start:</strong> Cloud Practitioner → <strong>AI Practitioner</strong>"
             },
-            "AWS Certified Machine Learning": {
-                type: "vendor-specific", status: "cert", issuer: "AWS",
-                image: "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x627.png",
-                description: "🏆 Industry standard for ML engineers on AWS. Covers SageMaker and deployment.",
-                website: "https://aws.amazon.com/certification/certified-machine-learning-specialty/",
-                stack: "☁️ <strong>AWS ML Trifecta:</strong> Cloud Practitioner → Solutions Architect → <strong>ML Specialty</strong>"
+            "AWS Machine Learning Specialty": {
+                type: "vendor-specific",
+                image: "https://images.credly.com/size/340x340/images/12836279-9942-4f7f-8c38-bd9936e76722/image.png",
+                description: "Validates expertise in building, training, and deploying ML models on AWS.",
+                website: "https://www.credly.com/org/amazon-web-services/badge/aws-certified-machine-learning-specialty",
+                stack: "☁️ <strong>ML Trifecta:</strong> Solutions Architect → <strong>ML Specialty</strong>"
             },
-            "Google Cloud Professional ML Engineer": {
-                type: "vendor-specific", status: "cert", issuer: "Google Cloud",
-                image: "https://www.gstatic.com/devrel-devsite/prod/v2210deb4920cd4a55bd580441aa58e7853afc04b39a9d9ac4198e1cd7fbe04ef/cloud/images/favicons/onecloud/super_cloud_logo.png",
-                description: "📈 Advanced ML certification for Google Cloud. Covers Vertex AI and production ML.",
-                website: "https://cloud.google.com/learn/certification/machine-learning-engineer",
-                stack: "🧠 <strong>Google Brain Stack:</strong> Cloud Engineer → Data Engineer → <strong>ML Engineer</strong>"
+            "AWS Data Analytics Specialty": {
+                type: "vendor-specific",
+                image: "https://images.credly.com/size/340x340/images/2d84e428-9078-49b6-a804-13c15383d0de/image.png",
+                description: "Expertise in designing and maintaining Big Data solutions on AWS.",
+                website: "https://www.credly.com/org/mthree/badge/aws-certified-data-analytics-specialty-exam-prepara",
+                stack: "📊 <strong>Data Stack:</strong> Cloud Practitioner → <strong>Data Analytics</strong>"
             },
-            "DeepLearning.AI Specializations": {
-                type: "vendor-specific", status: "certificate", issuer: "DeepLearning.AI",
-                image: "https://s3.amazonaws.com/coursera_assets/meta_images/generated_lti_launching/default_v1.png",
-                description: "🎓 Industry-recognized course series from Andrew Ng.",
-                website: "https://www.coursera.org/deeplearning-ai",
-                stack: "🎓 <strong>Learning Path:</strong> Python → ML Specialization → GenAI with LLMs"
+            "Azure AI Engineer Associate": {
+                type: "vendor-specific",
+                image: "https://images.credly.com/size/340x340/images/5b9c0206-e7df-4244-a93d-429214436577/image.png",
+                description: "Building and managing AI solutions using Azure Cognitive Services.",
+                website: "https://www.credly.com/org/thinksmart/badge/microsoft-certified-azure-ai-engineer-associate.1",
+                stack: "🟦 <strong>Azure Stack:</strong> Azure Fundamentals → <strong>AI Engineer</strong>"
+            },
+            "CISSP (ISC2)": {
+                type: "vendor-neutral",
+                image: "https://images.credly.com/size/340x340/images/4eb5710d-72aa-4b0c-99d9-2eb4eb32bc3c/CISSP.png",
+                description: "The world's premier cybersecurity certification. For senior leaders.",
+                website: "https://www.credly.com/org/isc2/badge/certified-information-systems-security-professional-cissp",
+                stack: "🏆 <strong>Gold Standard:</strong> 5 Yrs Exp + CISSP Exam"
+            },
+            "CISM (ISACA)": {
+                type: "vendor-neutral",
+                image: "https://images.credly.com/size/340x340/images/9463973f-676b-4e6f-96a2-a89270da6267/CISM-600x600.png",
+                description: "Management-focused cert for information security governance.",
+                website: "https://www.isaca.org/credentialing/cism",
+                stack: "👔 <strong>Exec Stack:</strong> CISSP (Tech) → <strong>CISM</strong> (Mgmt)"
+            },
+            "CRISC (ISACA)": {
+                type: "vendor-neutral",
+                image: "https://images.credly.com/size/340x340/images/974b7329-376f-4045-8c76-35226df7b29e/CRISC-600x600.png",
+                description: "The only cert focused on enterprise IT risk management.",
+                website: "https://www.isaca.org/credentialing/crisc",
+                stack: "📉 <strong>Risk Stack:</strong> CISA (Audit) → <strong>CRISC</strong> (Risk)"
+            },
+            "CIPP/E (IAPP)": {
+                type: "vendor-neutral",
+                image: "https://iapp.org/media/images/badges/cipp-e-badge.png",
+                description: "Comprehensive GDPR knowledge. Essential for European compliance.",
+                website: "https://iapp.org/certify/cippe",
+                stack: "🇪🇺 <strong>EU Stack:</strong> CIPP/E (Law) → CIPM (Ops)"
             }
         };
 
         // --- 3. HELPER FUNCTIONS ---
-
-        function certStatusBadge(status) {
-            const badges = { cert: "EXAM-BASED", certificate: "COURSE-BASED", expected: "COMING 2025" };
-            const classes = { cert: "badge-cert", certificate: "badge-certificate", expected: "badge-expected" };
-            return `<span class="cert-badge ${classes[status]}">${badges[status]}</span>`;
-        }
 
         function createRoleCard(title, data) {
             return `
@@ -348,23 +438,19 @@
                     <div class="card-title">${title}</div>
                     <div style="margin-bottom: 15px;">
                         <span class="badge badge-salary">💰 ${data.salary}</span>
-                        <span class="badge badge-demand">${data.demand}</span>
-                        <span class="badge badge-growth">📈 ${data.growth}</span>
+                        <span class="badge badge-demand">🔥 ${data.demand}</span>
                     </div>
-                    <div style="background: #f8fafc; padding: 12px; border-radius: 8px; margin-bottom: 10px;">
-                        <div class="meta-label" style="margin-bottom: 5px;">Key Skills</div>
-                        <div>${data.skills.split(',').map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}</div>
-                    </div>
-                    <div>
-                        <div class="meta-label">Required Certs</div>
-                        <div style="font-size: 0.9em; color: #334155;">${data.certs}</div>
-                    </div>
+                    
+                    <div class="section-label">Tech Stack</div>
+                    <div>${data.skills.split(',').map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}</div>
+                    
+                    <div class="section-label">Top Certs</div>
+                    <div style="font-size: 0.9em; color: #94a3b8;">${data.certs}</div>
                 </div>
             `;
         }
 
         function createCertCard(name, data) {
-            const badge = certStatusBadge(data.status);
             const stackBlock = data.stack ? `
                 <div class="stack-box">
                     <span class="stack-label">Recommended Career Stack</span>
@@ -372,25 +458,18 @@
                 </div>` : '';
 
             return `
-                <div class="cert-card ${data.type === 'vendor-neutral' ? 'vendor-neutral' : 'vendor-specific'}">
-                    <div class="cert-image">
+                <div class="cert-card">
+                    <div class="cert-image-box">
                         <img src="${data.image}" alt="${name}">
                     </div>
                     <div class="cert-content">
                         <div class="cert-header">
                             <div class="cert-name">${name}</div>
-                            ${badge}
+                            <span class="cert-badge">VERIFIED</span>
                         </div>
-                        <div class="cert-meta">
-                            <span><strong>Issuer:</strong> ${data.issuer}</span>
-                            <span><strong>Cost:</strong> ${data.cost}</span>
-                            <span><strong>Prep:</strong> ${data.prepTime}</span>
-                        </div>
-                        <p style="color: #475569; font-size: 0.95em; line-height: 1.5; margin-bottom: 10px;">${data.description}</p>
+                        <div class="cert-desc">${data.description}</div>
                         ${stackBlock}
-                        <div class="cert-links">
-                            <a href="${data.website}" target="_blank" class="btn-link">Official Site ↗</a>
-                        </div>
+                        <a href="${data.website}" target="_blank" class="cert-link">Official Credentials ↗</a>
                     </div>
                 </div>
             `;
@@ -399,13 +478,10 @@
         function populateTab(category) {
             if (category === 'certifications') {
                 const container = document.getElementById('certifications-list');
-                const exam = Object.entries(certifications).filter(([,d]) => d.status === 'cert');
-                const course = Object.entries(certifications).filter(([,d]) => d.status === 'certificate');
-                
                 let html = '';
-                if (exam.length) html += '<div style="margin-bottom:40px;"><h3 style="font-family:Outfit; margin-bottom:20px; color:#0f172a;">🏆 Industry Certifications (Exam-Based)</h3>' + exam.map(([n,d]) => createCertCard(n,d)).join('') + '</div>';
-                if (course.length) html += '<div><h3 style="font-family:Outfit; margin-bottom:20px; color:#0f172a;">📚 Course Certificates</h3>' + course.map(([n,d]) => createCertCard(n,d)).join('') + '</div>';
-                
+                for (const [name, data] of Object.entries(certifications)) {
+                    html += createCertCard(name, data);
+                }
                 container.innerHTML = html;
                 return;
             }
@@ -417,6 +493,7 @@
             let html = '';
             const sorted = Object.entries(roles).sort(([a],[b]) => a.localeCompare(b));
             for (const [title, data] of sorted) {
+                // Strict category matching (Future goes to Future, etc.)
                 if (data.category === category || (category === 'emerging' && data.type === 'emerging')) {
                     html += createRoleCard(title, data);
                 }
@@ -445,3 +522,4 @@
     </script>
 </body>
 </html>
+
