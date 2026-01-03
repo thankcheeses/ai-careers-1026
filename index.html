@@ -16,6 +16,7 @@
     .header{padding:56px 28px 38px;text-align:center;color:#fff;background:linear-gradient(135deg,#0b1224,#111d35);}
     .header h1{font-family:Outfit;font-weight:800;font-size:clamp(2rem,3.2vw,3.4rem);background:linear-gradient(to right,#60a5fa,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
     .header p{color:rgba(226,232,240,.9);font-size:1.02rem;max-width:920px;margin:0 auto 16px;}
+    .header .assumptions{color:rgba(226,232,240,.8);font-size:.95rem;max-width:920px;margin:16px auto 0;padding-top:12px;border-top:1px solid rgba(226,232,240,.2);}
     .pillrow{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:14px;}
     .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.92);font-size:.9rem;}
     .dark-toggle{position:fixed;top:20px;right:20px;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:999px;padding:10px 14px;cursor:pointer;font-weight:700;z-index:100;}
@@ -37,7 +38,7 @@
     .content{background:var(--bg);padding:18px;}
     .sectionhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:10px 4px 16px;}
     .sectiontitle{font-family:Outfit;font-size:1.85rem;font-weight:800;color:var(--text);}
-    .sectionsub{color:var(--muted);font-size:.95rem;margin-top:6px;}
+    .sectionsub{color:var(--muted);font-size:.9rem;margin-top:8px;}
     .count{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-weight:700;font-size:.9rem;}
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px;}
     .card{background:var(--card);border-radius:16px;border:1px solid var(--border);padding:16px;transition:transform .15s;position:relative;}
@@ -67,7 +68,7 @@
     .pathstep strong{color:var(--text);}
     .pathstep p{color:var(--muted);font-size:.9rem;margin-top:6px;}
     .empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:16px;background:var(--card);}
-    .footer{padding:18px 20px;border-top:1px solid var(--border);background:var(--card);color:var(--muted);font-size:.9rem;text-align:center;}
+    .footer{padding:18px 20px;border-top:1px solid var(--border);background:var(--card);color:var(--muted);font-size:.9rem;text-align:center;line-height:1.35;}
     .roadmapwrap{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;}
     .phase{border-radius:16px;border:1px solid var(--border);background:var(--card);padding:14px;margin-bottom:12px;position:relative;}
     .phase::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;}
@@ -77,6 +78,14 @@
     .phasetop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;}
     .phasetop h4{font-family:Outfit;font-weight:900;font-size:1.06rem;color:var(--text);}
     .phasetop .range{font-weight:900;color:var(--muted);font-size:.86rem;}
+    .modalbackdrop{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;z-index:999;padding:18px;}
+    .modal{width:min(720px,100%);background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+    .modalhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
+    .modalhead h3{font-family:Outfit;font-weight:900;font-size:1.1rem;color:var(--text);}
+    .modalclose{border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:12px;padding:8px 10px;cursor:pointer;font-weight:800;}
+    .modal p{color:var(--muted);font-size:.95rem;line-height:1.45;margin:10px 0;}
+    .modal ul{margin-left:18px;color:var(--muted);font-size:.95rem;line-height:1.45;}
+    .modal li{margin:6px 0;}
     @media(max-width:980px){.roadmapwrap{grid-template-columns:1fr;}}
     @media(max-width:720px){body{padding:12px;}.grid{grid-template-columns:1fr;}.dark-toggle{top:12px;right:12px;}}
   </style>
@@ -88,6 +97,9 @@
     <header class="header">
       <h1>AI Career Roadmap 2026</h1>
       <p>Browse roles, generate learning paths, calculate costs, export as PDF.</p>
+      <div class="assumptions">
+        <strong>U.S.-centric snapshot.</strong> Upper ranges reflect senior/high-cost markets. Many roles assume adjacent experience. Certs signal intent; hiring prioritizes applied scope.
+      </div>
       <div class="pillrow">
         <span class="pill"><strong id="statRoles">0</strong> roles</span>
         <span class="pill"><strong id="statCerts">0</strong> certs</span>
@@ -99,9 +111,11 @@
       <div class="controls">
         <label class="input"><input id="search" type="search" placeholder="Search roles, skills, certs…"/></label>
         <select id="typeFilter" class="select"><option value="all">All types</option><option value="established">Established</option><option value="emerging">Emerging</option></select>
+        <select id="impactFilter" class="select"><option value="all">All impact</option><option value="highvolume">High volume</option><option value="highleverage">Low volume, high leverage</option></select>
         <select id="sortBy" class="select"><option value="name">Sort: Name</option><option value="salary">Sort: Salary</option></select>
       </div>
       <div class="right-actions">
+        <button id="assumptionsBtn" class="button">Assumptions</button>
         <button id="exportPdfBtn" class="button">📄 Export PDF</button>
         <button id="shareBtn" class="button primary">Share</button>
         <button id="resetBtn" class="button danger">Reset</button>
@@ -136,7 +150,7 @@
         <div id="grid-governance" class="grid"></div>
       </section>
       <section id="panel-emerging" hidden>
-        <div class="sectionhead"><div><div class="sectiontitle">Emerging Roles</div></div><div class="count"><span id="count-emerging">0</span></div></div>
+        <div class="sectionhead"><div><div class="sectiontitle">Emerging Roles</div><div class="sectionsub">Titles and scope still consolidating across companies.</div></div><div class="count"><span id="count-emerging">0</span></div></div>
         <div id="grid-emerging" class="grid"></div>
       </section>
       <section id="panel-certifications" hidden>
@@ -149,22 +163,190 @@
       </section>
     </main>
 
-    <footer class="footer">Data based on 2026 market surveys. Use as guidance.</footer>
+    <footer class="footer">
+      U.S.-centric snapshot (Dec 2025–Jan 2026). Upper ranges reflect senior/high-cost markets. Many roles assume adjacent experience. Certs help signal intent; hiring prioritizes applied scope and evidence.
+    </footer>
+  </div>
+
+  <div class="modalbackdrop" id="assumptionsModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="assumptionsTitle">
+      <div class="modalhead">
+        <h3 id="assumptionsTitle">Assumptions</h3>
+        <button class="modalclose" id="assumptionsClose">Close</button>
+      </div>
+      <p>
+        This tool is a conservative reference designed to help you orient. It reflects market reality as of early 2026, with significant caveats.
+      </p>
+      <ul>
+        <li><strong>U.S.-centric snapshot:</strong> Roles and salaries reflect major U.S. markets unless noted otherwise.</li>
+        <li><strong>Upper salary ranges:</strong> Typically reflect senior scope or high-cost markets (SF, NYC, Boston), not entry-level offers.</li>
+        <li><strong>Adjacent experience:</strong> Many "AI" roles assume prior context (product, domain, infrastructure, risk, etc.), despite low technical barriers.</li>
+        <li><strong>Certifications:</strong> Help signal intent and baseline knowledge. Hiring decisions still prioritize applied scope, ownership, and evidence of work.</li>
+        <li><strong>Emerging titles:</strong> Scope and naming vary widely across companies; roles often exist as responsibilities inside other titles.</li>
+        <li><strong>Volume indicators:</strong> Reflect hiring trends, not absolute job counts; "high volume" means more openings, not easier hiring bars.</li>
+      </ul>
+      <p>
+        If you see gaps or disagree with framing, that's useful feedback—these roles are still consolidating.
+      </p>
+    </div>
   </div>
 
   <script>
     const ROLES = [
-      {name:"Machine Learning Engineer",cat:"engineering",type:"established",salary:"$120K–$190K",demand:"Very High",skills:["Python","TensorFlow","PyTorch"],certs:["AWS ML Specialty"]},
-      {name:"MLOps Engineer",cat:"engineering",type:"established",salary:"$130K–$210K",demand:"Very High",skills:["Kubernetes","CI/CD","Docker"],certs:["AWS DevOps Engineer"]},
-      {name:"AI Engineer",cat:"engineering",type:"emerging",salary:"$110K–$200K",demand:"Very High",skills:["APIs","Deployment","RAG"],certs:["AWS Certified AI Practitioner"]},
-      {name:"RAG Specialist",cat:"engineering",type:"emerging",salary:"$105K–$175K",demand:"Very High",skills:["Vector DBs","Embeddings","Retrieval"],certs:["DeepLearning.AI"]},
-      {name:"Prompt Engineer",cat:"engineering",type:"emerging",salary:"$80K–$160K",demand:"Extremely High",skills:["LLM Knowledge","Prompt Design"],certs:["Google AI Essentials"]},
-      {name:"Data Scientist",cat:"data",type:"established",salary:"$110K–$170K",demand:"Very High",skills:["Python","Statistics","SQL"],certs:["DeepLearning.AI ML"]},
-      {name:"Data Engineer",cat:"data",type:"established",salary:"$115K–$185K",demand:"Very High",skills:["ETL","SQL","Spark"],certs:["AWS Data Engineer"]},
-      {name:"AI Product Manager",cat:"product",type:"emerging",salary:"$130K–$190K",demand:"Very High",skills:["Product Strategy","Metrics"],certs:["AIGP"]},
-      {name:"AI Governance Specialist",cat:"governance",type:"emerging",salary:"$130K–$180K",demand:"Very High",skills:["Risk Assessment","Controls"],certs:["AIGP","CRISC"]},
-      {name:"AI Compliance Officer",cat:"governance",type:"emerging",salary:"$130K–$200K",demand:"Very High",skills:["Compliance","Audit","Policy"],certs:["AIGP","CIPP/US"]},
-      {name:"AI Risk Manager",cat:"governance",type:"emerging",salary:"$140K–$210K",demand:"Very High",skills:["NIST AI RMF","Risk Assessment"],certs:["CRISC","AIGP"]},
+      {
+        name:"Machine Learning Engineer",
+        cat:"engineering",
+        type:"established",
+        salary:"$120K–$190K",
+        salaryMin:120,
+        salaryMax:190,
+        demand:"Very High",
+        volume:"medium",
+        leverage:"high",
+        skills:["Python","TensorFlow","PyTorch"],
+        certs:["AWS ML Specialty"],
+        notes:"Often requires software engineering + ML fundamentals; not typically entry-level."
+      },
+      {
+        name:"MLOps Engineer",
+        cat:"engineering",
+        type:"established",
+        salary:"$130K–$210K",
+        salaryMin:130,
+        salaryMax:210,
+        demand:"Very High",
+        volume:"low",
+        leverage:"high",
+        skills:["Kubernetes","CI/CD","Docker"],
+        certs:["AWS DevOps Engineer"],
+        notes:"Lower hiring volume, high leverage. Usually assumes infrastructure or DevOps adjacency."
+      },
+      {
+        name:"AI Engineer",
+        cat:"engineering",
+        type:"emerging",
+        salary:"$110K–$200K",
+        salaryMin:110,
+        salaryMax:200,
+        demand:"Very High",
+        volume:"medium",
+        leverage:"high",
+        skills:["APIs","Deployment","RAG"],
+        certs:["AWS Certified AI Practitioner"],
+        notes:"Often embedded in product/engineering teams; expectations and scope vary widely by company."
+      },
+      {
+        name:"RAG Specialist",
+        cat:"engineering",
+        type:"emerging",
+        salary:"$105K–$175K",
+        salaryMin:105,
+        salaryMax:175,
+        demand:"Very High",
+        volume:"low",
+        leverage:"high",
+        skills:["Vector DBs","Embeddings","Retrieval"],
+        certs:["DeepLearning.AI"],
+        notes:"Often exists as a capability inside other roles; titles vary significantly by company."
+      },
+      {
+        name:"Prompt Engineer",
+        cat:"engineering",
+        type:"emerging",
+        salary:"$80K–$160K",
+        salaryMin:80,
+        salaryMax:160,
+        demand:"Extremely High",
+        volume:"high",
+        leverage:"medium",
+        skills:["LLM Knowledge","Prompt Design"],
+        certs:["Google AI Essentials"],
+        notes:"Low technical barrier—but hiring often expects adjacent domain or product context. Not the lowest hiring bar."
+      },
+      {
+        name:"Data Scientist",
+        cat:"data",
+        type:"established",
+        salary:"$110K–$170K",
+        salaryMin:110,
+        salaryMax:170,
+        demand:"Very High",
+        volume:"medium",
+        leverage:"high",
+        skills:["Python","Statistics","SQL"],
+        certs:["DeepLearning.AI ML"],
+        notes:"Often requires prior analytics or statistics background; scope varies by team."
+      },
+      {
+        name:"Data Engineer",
+        cat:"data",
+        type:"established",
+        salary:"$115K–$185K",
+        salaryMin:115,
+        salaryMax:185,
+        demand:"Very High",
+        volume:"high",
+        leverage:"high",
+        skills:["ETL","SQL","Spark"],
+        certs:["AWS Data Engineer"],
+        notes:"High volume in most orgs; role titles often reflect company naming (platform, data platform, etc.)."
+      },
+      {
+        name:"AI Product Manager",
+        cat:"product",
+        type:"emerging",
+        salary:"$130K–$190K",
+        salaryMin:130,
+        salaryMax:190,
+        demand:"Very High",
+        volume:"medium",
+        leverage:"high",
+        skills:["Product Strategy","Metrics"],
+        certs:["AIGP"],
+        notes:"Often requires product management background; AI adds model risk and deployment constraints."
+      },
+      {
+        name:"AI Governance Specialist",
+        cat:"governance",
+        type:"emerging",
+        salary:"$130K–$180K",
+        salaryMin:130,
+        salaryMax:180,
+        demand:"Very High",
+        volume:"medium",
+        leverage:"high",
+        skills:["Risk Assessment","Controls"],
+        certs:["AIGP","CRISC"],
+        notes:"Certs help signal intent; hiring often expects audit exposure, policy authorship, or control ownership."
+      },
+      {
+        name:"AI Compliance Officer",
+        cat:"governance",
+        type:"emerging",
+        salary:"$130K–$200K",
+        salaryMin:130,
+        salaryMax:200,
+        demand:"Very High",
+        volume:"low",
+        leverage:"high",
+        skills:["Compliance","Audit","Policy"],
+        certs:["AIGP","CIPP/US"],
+        notes:"Lower hiring volume; often sits in Legal or Compliance with strong documentation and audit demands."
+      },
+      {
+        name:"AI Risk Manager",
+        cat:"governance",
+        type:"emerging",
+        salary:"$140K–$210K",
+        salaryMin:140,
+        salaryMax:210,
+        demand:"Very High",
+        volume:"medium",
+        leverage:"high",
+        skills:["NIST AI RMF","Risk Assessment"],
+        certs:["CRISC","AIGP"],
+        notes:"Usually expects enterprise risk ownership, cross-functional stakeholder management, and policy impact."
+      },
     ];
 
     const CERTS = [
@@ -184,6 +366,7 @@
       tab: "engineering",
       query: "",
       typeFilter: "all",
+      impactFilter: "all",
       sortBy: "name",
       darkMode: localStorage.getItem("dark_mode") === "true"
     };
@@ -194,6 +377,11 @@
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify([...saved]));
       localStorage.setItem("dark_mode", state.darkMode);
+      localStorage.setItem("ai_roadmap_filters", JSON.stringify({
+        typeFilter: state.typeFilter,
+        impactFilter: state.impactFilter,
+        sortBy: state.sortBy
+      }));
       updateStats();
     }
 
@@ -204,11 +392,74 @@
       $("count-roadmap").textContent = saved.size;
     }
 
+    function volumeLabel(v) {
+      if (v === "high") return "High volume";
+      if (v === "medium") return "Medium volume";
+      return "Low volume";
+    }
+
+    function costMidpoint(costStr) {
+      const nums = (costStr.match(/\d+/g) || []).map(n => parseInt(n, 10));
+      if (!nums.length) return 0;
+      if (nums.length === 1) return nums[0];
+      return Math.round((nums[0] + nums[1]) / 2);
+    }
+
+    function leverageLabel(l) {
+      if (l === "high") return "High leverage";
+      if (l === "medium") return "Medium leverage";
+      return "Low leverage";
+    }
+
+    function catColorVar(cat) {
+      if (cat === "engineering") return "var(--eng)";
+      if (cat === "data") return "var(--data)";
+      if (cat === "product") return "var(--prod)";
+      return "var(--gov)";
+    }
+
     function renderCard(role) {
       const isSaved = saved.has(role.name);
       const skills = (role.skills || []).map(s => `<span class="tag" data-q="${s}">${s}</span>`).join("");
       const certs = (role.certs || []).map(c => `<span class="tag" data-cert="${c}">${c}</span>`).join("");
-      return `<article class="card" data-cat="${role.cat}"><div class="cardtop"><div class="titlewrap"><div class="cardtitle">${role.name}</div><div class="tiny"><strong>${role.type}</strong></div></div><button class="savebtn ${isSaved ? "saved" : ""}" data-save="${role.name}">${isSaved ? "Saved" : "Save"} ★</button></div><div class="badgerow"><span class="badge">💰 ${role.salary}</span><span class="badge">🔥 ${role.demand}</span></div><div class="block"><span class="label">Skills</span><div class="tags">${skills}</div></div><div class="block" style="margin-bottom:0;"><span class="label">Certs</span><div class="tags">${certs || "—"}</div></div></article>`;
+      const notesBlock = role.notes
+        ? `<div class="block" style="margin-bottom:0;">
+             <span class="label">Context</span>
+             <div style="color:var(--muted);font-size:.93rem;">${role.notes}</div>
+           </div>`
+        : "";
+
+      return `
+      <article class="card" data-cat="${role.cat}">
+        <div class="cardtop">
+          <div class="titlewrap">
+            <div class="cardtitle">${role.name}</div>
+            <div class="tiny"><strong>${role.type}</strong></div>
+          </div>
+          <button class="savebtn ${isSaved ? "saved" : ""}" data-save="${role.name}">
+            ${isSaved ? "Saved" : "Save"} ★
+          </button>
+        </div>
+
+        <div class="badgerow">
+          <span class="badge">💰 ${role.salary}</span>
+          <span class="badge">🔥 ${role.demand}</span>
+          <span class="badge">📌 ${volumeLabel(role.volume || "medium")}</span>
+          <span class="badge">⚙️ ${leverageLabel(role.leverage || "medium")}</span>
+        </div>
+
+        <div class="block">
+          <span class="label">Skills</span>
+          <div class="tags">${skills}</div>
+        </div>
+
+        <div class="block">
+          <span class="label">Certs</span>
+          <div class="tags">${certs || "—"}</div>
+        </div>
+
+        ${notesBlock}
+      </article>`;
     }
 
     function renderCert(cert) {
@@ -218,13 +469,23 @@
     function applyFilters(items, cat) {
       const q = norm(state.query);
       let out = items.filter(r => {
-        const hay = [r.name, r.cat, r.type, r.salary, ...(r.skills||[]), ...(r.certs||[])].join(" ");
+        const hay = [r.name, r.cat, r.type, r.salary, ...(r.skills||[]), ...(r.certs||[]), r.notes||"", r.volume||"", r.leverage||""].join(" ");
         return norm(hay).includes(q);
       });
       if (cat) out = out.filter(r => r.cat === cat);
       if (state.typeFilter !== "all") out = out.filter(r => r.type === state.typeFilter);
-      if (state.sortBy === "salary") out.sort((a, b) => parseFloat(b.salary) - parseFloat(a.salary));
-      else out.sort((a, b) => a.name.localeCompare(b.name));
+
+      if (state.impactFilter === "highvolume") {
+        out = out.filter(r => (r.volume || "medium") === "high");
+      } else if (state.impactFilter === "highleverage") {
+        out = out.filter(r => (r.volume || "medium") === "low" && (r.leverage || "medium") === "high");
+      }
+
+      if (state.sortBy === "salary") {
+        out.sort((a, b) => (b.salaryMax ?? 0) - (a.salaryMax ?? 0));
+      } else {
+        out.sort((a, b) => a.name.localeCompare(b.name));
+      }
       return out;
     }
 
@@ -245,7 +506,8 @@
         const q = norm(state.query);
         const filtered = CERTS.filter(c => norm([c.name, c.issuer, c.desc].join(" ")).includes(q));
         $("count-certifications").textContent = filtered.length;
-        $("certList").innerHTML = filtered.map(renderCert).join("");
+        const preface = `<div class="panel"><div class="cardtitle">How to Read Certs</div><div style="color:var(--muted);font-size:.93rem;line-height:1.35;">Certifications help signal intent and baseline knowledge. Hiring decisions still prioritize applied scope, ownership, and evidence of real work.</div></div>`;
+        $("certList").innerHTML = preface + filtered.map(renderCert).join("");
         return;
       }
       if (tab === "roadmap") {
@@ -257,12 +519,12 @@
         const allSkills = [...new Set(chosen.flatMap(r => r.skills||[]))];
         const certNames = [...new Set(chosen.flatMap(r => r.certs||[]))];
         const certCost = certNames.map(c => CERTS.find(x => x.name === c)).filter(Boolean);
-        const totalCost = certCost.reduce((s, c) => s + (parseInt(c.cost.match(/\d+/)?.[0]) || 0), 0);
+        const totalCost = certCost.reduce((s, c) => s + costMidpoint(c.cost), 0);
         const html = `
           <div class="roadmapwrap">
             <div class="panel">
               <h3 style="font-family:Outfit;font-weight:900;margin-bottom:12px;color:var(--text);">Saved Roles</h3>
-              ${chosen.map(r => `<div class="pathstep" style="border-left-color:var(--${r.cat});"><strong>${r.name}</strong><p>${r.salary} • ${r.demand} demand</p></div>`).join("")}
+              ${chosen.map(r => `<div class="pathstep" style="border-left-color:${catColorVar(r.cat)};"><strong>${r.name}</strong><p>${r.salary} • ${r.demand} • ${volumeLabel(r.volume)}</p></div>`).join("")}
             </div>
             <div style="display:grid;gap:14px;">
               <div class="panel">
@@ -284,11 +546,17 @@
 
     function setTab(tab) {
       state.tab = tab;
+
+      // update tab styles
       document.querySelectorAll(".tab").forEach(t => {
         t.classList.toggle("active", t.dataset.tab === tab);
-        document.querySelectorAll("[id^='panel-']").forEach(p => p.hidden = true);
-        $("panel-" + tab).hidden = false;
       });
+
+      // hide all panels, then show the active
+      document.querySelectorAll("[id^='panel-']").forEach(p => (p.hidden = true));
+      const panel = $("panel-" + tab);
+      if (panel) panel.hidden = false;
+
       renderTab(tab);
     }
 
@@ -296,6 +564,7 @@
     document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => setTab(t.dataset.tab)));
     $("search").addEventListener("input", (e) => { state.query = e.target.value; renderTab(state.tab); });
     $("typeFilter").addEventListener("change", (e) => { state.typeFilter = e.target.value; renderTab(state.tab); });
+    $("impactFilter").addEventListener("change", (e) => { state.impactFilter = e.target.value; renderTab(state.tab); });
     $("sortBy").addEventListener("change", (e) => { state.sortBy = e.target.value; renderTab(state.tab); });
 
     document.addEventListener("click", (e) => {
@@ -307,12 +576,37 @@
         saveState();
         renderTab(state.tab);
       }
+      const certTag = e.target.closest(".tag[data-cert]");
+      if (certTag) {
+        state.query = certTag.dataset.cert;
+        $("search").value = state.query;
+        setTab("certifications");
+        return;
+      }
       const tag = e.target.closest(".tag");
       if (tag) {
         state.query = tag.dataset.q || tag.textContent;
         $("search").value = state.query;
         renderTab(state.tab);
       }
+    });
+
+    const modal = $("assumptionsModal");
+    function openModal() {
+      modal.style.display = "flex";
+      modal.setAttribute("aria-hidden", "false");
+    }
+    function closeModal() {
+      modal.style.display = "none";
+      modal.setAttribute("aria-hidden", "true");
+    }
+    $("assumptionsBtn").addEventListener("click", openModal);
+    $("assumptionsClose").addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.style.display === "flex") closeModal();
     });
 
     $("darkToggle").addEventListener("click", () => {
@@ -324,6 +618,7 @@
     $("shareBtn").addEventListener("click", async () => {
       const url = new URL(location.href);
       url.searchParams.set("saved", JSON.stringify([...saved]));
+      url.searchParams.set("impact", state.impactFilter);
       try {
         await navigator.clipboard.writeText(url.toString());
         $("shareBtn").textContent = "Copied ✓";
@@ -348,7 +643,7 @@
       const allSkills = [...new Set(chosen.flatMap(r => r.skills||[]))];
       const certNames = [...new Set(chosen.flatMap(r => r.certs||[]))];
       const certCost = certNames.map(c => CERTS.find(x => x.name === c)).filter(Boolean);
-      const totalCost = certCost.reduce((s, c) => s + (parseInt(c.cost.match(/\d+/)?.[0]) || 0), 0);
+      const totalCost = certCost.reduce((s, c) => s + costMidpoint(c.cost), 0);
       
       const html = `
         <div style="font-family:Arial;padding:20px;">
@@ -375,8 +670,11 @@
               return `<li><strong>${c}</strong> - ${cert.cost} (${cert.prep})</li>`;
             }).join("")}
           </ul>
+
+          <h2>Methodology</h2>
+          <p>This roadmap assumes U.S.-centric market conditions (Dec 2025–Jan 2026). Upper salary ranges reflect senior roles in high-cost markets. Many roles expect adjacent experience. Certifications signal intent; hiring prioritizes applied scope.</p>
           
-          <p style="margin-top:30px;color:#999;font-size:12px;">Visit: thankcheeses.github.io/ai-careers-1026</p>
+          <p style="margin-top:30px;color:#999;font-size:12px;">Visit: https://thankcheeses.github.io/ai-careers-1026/</p>
         </div>
       `;
       
@@ -391,7 +689,7 @@
     const savedParam = url.searchParams.get("saved");
     if (savedParam) {
       try {
-        const decoded = JSON.parse(decodeURIComponent(savedParam));
+        const decoded = JSON.parse(savedParam);
         if (Array.isArray(decoded)) decoded.forEach(x => saved.add(x));
         saveState();
       } catch (e) { }
@@ -399,12 +697,31 @@
       history.replaceState(null, "", url.toString());
     }
 
+    const impactParam = url.searchParams.get("impact");
+    if (impactParam && ["all", "highvolume", "highleverage"].includes(impactParam)) {
+      state.impactFilter = impactParam;
+      const sel = $("impactFilter");
+      if (sel) sel.value = impactParam;
+    }
+
     // Apply dark mode on load
     if (state.darkMode) document.body.classList.add("dark");
 
+    // Restore filters from localStorage
+    try {
+      const f = JSON.parse(localStorage.getItem("ai_roadmap_filters") || "{}");
+      if (f.typeFilter) state.typeFilter = f.typeFilter;
+      if (f.impactFilter) state.impactFilter = f.impactFilter;
+      if (f.sortBy) state.sortBy = f.sortBy;
+
+      $("typeFilter").value = state.typeFilter;
+      $("impactFilter").value = state.impactFilter;
+      $("sortBy").value = state.sortBy;
+    } catch (e) { }
+
     // Init
     updateStats();
-    renderTab("engineering");
+    setTab("engineering");
   </script>
 </body>
 </html>
